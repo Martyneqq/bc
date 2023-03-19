@@ -1,0 +1,25 @@
+body {
+
+}
+home {
+
+}
+#language_icon{
+    opacity: 0.5;
+    margin: 4px;
+    font-size: 1.2rem;
+    color: whitesmoke;
+}
+
+#language_icon:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+.bi-info-circle{
+    font-size: 1rem;
+    text-align: center;
+}
+.bi-info-circle:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
