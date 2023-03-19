@@ -4,15 +4,6 @@ function secure($value) {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
-function getDatesRange($date1, $date2) {
-    $d1 = new DateTime($date1);
-    $d2 = new DateTime($date2);
-
-    $diff = $d2->diff($d1);
-
-    return array('years' => $diff->y, 'months' => $diff->m);
-}
-
 function connectToExpensesTable($connect, $userData) {
     if (isset($_POST['ulozit'])) {
         $userID = $userData['id']; //$_SESSION['userid']
