@@ -9,7 +9,7 @@ include 'inc/header.php';
 <!DOCTYPE html>
 <html> 
     <head>
-        
+
     </head>
     <header>
 
@@ -20,53 +20,50 @@ include 'inc/header.php';
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="js/infoButton.js"></script>
 
-        <script src="js/script.js"></script>
         <div style="margin: 1%">
-            <table class="table table-striped table-hover table-sortable">
-                <tr>
-                    <th>Název</th>
-                    <th>Datum začátku používání</th>
-                    <th>Počáteční hodnota</th>
-                    <th>Odpisová skupina</th>
-                    <th>Způsob odpisu</th>
-                    <th>Popis</th>
-                    <th>Úpravy</th>
-                    <th>Podrobnosti</th>
-                </tr>
-                <?php
-                $userID = $userData['id'];
-
-                $select = $connect->prepare("SELECT * FROM assets WHERE userID = ?");
-                $select->bind_param('s', $userID);
-                $select->execute();
-                $result = $select->get_result();
-
-                while ($row = mysqli_fetch_array($result)) {
-                    ?>
+            <table id="table3" class="table table-striped table-hover table-sortable">
+                <thead>
                     <tr>
-                        <td><?php echo secure($row['nazevf']); ?></td>
-                        <td><?php echo $row['datumf']; ?></td>
-                        <td><?php echo number_format($row["castkaf"]) ?></td>
-                        <td><?php echo $row['odpisf']; ?></td>
-                        <td><?php echo $row['zpusobf']; ?></td>
-                        <td><?php echo secure($row['popisf']); ?></td>
-                        <td>
-                            <form action="edit3.php" method="post" style="display:inline-block;">
-                                <input type="hidden" name="ide3" value="<?php echo $row['idf']; ?>">
-                                <input class="btn btn-primary" type="submit" name="update4" value="Upravit">
-                            </form>
-                            <form action="delete3.php" method="post" style="display:inline-block;">
-                                <input type="hidden" name="idd3" value="<?php echo $row['idf']; ?>">
-                                <input class="btn btn-danger" type="submit" name="delete3" value="Smazat">
-                            </form>
-                        </td>
-                        <td>
-                            <div class="col-md-7 text-center">
-                                <a data-id='<?php echo $row['idf'] ?>' data-name="<?php echo $row['nazevf'] ?>" class="bi-info-circle"></a>
-                            </div>
-                        </td>
+                        <th onclick="sortTable(0, 'table3')">Název</th>
+                        <th onclick="sortTable(1, 'table3')">Datum začátku používání</th>
+                        <th onclick="sortTable(2, 'table3')">Počáteční hodnota</th>
+                        <th onclick="sortTable(3, 'table3')">Odpisová skupina</th>
+                        <th onclick="sortTable(4, 'table3')">Způsob odpisu</th>
+                        <th>Popis</th>
+                        <th>Úpravy</th>
                     </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $userID = $userData['id'];
+
+                    $select = $connect->prepare("SELECT * FROM assets WHERE userID = ?");
+                    $select->bind_param('s', $userID);
+                    $select->execute();
+                    $result = $select->get_result();
+
+                    while ($row = mysqli_fetch_array($result)) {
+                        ?>
+                        <tr class="info-row" data-id='<?php echo $row['idf'] ?>' data-name="<?php echo $row['nazevf'] ?>">
+                            <td><?php echo secure($row['nazevf']); ?></td>
+                            <td><?php echo $row['datumf']; ?></td>
+                            <td><?php echo number_format($row["castkaf"]) ?></td>
+                            <td><?php echo $row['odpisf']; ?></td>
+                            <td><?php echo $row['zpusobf']; ?></td>
+                            <td><?php echo secure($row['popisf']); ?></td>
+                            <td>
+                                <form action="edit3.php" method="post" style="display:inline-block;">
+                                    <input type="hidden" name="ide3" value="<?php echo $row['idf']; ?>">
+                                    <input class="btn btn-primary" type="submit" name="update4" value="Upravit">
+                                </form>
+                                <form action="delete3.php" method="post" style="display:inline-block;">
+                                    <input type="hidden" name="idd3" value="<?php echo $row['idf']; ?>">
+                                    <input class="btn btn-danger" type="submit" name="delete3" value="Smazat">
+                                </form>
+                            </td>
+                        </tr>
                     <div class="modal fade" id="infoModal" role="dialog">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -86,26 +83,8 @@ include 'inc/header.php';
                     <?php
                 }
                 ?> 
+                </tbody>
             </table>
         </div>
-        <script>
-            $(document).ready(function () {
-                $('.bi-info-circle').click(function () {
-                    var id_info = $(this).data('id');
-                    var label_info = $(this).data('name');
-                    $('.modal-title').html(label_info);
-                    $.ajax({url: "select_modal_info.php",
-                        method: 'post',
-                        data: {id_info: id_info},
-                        success: function (result) {
-                            $('.modal-body').html(result);
-                            $('#infoModal').modal("show");
-                        }
-                    });
-                });
-            });
-
-        </script>
-
     </body>
 </html>

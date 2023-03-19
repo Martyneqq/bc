@@ -1,18 +1,3 @@
-<script>
-    var clicked = false;
-    function changeLanguage()
-    {
-        if (!clicked) {
-            clicked = true;
-            document.getElementById("language_icon").innerHTML = 'cz';
-        } else {
-            clicked = false;
-            document.getElementById("language_icon").innerHTML = 'en';
-        }
-
-
-    }
-</script>
 <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #234;">
     <div class="container-fluid">
         <ul class="navbar-nav mr-auto">
@@ -58,17 +43,18 @@
         </ul>
         <?php
         if (stripos($_SERVER['REQUEST_URI'], 'login.php') || stripos($_SERVER['REQUEST_URI'], 'signup.php')) {
-            echo '<p id="language_icon" onclick="changeLanguage()">en</p>';
+            echo '<p id="language_icon" onclick="changeLanguage()">en</p>'; // TODO
         } else {
             ?>
             <ul class="navbar-nav">
-                <p id="language_icon" onclick="changeLanguage()">en</p>
+                <p id="language_icon" onclick="changeLanguage()">en</p> <!-- TODO -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <?php echo secure($userData['username']) ?? null; ?>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Nápověda</a></li>
+                        <li><a class="dropdown-item">Tmavý režim</a></li> <!-- TODO -->
+                        <li><a class="dropdown-item" href="#">Nápověda</a></li> <!-- TODO -->
                         <li><a class="dropdown-item" href="logout.php">Odhlásit se</a></li>
                     </ul>
                 </li>

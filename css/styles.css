@@ -23,3 +23,7 @@ home {
     opacity: 0.5;
     cursor: pointer;
 }
+#table1>thead>tr>th,
+#table2>thead>tr>th,
+#table3>tbody>tr,
+#table3>thead>tr>th{cursor: pointer;}
