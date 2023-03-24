@@ -15,7 +15,7 @@ if (isset($_POST['update4'])) {
       $row = mysqli_fetch_assoc($result); */
 
     $ide = $_POST['ide3'];
-    $select = $connect->prepare("SELECT * FROM assets WHERE idf = ?");
+    $select = $connect->prepare("SELECT * FROM assets WHERE id = ?");
     $select->bind_param('i', $ide);
     $select->execute();
     $result = $select->get_result();
@@ -34,29 +34,33 @@ if (isset($_POST['update4'])) {
 
                 <form class="default-form" id ="default-form" method="post" action="">
                     <hr>
-                    Upravit položku "<?php echo $row['nazevf'] ?>"
+                    Upravit položku "<?php echo $row['nazev'] ?>"
                     <hr>
                     <div class="default-field">
                         <table id="default-table">
                             <tr>
+                                <th>Číslo položky</th>
                                 <th>Název</th>
-                                <th>Datum začátku používání</th>
                                 <th>Počáteční cena</th>
+                                <th>Datum zařazení</th>
+                                <th>Datum vyřazení</th>
                                 <th>Odpisová skupina</th>
                                 <th>Způsob odpisu</th>
                                 <th>Popis</th>
                             </tr>
                             <tr>
-                                <td><input class="form-control" type="text" name="nazevf" required="" value="<?php echo $row['nazevf']; ?>"></td>
-                                <td><input class="form-control" type="date" name="datumf" required="" value="<?php echo $row['datumf']; ?>"></td>
-                                <td><input class="form-control" type="text" name="castkaf" required="" value="<?php echo $row['castkaf']; ?>"></td>
+                                <td><input class="form-control" type="text" name="cislopolozky" required="" value="<?php echo $row['cislopolozky']; ?>"></td>
+                                <td><input class="form-control" type="text" name="nazev" required="" value="<?php echo $row['nazev']; ?>"></td>
+                                <td><input class="form-control" type="text" name="castka" required="" value="<?php echo $row['castka']; ?>"></td>
+                                <td><input class="form-control" type="date" name="datum" required="" value="<?php echo $row['datum']; ?>"></td>
+                                <td><input class="form-control" type="date" name="datumvyrazeni" value="<?php echo $row['datumvyrazeni']; ?>"></td>
                                 <td>
-                                    <select name="odpisf" class="form-control" required="">
+                                    <select name="odpis" class="form-control" required="">
                                         <option value="">--Vybrat--</option>
                                         <?php
                                         for($i=1; $i<=6; $i++){
                                             echo '<option value="'.$i.'"';
-                                            echo ($row['odpisf'] == $i) ? "selected" : ""; 
+                                            echo ($row['odpis'] == $i) ? "selected" : ""; 
                                             echo '>'.$i.'</option>';
                                         }
                                         ?>
@@ -64,18 +68,18 @@ if (isset($_POST['update4'])) {
                                     <!-- <td><input class="form-control" type="text" name="prijemvydaj[]" required=""></td> -->
                                 </td>
                                 <td>
-                                    <select name="zpusobf" class="form-control" required="">
+                                    <select name="zpusob" class="form-control" required="">
                                         <option value="">--Vybrat--</option>
-                                        <option value="Rovnoměrný" <?php echo ($row['zpusobf'] == 'Rovnoměrný') ? "selected" : ""; ?>>Rovnoměrný</option>
-                                        <option value="Zrychlený" <?php echo ($row['zpusobf'] == 'Zrychlený') ? "selected" : ""; ?>>Zrychlený</option>
+                                        <option value="Rovnoměrný" <?php echo ($row['zpusob'] == 'Rovnoměrný') ? "selected" : ""; ?>>Rovnoměrný</option>
+                                        <option value="Zrychlený" <?php echo ($row['zpusob'] == 'Zrychlený') ? "selected" : ""; ?>>Zrychlený</option>
                                     </select>
                                 </td>
-                                <td><input class="form-control" type="text" name="popisf" value="<?php echo $row['popisf']; ?>"></td>
+                                <td><input class="form-control" type="text" name="popis" value="<?php echo $row['popis']; ?>"></td>
                             </tr>
                         </table>
 
                         <center>
-                            <input type="hidden" name="idf" value="<?php echo $ide ?>">
+                            <input type="hidden" name="id" value="<?php echo $ide ?>">
                             <button type="submit" name="update5" class="btn btn-success">Uložit</button>
                             <a href="majetek_dlouhodoby.php" class="btn btn-danger">Zrušit</a>
                         </center>
@@ -86,17 +90,20 @@ if (isset($_POST['update4'])) {
     </html>
     <?php
 } elseif (isset($_POST['update5'])) {
-    $idf = $_POST['idf'];
+    $id = $_POST['id'];
     $userID = $userData['id']; //$_SESSION['userid']
-    $nazevf = $_POST['nazevf'];
-    $datumf = $_POST['datumf'];
-    $castkaf = $_POST['castkaf'];
-    $odpisf = $_POST['odpisf'];
-    $zpusobf = $_POST['zpusobf'];
-    $popisf = $_POST['popisf'];
+    $cisloPolozky = $_POST['cislopolozky'];
+    $nazev = $_POST['nazev'];
+    $castka = $_POST['castka'];
+    $datumZarazeni = $_POST['datum'];
+    $datumVyrazeni = $_POST['datumvyrazeni'];
+    $prijemvydaj = "Výdaj";
+    $odpis = $_POST['odpis'];
+    $zpusob = $_POST['zpusob'];
+    $popis = $_POST['popis'];
 
-    $select = $connect->prepare("UPDATE `assets` SET `userID`=?, `nazevf`=?,`datumf`=?,`castkaf`=?,`odpisf`=?,`zpusobf`=?,`popisf`=? WHERE idf=?");
-    $select->bind_param('issiissi', $userID, $nazevf, $datumf, $castkaf, $odpisf, $zpusobf, $popisf, $idf);
+    $select = $connect->prepare("UPDATE `assets` SET `userID`=?, `cislopolozky` = ?, `nazev`=?,`castka`=?,`datum`=?,`datumvyrazeni`=?,`odpis`=?,`zpusob`=?,`popis`=? WHERE id=?");
+    $select->bind_param('issississi', $userID, $cisloPolozky, $nazev, $castka, $datumZarazeni, $datumVyrazeni, $odpis, $zpusob, $popis, $id);
     $select->execute();
 
     if ($select === false) {

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 include 'inc/head.php';
 include 'functions.php';
@@ -25,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 }
-
+ob_end_flush();
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     </head>
     <header>
-        
+
     </header>
     <body>
         <div class="container" style="width: 100%; text-align: center; margin: auto; padding: 10%;">

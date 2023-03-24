@@ -49,7 +49,7 @@ if (isset($_POST['update2'])) {
                                 <td>
                                     <select name="pohledavkadluhp" class="form-control" required="">
                                         <option value="">--Vybrat--</option>
-                                        <option value="Pohledavka" <?php echo ($row['pohledavkadluhp'] == 'Pohledavka') ? "selected" : ""; ?>>Pohledávka</option>
+                                        <option value="Pohledávka" <?php echo ($row['pohledavkadluhp'] == 'Pohledávka') ? "selected" : ""; ?>>Pohledávka</option>
                                         <option value="Dluh" <?php echo ($row['pohledavkadluhp'] == 'Dluh') ? "selected" : ""; ?>>Dluh</option>
                                     </select>
                                     <!-- <td><input class="form-control" type="text" name="dan[]" required=""></td> -->

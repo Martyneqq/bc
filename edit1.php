@@ -15,7 +15,7 @@ if (isset($_POST['update0'])) {
     $row = mysqli_fetch_assoc($result);*/
 
     $ide = $_POST['ide'];
-    $select = $connect->prepare("SELECT * FROM assets WHERE idf = ?");
+    $select = $connect->prepare("SELECT * FROM incomeexpense WHERE id = ?");
     $select->bind_param('i', $ide);
     $select->execute();
     $result = $select->get_result();
@@ -34,7 +34,7 @@ if (isset($_POST['update0'])) {
 
                 <form class="default-form" id ="default-form" method="post" action="">
                     <hr>
-                    Upravit položku "<?php echo $row['nazevf'] ?>"
+                    Upravit položku "<?php echo $row['nazev'] ?>"
                     <hr>
                     <div class="default-field">
                         <table id="default-table">
@@ -50,40 +50,39 @@ if (isset($_POST['update0'])) {
                                 <th></th>
                             </tr>
                             <tr>
-                                <td><input class="form-control" type="text" name="nazevf" required="" value="<?php echo $row['nazevf']; ?>"></td>
-                                <td><input class="form-control" type="date" name="datumf" required="" value="<?php echo $row['datumf']; ?>"></td>
+                                <td><input class="form-control" type="text" name="nazev" required="" value="<?php echo $row['nazev']; ?>"></td>
+                                <td><input class="form-control" type="date" name="datum" required="" value="<?php echo $row['datum']; ?>"></td>
                                 <td>
-                                    <select name="prijemvydajf" class="form-control" required="">
+                                    <select name="prijemvydaj" class="form-control" required="">
                                         <option value="">--Vybrat--</option>
-                                        <option value="Příjem" <?php echo ($row['prijemvydajf'] == 'Příjem') ? "selected" : ""; ?>>Příjem</option>
-                                        <option value="Výdaj" <?php echo ($row['prijemvydajf'] == 'Výdaj') ? "selected" : ""; ?>>Výdaj</option>
+                                        <option value="Příjem" <?php echo ($row['prijemvydaj'] == 'Příjem') ? "selected" : ""; ?>>Příjem</option>
+                                        <option value="Výdaj" <?php echo ($row['prijemvydaj'] == 'Výdaj') ? "selected" : ""; ?>>Výdaj</option>
                                     </select>
                                     <!-- <td><input class="form-control" type="text" name="prijemvydaj[]" required=""></td> -->
                                 </td>
-                                <td><input class="form-control" type="text" name="castkaf" required="" value="<?php echo $row['castkaf']; ?>"></td>
+                                <td><input class="form-control" type="text" name="castka" required="" value="<?php echo $row['castka']; ?>"></td>
                                 <td>
-                                    <select name="danf" class="form-control" required="">
+                                    <select name="dan" class="form-control" required="">
                                         <option value="">--Vybrat--</option>
-                                        <option value="Ano" <?php echo ($row['danf'] == 'Ano') ? "selected" : ""; ?>>Ano</option>
-                                        <option value="Ne" <?php echo ($row['danf'] == 'Ne') ? "selected" : ""; ?>>Ne</option>
+                                        <option value="Ano" <?php echo ($row['dan'] == 'Ano') ? "selected" : ""; ?>>Ano</option>
+                                        <option value="Ne" <?php echo ($row['dan'] == 'Ne') ? "selected" : ""; ?>>Ne</option>
                                     </select>
                                     <!-- <td><input class="form-control" type="text" name="dan[]" required=""></td> -->
                                 </td>
-                                <td><input class="form-control" type="text" name="dokladf" required="" value="<?php echo $row['dokladf']; ?>"></td>
+                                <td><input class="form-control" type="text" name="doklad" required="" value="<?php echo $row['doklad']; ?>"></td>
                                 <td>
-                                    <select name="uhradaf" class="form-control" required="">
+                                    <select name="uhrada" class="form-control" required="">
                                         <option value="">--Vybrat--</option>
-                                        <option value="Z účtu" <?php echo ($row['uhradaf'] == 'Z účtu') ? "selected" : ""; ?>>Z účtu</option>
-                                        <option value="Hotovost" <?php echo ($row['uhradaf'] == 'Hotovost') ? "selected" : ""; ?>>Hotovost</option>
+                                        <option value="Z účtu" <?php echo ($row['uhrada'] == 'Z účtu') ? "selected" : ""; ?>>Z účtu</option>
+                                        <option value="Hotovost" <?php echo ($row['uhrada'] == 'Hotovost') ? "selected" : ""; ?>>Hotovost</option>
                                     </select>
-                                    <!-- <td><input class="form-control" type="text" name="uhrada[]" required=""></td> -->
                                 </td>
-                                <td><input class="form-control" type="text" name="popisf" value="<?php echo $row['popisf']; ?>"></td>
+                                <td><input class="form-control" type="text" name="popis" value="<?php echo $row['popis']; ?>"></td>
                             </tr>
                         </table>
 
                         <center>
-                            <input type="hidden" name="idf" value="<?php echo $ide ?>">
+                            <input type="hidden" name="id" value="<?php echo $ide ?>">
                             <button type="submit" name="update1" class="btn btn-success">Uložit</button>
                             <a href="evidence_prijmy_a_vydaje.php" class="btn btn-danger">Zrušit</a>
                         </center>
@@ -94,31 +93,19 @@ if (isset($_POST['update0'])) {
     </html>
     <?php
 } elseif (isset($_POST['update1'])) {
-    $idf = $_POST['idf'];
+    $idf = $_POST['id'];
     $userID = $userData['id']; //$_SESSION['userid']
-    $nazevf = $_POST['nazevf'];
-    $datumf = $_POST['datumf'];
-    $prijemvydajf = $_POST['prijemvydajf'];
-    $castkaf = $_POST['castkaf'];
-    $danf = $_POST['danf'];
-    $dokladf = $_POST['dokladf'];
-    $uhradaf = $_POST['uhradaf'];
-    $odpisf = 0;
-    $zpusobf = 0;
-    $popisf = $_POST['popisf'];
+    $nazev = $_POST['nazev'];
+    $datum = $_POST['datum'];
+    $prijemvydaj = $_POST['prijemvydaj'];
+    $castka = $_POST['castka'];
+    $dan = $_POST['dan'];
+    $doklad = $_POST['doklad'];
+    $uhrada = $_POST['uhrada'];
+    $popis = $_POST['popis'];
 
-    //$edit = "UPDATE `assets` SET idf=$idf,`userID`='$userID', `nazevf`='$nazevf',`datumf`='$datumf',`prijemvydajf`='$prijemvydajf',`castkaf`='$castkaf',`danf`='$danf',`dokladf`='$dokladf',`uhradaf`='$uhradaf',`odpisf`='$odpisf',`zpusobf`='$zpusobf',`popisf`='$popisf' WHERE idf=$idf";
-    //echo $edit;
-    //exit();
-
-    /*
-      $save = "UPDATE `assets` SET idf=?, `userID`=?, `nazevf`=?,`datumf`=?,`prijemvydajf`=?,`castkaf`=?,`danf`=?,`dokladf`=?,`uhradaf`=?,`odpisf`=?,`zpusobf`=?,`popisf`=? WHERE idf=?";
-      $query = mysqli_prepare($connect, $save);
-      $bind = mysqli_stmt_bind_param($query, "iisssdsssiis", $idf, $userID, $nazevf, $datumf, $prijemvydajf, $castkaf, $danf, $dokladf, $uhradaf, $odpisf, $zpusobf, $popisf);
-     */
-
-    $select = $connect->prepare("UPDATE `assets` SET `userID`=?, `nazevf`=?,`datumf`=?,`prijemvydajf`=?,`castkaf`=?,`danf`=?,`dokladf`=?,`uhradaf`=?,`odpisf`=?,`zpusobf`=?,`popisf`=? WHERE idf=?");
-    $select->bind_param('isssdsssiisi', $userID, $nazevf, $datumf, $prijemvydajf, $castkaf, $danf, $dokladf, $uhradaf, $odpisf, $zpusobf, $popisf, $idf);
+    $select = $connect->prepare("UPDATE `incomeexpense` SET `userID`=?, `nazev`=?,`datum`=?,`prijemvydaj`=?,`castka`=?,`dan`=?,`doklad`=?,`uhrada`=?,`popis`=? WHERE id=?");
+    $select->bind_param('isssissssi',$userID, $nazev, $datum, $prijemvydaj, $castka, $dan, $doklad, $uhrada, $popis, $id);
     $select->execute();
 
     //$query = mysqli_prepare($connect, $edit);

@@ -37,35 +37,35 @@ include 'inc/header.php';
                         connectToExpensesTable($connect, $userData);
                         ?>
                         <tr>
-                            <td><input class="form-control" type="text" name="nazevf" required=""></td>
-                            <td><input class="form-control" type="date" name="datumf" required=""></td>
+                            <td><input class="form-control" type="text" name="nazev" required=""></td>
+                            <td><input class="form-control" type="date" name="datum" required=""></td>
                             <td>
-                                <select name="prijemvydajf" class="form-control">
+                                <select name="prijemvydaj" class="form-control">
                                     <option value="">--Vybrat--</option>
                                     <option value="Příjem">Příjem</option>
                                     <option value="Výdaj">Výdaj</option>
                                 </select>
                                 <!-- <td><input class="form-control" type="text" name="prijemvydaj[]" required=""></td> -->
                             </td>
-                            <td><input class="form-control" type="text" name="castkaf" required=""></td>
+                            <td><input class="form-control" type="text" name="castka" required=""></td>
                             <td>
-                                <select name="danf" class="form-control">
+                                <select name="dan" class="form-control">
                                     <option value="">--Vybrat--</option>
                                     <option value="Ano">Ano</option>
                                     <option value="Ne">Ne</option>
                                 </select>
                                 <!-- <td><input class="form-control" type="text" name="dan[]" required=""></td> -->
                             </td>
-                            <td><input class="form-control" type="text" name="dokladf" required=""></td>
+                            <td><input class="form-control" type="text" name="doklad" required=""></td>
                             <td>
-                                <select name="uhradaf" class="form-control">
+                                <select name="uhrada" class="form-control">
                                     <option value="">--Vybrat--</option>
                                     <option value="Z účtu">Z účtu</option>
                                     <option value="Hotovost">Hotovost</option>
                                 </select>
                                 <!-- <td><input class="form-control" type="text" name="uhrada[]" required=""></td> -->
                             </td>
-                            <td><input class="form-control" type="text" name="popisf"></td>
+                            <td><input class="form-control" type="text" name="popis"></td>
                         </tr>
                     </table>
                     <center>

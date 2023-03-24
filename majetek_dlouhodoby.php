@@ -20,17 +20,20 @@ include 'inc/header.php';
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="js/infoButton.js"></script>
-
         <div style="margin: 1%">
+            <form action="pridat_dlouhodoby_majetek.php" method="post" style="display:inline-block;">
+                <button type="submit" class="btn btn-success">Přidat</button>
+            </form>
             <table id="table3" class="table table-striped table-hover table-sortable">
                 <thead>
                     <tr>
-                        <th onclick="sortTable(0, 'table3')">Název</th>
-                        <th onclick="sortTable(1, 'table3')">Datum začátku používání</th>
-                        <th onclick="sortTable(2, 'table3')">Počáteční hodnota</th>
-                        <th onclick="sortTable(3, 'table3')">Odpisová skupina</th>
-                        <th onclick="sortTable(4, 'table3')">Způsob odpisu</th>
+                        <th onclick="sort(0, 'table3')">Číslo položky</th>
+                        <th onclick="sort(1, 'table3')">Název</th>
+                        <th onclick="sort(2, 'table3')">Počáteční hodnota</th>
+                        <th onclick="sort(3, 'table3')">Datum zařazení</th>
+                        <th onclick="sort(4, 'table3')">Datum vyřazení</th>
+                        <th onclick="sort(5, 'table3')">Odpisová skupina</th>
+                        <th onclick="sort(6, 'table3')">Způsob odpisu</th>
                         <th>Popis</th>
                         <th>Úpravy</th>
                     </tr>
@@ -40,26 +43,28 @@ include 'inc/header.php';
                     $userID = $userData['id'];
 
                     $select = $connect->prepare("SELECT * FROM assets WHERE userID = ?");
-                    $select->bind_param('s', $userID);
+                    $select->bind_param('i', $userID);
                     $select->execute();
                     $result = $select->get_result();
 
                     while ($row = mysqli_fetch_array($result)) {
                         ?>
-                        <tr class="info-row" data-id='<?php echo $row['idf'] ?>' data-name="<?php echo $row['nazevf'] ?>">
-                            <td><?php echo secure($row['nazevf']); ?></td>
-                            <td><?php echo $row['datumf']; ?></td>
-                            <td><?php echo number_format($row["castkaf"]) ?></td>
-                            <td><?php echo $row['odpisf']; ?></td>
-                            <td><?php echo $row['zpusobf']; ?></td>
-                            <td><?php echo secure($row['popisf']); ?></td>
+                        <tr class="info-row" data-id='<?php echo $row['id'] ?>' data-name="<?php echo $row['nazev'] ?>">
+                            <td><?php echo secure($row['cislopolozky']); ?></td>
+                            <td><?php echo secure($row['nazev']); ?></td>
+                            <td><?php echo number_format((float) $row["castka"], 2, ".", ",") ?></td>
+                            <td><?php echo $row['datum']; ?></td>
+                            <td><?php echo $row['datumvyrazeni']; ?></td>
+                            <td><?php echo $row['odpis']; ?></td>
+                            <td><?php echo $row['zpusob']; ?></td>
+                            <td><?php echo secure($row['popis']); ?></td>
                             <td>
                                 <form action="edit3.php" method="post" style="display:inline-block;">
-                                    <input type="hidden" name="ide3" value="<?php echo $row['idf']; ?>">
+                                    <input type="hidden" name="ide3" value="<?php echo $row['id']; ?>">
                                     <input class="btn btn-primary" type="submit" name="update4" value="Upravit">
                                 </form>
                                 <form action="delete3.php" method="post" style="display:inline-block;">
-                                    <input type="hidden" name="idd3" value="<?php echo $row['idf']; ?>">
+                                    <input type="hidden" name="idd3" value="<?php echo $row['id']; ?>">
                                     <input class="btn btn-danger" type="submit" name="delete3" value="Smazat">
                                 </form>
                             </td>
@@ -75,7 +80,7 @@ include 'inc/header.php';
                                     <!-- script goes here -->
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Zavřít</button>
                                 </div>
                             </div>
                         </div>

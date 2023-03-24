@@ -1,5 +1,5 @@
-function sortTable(n, tableID) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+function sort(n, tableID) {
+    /*var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById(tableID);
     switching = true;
     dir = "asc";
@@ -32,5 +32,5 @@ function sortTable(n, tableID) {
                 switching = true;
             }
         }
-    }
+    }*/
 }

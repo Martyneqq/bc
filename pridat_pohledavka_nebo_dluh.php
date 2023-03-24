@@ -12,7 +12,7 @@ include 'inc/header.php';
 
     </head>
     <header>
-        
+
     </header>
     <body>
         <div style="margin: 1%">
@@ -33,7 +33,6 @@ include 'inc/header.php';
                             <th>Popis</th>
                         </tr>
                         <?php
-                        $connect = mysqli_connect("localhost", "root", "", "evidence");
                         connectToDemandDebtTable($connect, $userData);
                         ?>
                         <tr>
@@ -44,7 +43,7 @@ include 'inc/header.php';
                             <td>
                                 <select name="pohledavkadluhp" class="form-control">
                                     <option value="">--Vybrat--</option>
-                                    <option value="Pohledavka">Pohledávka</option>
+                                    <option value="Pohledávka">Pohledávka</option>
                                     <option value="Dluh">Dluh</option>
                                 </select>
                                 <!-- <td><input class="form-control" type="text" name="dan[]" required=""></td> -->

@@ -23,9 +23,11 @@ include 'inc/header.php';
                 <div class="default-field">
                     <table id="default-table">
                         <tr>
+                            <th>Číslo položky</th>
                             <th>Název</th>
-                            <th>Datum začátku používání</th>
-                            <th>Počáteční cena</th>
+                            <th>Pořizovací cena</th>
+                            <th>Datum zařazení</th>
+                            <th>Datum vyřazení</th>
                             <th>Odpisová skupina</th>
                             <th>Způsob odpisu</th>
                             <th>Popis</th>
@@ -34,11 +36,13 @@ include 'inc/header.php';
                         connectToAssetsTable($connect, $userData);
                         ?>
                         <tr>
-                            <td><input class="form-control" type="text" name="nazevf" required=""></td>
-                            <td><input class="form-control" type="date" name="datumf" required=""></td>
-                            <td><input class="form-control" type="text" name="castkaf" required=""></td>
+                            <td><input class="form-control" type="text" name="cislopolozky" required=""></td>
+                            <td><input class="form-control" type="text" name="nazev" required=""></td>
+                            <td><input class="form-control" type="text" name="castka" required=""></td>
+                            <td><input class="form-control" type="date" name="datum" required=""></td>
+                            <td><input class="form-control" type="date" name="datumvyrazeni"></td>
                             <td>
-                                <select name="odpisf" class="form-control">
+                                <select name="odpis" class="form-control" required="">
                                     <option value="">--Vybrat--</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -50,14 +54,14 @@ include 'inc/header.php';
                                 <!-- <td><input class="form-control" type="text" name="prijemvydaj[]" required=""></td> -->
                             </td>
                             <td>
-                                <select name="zpusobf" class="form-control">
+                                <select name="zpusob" class="form-control" required="">
                                     <option value="">--Vybrat--</option>
                                     <option value="Rovnoměrný">Rovnoměrný</option>
                                     <option value="Zrychlený">Zrychlený</option>
                                 </select>
                                 <!-- <td><input class="form-control" type="text" name="dan[]" required=""></td> -->
                             </td>
-                            <td><input class="form-control" type="text" name="popisf"></td>
+                            <td><input class="form-control" type="text" name="popis"></td>
                         </tr>
                     </table>
                     <center>

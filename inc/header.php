@@ -5,7 +5,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <a class="bi-house-door" href="domu.php" style="margin: 4px; font-size: 1.5rem; color: whitesmoke;"></a>
+                <a class="bi-house-door" href="domu.php" style="margin: 0 2px; font-size: 1.5rem; color: whitesmoke;"></a>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,7 +53,6 @@
                         <?php echo secure($userData['username']) ?? null; ?>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item">Tmavý režim</a></li> <!-- TODO -->
                         <li><a class="dropdown-item" href="#">Nápověda</a></li> <!-- TODO -->
                         <li><a class="dropdown-item" href="logout.php">Odhlásit se</a></li>
                     </ul>

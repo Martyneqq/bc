@@ -16,16 +16,19 @@ include 'inc/header.php';
     </header>
     <body>
         <div style="margin: 1%">
+            <form action="pridat_pohledavka_nebo_dluh.php" method="post" style="display:inline-block;">
+                <button type="submit" class="btn btn-success">Přidat</button>
+            </form>
             <table id="table2" class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th onclick="sortTable(0, 'table2')">Název</th>
-                        <th onclick="sortTable(1, 'table2')">Číslo dokladu</th>
-                        <th onclick="sortTable(2, 'table2')">Firma</th>
-                        <th onclick="sortTable(3, 'table2')">Datum vystavení</th>
-                        <th onclick="sortTable(4, 'table2')">Pohledávka/dluh</th>
-                        <th onclick="sortTable(5, 'table2')">Hodnota</th>
-                        <th onclick="sortTable(6, 'table2')">Daňová položka</th>
+                        <th onclick="sort(0, 'table2')">Název</th>
+                        <th onclick="sort(1, 'table2')">Číslo dokladu</th>
+                        <th onclick="sort(2, 'table2')">Firma</th>
+                        <th onclick="sort(3, 'table2')">Datum vystavení</th>
+                        <th onclick="sort(4, 'table2')">Pohledávka/dluh</th>
+                        <th onclick="sort(5, 'table2')">Hodnota</th>
+                        <th onclick="sort(6, 'table2')">Daňová položka</th>
                         <th>Popis</th>
                         <th>Úpravy</th>
                     </tr>
@@ -45,7 +48,7 @@ include 'inc/header.php';
                             <td><?php echo secure($row['firmap']); ?></td>
                             <td><?php echo $row['datump']; ?></td>
                             <td><?php echo secure($row['pohledavkadluhp']); ?></td>
-                            <td><?php echo number_format($row['hodnotap']); ?></td>
+                            <td><?php echo number_format((float) $row['hodnotap'], 2, ".", ",") ?></td>
                             <td><?php echo $row['danp']; ?></td>
                             <td><?php echo secure($row['popisp']); ?></td>
                             <td>

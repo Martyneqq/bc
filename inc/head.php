@@ -6,8 +6,12 @@
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script src="js/sortTable.js"></script>
+<script src=”https://cdn.zingchart.com/zingchart.min.js"></script>
+<!-- <script src="js/jquery-3.6.1.min.js"></script> -->
+<script src="js/barChart.js" type="text/javascript"></script>
+<script src="js/sort.js"></script>
 <script src="js/tableRow.js"></script>
 <script src="js/changeLanguage.js"></script>
+<script src="js/barChart.js"></script>
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 <title>Daňová evidence</title> <!-- Tax records -->

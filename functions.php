@@ -7,19 +7,19 @@ function secure($value) {
 function connectToExpensesTable($connect, $userData) {
     if (isset($_POST['ulozit'])) {
         $userID = $userData['id']; //$_SESSION['userid']
-        $nazevf = $_POST['nazevf'];
-        $datumf = $_POST['datumf'];
-        $prijemvydajf = $_POST['prijemvydajf'];
-        $castkaf = $_POST['castkaf'];
-        $danf = $_POST['danf'];
-        $dokladf = $_POST['dokladf'];
-        $uhradaf = $_POST['uhradaf'];
-        $popisf = $_POST['popisf'];
+        $nazev = $_POST['nazev'];
+        $doklad = $_POST['doklad'];
+        $datum = $_POST['datum'];
+        $prijemvydaj = $_POST['prijemvydaj'];
+        $castka = $_POST['castka'];
+        $dan = $_POST['dan'];
+        $uhrada = $_POST['uhrada'];
+        $popis = $_POST['popis'];
 
-        $save = "INSERT INTO assets(nazevf,userID,datumf,prijemvydajf,castkaf,danf,dokladf,uhradaf,popisf)VALUES(?,?,?,?,?,?,?,?,?)";
+        $save = "INSERT INTO incomeexpense(nazev,doklad,datum,prijemvydaj,castka,dan,uhrada,popis, userID)VALUES(?,?,?,?,?,?,?,?,?)";
 //$query = mysqli_query($connect, $save);
         $query = mysqli_prepare($connect, $save);
-        $bind = mysqli_stmt_bind_param($query, "sissdssss", $nazevf, $userID, $datumf, $prijemvydajf, $castkaf, $danf, $dokladf, $uhradaf, $popisf);
+        $bind = mysqli_stmt_bind_param($query, "ssssisssi", $nazev, $doklad, $datum, $prijemvydaj, $castka, $dan, $uhrada, $popis, $userID);
         if (($execute = mysqli_stmt_execute($query)) != true) {
             echo "Error";
         }
@@ -53,18 +53,19 @@ function connectToDemandDebtTable($connect, $userData) {
 function connectToAssetsTable($connect, $userData) {
     if (isset($_POST['ulozit'])) {
         $userID = $userData['id']; //$_SESSION['userid']
-        $nazevf = $_POST['nazevf'];
-        $datumf = $_POST['datumf'];
-        $prijemvydajf = "Výdaj";
-        $castkaf = $_POST['castkaf'];
-        $danf = "Ano";
-        $odpisf = $_POST['odpisf'];
-        $zpusobf = $_POST['zpusobf'];
-        $popisf = $_POST['popisf'];
+        $cisloPolozky = $_POST['cislopolozky'];
+        $nazev = $_POST['nazev'];
+        $castka = $_POST['castka'];
+        $datum = $_POST['datum'];
+        $datumVyrazeni = $_POST['datumvyrazeni'];
+        $prijemvydaj = "Výdaj";
+        $odpis = $_POST['odpis'];
+        $zpusob = $_POST['zpusob'];
+        $popis = $_POST['popis'];
 
-        $save = "INSERT INTO assets(nazevf,userID,datumf,prijemvydajf,castkaf,danf,odpisf,zpusobf,popisf)VALUES(?,?,?,?,?,?,?,?,?)";
+        $save = "INSERT INTO assets(userID,cislopolozky,nazev,castka,datum,datumvyrazeni,prijemvydaj,odpis,zpusob,popis)VALUES(?,?,?,?,?,?,?,?,?,?)";
         $query = mysqli_prepare($connect, $save);
-        $bind = mysqli_stmt_bind_param($query, "sissisiss", $nazevf, $userID, $datumf, $prijemvydajf, $castkaf, $danf, $odpisf, $zpusobf, $popisf);
+        $bind = mysqli_stmt_bind_param($query, "ississsiss", $userID, $cisloPolozky, $nazev, $castka, $datum, $datumVyrazeni, $prijemvydaj, $odpis, $zpusob, $popis);
         if (($execute = mysqli_stmt_execute($query)) != true) {
             echo "Error";
         }
