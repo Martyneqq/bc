@@ -22,13 +22,13 @@ include 'inc/header.php';
             <table id="table2" class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th onclick="sort(0, 'table2')">Název</th>
-                        <th onclick="sort(1, 'table2')">Číslo dokladu</th>
-                        <th onclick="sort(2, 'table2')">Firma</th>
-                        <th onclick="sort(3, 'table2')">Datum vystavení</th>
-                        <th onclick="sort(4, 'table2')">Pohledávka/dluh</th>
-                        <th onclick="sort(5, 'table2')">Hodnota</th>
-                        <th onclick="sort(6, 'table2')">Daňová položka</th>
+                        <th onclick="sort('table2',0)">Název</th>
+                        <th onclick="sort('table2',1)">Číslo dokladu</th>
+                        <th onclick="sort('table2',2)">Firma</th>
+                        <th onclick="sort('table2',3)">Datum vystavení</th>
+                        <th onclick="sort('table2',4)">Pohledávka/dluh</th>
+                        <th onclick="sort('table2',5)">Hodnota</th>
+                        <th onclick="sort('table2',6)">Daňová položka</th>
                         <th>Popis</th>
                         <th>Úpravy</th>
                     </tr>
@@ -54,11 +54,11 @@ include 'inc/header.php';
                             <td>
                                 <form action="edit2.php" method="post" style="display:inline-block;">
                                     <input type="hidden" name="ide2" value="<?php echo $row['idp']; ?>">
-                                    <input class="btn btn-primary" type="submit" name="update2" value="Upravit">
+                                    <input class="btn btn-primary btn-sm" type="submit" name="update2" value="Upravit">
                                 </form>
                                 <form action="delete2.php" method="post" style="display:inline-block;">
                                     <input type="hidden" name="idd2" value="<?php echo $row['idp']; ?>">
-                                    <input class="btn btn-danger" type="submit" name="delete2" value="Smazat">
+                                    <input class="btn btn-danger btn-sm" type="submit" name="delete2" value="Smazat">
                                 </form>
                             </td>
                         </tr>

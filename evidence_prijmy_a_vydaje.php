@@ -22,13 +22,13 @@ include 'inc/header.php';
             <table id="table1" class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th onclick="sort(0, 'table1')">Název</th>
-                        <th onclick="sort(1, 'table1')">Číslo dokladu</th>
-                        <th onclick="sort(2, 'table1')">Datum uhrazení</th>
-                        <th onclick="sort(3, 'table1')">Příjem nebo výdaj</th>
-                        <th onclick="sort(4, 'table1')">Částka</th>
-                        <th onclick="sort(5, 'table1')">Daňová položka</th>
-                        <th onclick="sort(6, 'table1')">Způsob platby</th>
+                        <th onclick="sort('table1', 0)">Název</th>
+                        <th onclick="sort('table1', 1)">Číslo dokladu</th>
+                        <th onclick="sort('table1', 2)">Datum uhrazení</th>
+                        <th onclick="sort('table1', 3)">Příjem nebo výdaj</th>
+                        <th onclick="sort('table1', 4)">Částka</th>
+                        <th onclick="sort('table1', 5)">Daňová položka</th>
+                        <th onclick="sort('table1', 6)">Způsob platby</th>
                         <th>Popis</th>
                         <th>Úpravy</th>
                     </tr>
@@ -40,7 +40,7 @@ include 'inc/header.php';
                       $save = "SELECT incomeexpense.*, assets.* FROM incomeexpense LEFT JOIN assets ON incomeexpense.userID = assets.userID WHERE incomeexpense.userID = assets.userID AND incomeexpense.userID = ?";
                       $result = mysqli_query($connect, $save);
                      */
-                    $select = $connect->prepare("SELECT id, userID, nazev, doklad, datum, prijemvydaj, castka, dan, uhrada, popis FROM incomeexpense UNION SELECT id, userID, nazev, NULL AS doklad, datum, prijemvydaj, castka, NULL AS dan, NULL AS uhrada, popis FROM assets WHERE userID=?");
+                    $select = $connect->prepare("SELECT id, userID, nazev, doklad, datum, prijemvydaj, castka, dan, uhrada, popis FROM incomeexpense WHERE userID=?");
                     $select->bind_param('i', $userID);
                     $select->execute();
                     $result = $select->get_result();
@@ -57,27 +57,21 @@ include 'inc/header.php';
                             <td><?php echo secure($row['uhrada']); ?></td>
                             <td><?php echo secure($row['popis']); ?></td>
 
-                            <?php if (is_null($row['dan']) && is_null($row['uhrada']) && is_null($row['doklad'])) { ?>
-                                <td>
-                                    <form action="edit3.php" method="post" style="display:inline-block;">
-                                        <input type="hidden" name="ide3" value="<?php echo $row['id']; ?>">
-                                        <input class="btn btn-primary" type="submit" name="update4" value="Upravit">
-                                    </form>
-                                    <form action="delete3.php" method="post" style="display:inline-block;">
-                                        <input type="hidden" name="idd3" value="<?php echo $row['id']; ?>">
-                                        <input class="btn btn-danger" type="submit" name="delete3" value="Smazat">
-                                    </form>
-                                </td><?php } else { ?>
+                            <?php
+                            if (!(isset($row['popis']) && $row['popis'] == "Odpis")) {
+                                ?>
                                 <td>
                                     <form action="edit1.php" method="post" style="display:inline-block;">
                                         <input type="hidden" name="ide" value="<?php echo $row['id']; ?>">
-                                        <input class="btn btn-primary" type="submit" name="update0" value="Upravit">
+                                        <input class="btn btn-primary btn-sm" type="submit" name="update0" value="Upravit">
                                     </form>
                                     <form action="delete1.php" method="post" style="display:inline-block;">
                                         <input type="hidden" name="idd" value="<?php echo $row['id']; ?>">
-                                        <input class="btn btn-danger" type="submit" name="delete" value="Smazat">
+                                        <input class="btn btn-danger btn-sm" type="submit" name="delete" value="Smazat">
                                     </form>
                                 </td>
+                            <?php } else { ?>
+                                <td></td>
                             <?php } ?>
 
                         </tr>

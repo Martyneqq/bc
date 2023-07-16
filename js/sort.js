@@ -1,8 +1,8 @@
-function sort(n, tableID) {
-    /*var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+function sort(tableID, n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById(tableID);
     switching = true;
-    dir = "asc";
+    dir = 0;
     while (switching) {
         switching = false;
         rows = table.rows;
@@ -10,12 +10,12 @@ function sort(n, tableID) {
             shouldSwitch = false;
             x = rows[i].getElementsByTagName("TD")[n];
             y = rows[i + 1].getElementsByTagName("TD")[n];
-            if (dir === "asc") {
+            if (dir == 0) {
                 if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
                     shouldSwitch = true;
                     break;
                 }
-            } else if (dir === "desc") {
+            } else if (dir == 1) {
                 if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
                     shouldSwitch = true;
                     break;
@@ -27,10 +27,10 @@ function sort(n, tableID) {
             switching = true;
             switchcount++;
         } else {
-            if (switchcount === 0 && dir === "asc") {
-                dir = "desc";
+            if (switchcount == 0 && dir == 0) {
+                dir = 1;
                 switching = true;
             }
         }
-    }*/
+    }
 }

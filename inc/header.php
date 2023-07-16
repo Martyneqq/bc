@@ -1,4 +1,7 @@
-<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #234;">
+<?php
+//include_once 'zapis_odpisy.php';
+?>
+<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #234;min-width: 822px;">
     <div class="container-fluid">
         <ul class="navbar-nav mr-auto">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,8 +16,8 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="pridat_prijem_nebo_vydaj.php">Příjem nebo výdaj</a></li>
-                            <li><a class="dropdown-item" href="pridat_pohledavka_nebo_dluh.php">Pohledávka nebo dluh</a></li>
-                            <li><a class="dropdown-item" href="pridat_dlouhodoby_majetek.php">Dlouhodobý majetek</a></li>
+                            <li><a class="dropdown-item" href="pridat_pohledavka_nebo_dluh.php">Pohledávka nebo závazek</a></li>
+                            <li><a class="dropdown-item" href="pridat_dlouhodoby_majetek.php">Dlouhodobý nebo drobný majetek</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -23,7 +26,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="evidence_prijmy_a_vydaje.php">Deník příjmů a výdajů</a></li>
-                            <li><a class="dropdown-item" href="evidence_pohledavky_a_dluhy.php">Pohledávky a dluhy</a></li>
+                            <li><a class="dropdown-item" href="evidence_pohledavky_a_dluhy.php">Pohledávky a závazky</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -36,18 +39,18 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="prehled.php">Přehled</a>
+                        <a class="nav-link active" aria-current="page" href="prehled.php">Deník</a>
                     </li>
                 </ul>
             </div>
         </ul>
         <?php
         if (stripos($_SERVER['REQUEST_URI'], 'login.php') || stripos($_SERVER['REQUEST_URI'], 'signup.php')) {
-            echo '<p id="language_icon" onclick="changeLanguage()">en</p>'; // TODO
+            //echo '<p id="language_icon" onclick="changeLanguage()">en</p>'; // TODO
         } else {
             ?>
             <ul class="navbar-nav">
-                <p id="language_icon" onclick="changeLanguage()">en</p> <!-- TODO -->
+                <!-- <p id="language_icon" onclick="changeLanguage()">en</p> --> <!-- TODO -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <?php echo secure($userData['username']) ?? null; ?>
@@ -58,6 +61,8 @@
                     </ul>
                 </li>
             </ul>
-        <?php } ?>
+        <?php }
+        
+        ?>
     </div>
 </nav>

@@ -27,13 +27,13 @@ include 'inc/header.php';
             <table id="table3" class="table table-striped table-hover table-sortable">
                 <thead>
                     <tr>
-                        <th onclick="sort(0, 'table3')">Číslo položky</th>
-                        <th onclick="sort(1, 'table3')">Název</th>
-                        <th onclick="sort(2, 'table3')">Počáteční hodnota</th>
-                        <th onclick="sort(3, 'table3')">Datum zařazení</th>
-                        <th onclick="sort(4, 'table3')">Datum vyřazení</th>
-                        <th onclick="sort(5, 'table3')">Odpisová skupina</th>
-                        <th onclick="sort(6, 'table3')">Způsob odpisu</th>
+                        <th onclick="sort('table3', 0)">Číslo položky</th>
+                        <th onclick="sort('table3', 1)">Název</th>
+                        <th onclick="sort('table3', 2)">Počáteční hodnota</th>
+                        <th onclick="sort('table3', 3)">Datum zařazení</th>
+                        <th onclick="sort('table3', 4)">Datum vyřazení</th>
+                        <th onclick="sort('table3', 5)">Odpisová skupina</th>
+                        <th onclick="sort('table3', 6)">Způsob odpisu</th>
                         <th>Popis</th>
                         <th>Úpravy</th>
                     </tr>
@@ -49,7 +49,7 @@ include 'inc/header.php';
 
                     while ($row = mysqli_fetch_array($result)) {
                         ?>
-                        <tr class="info-row" data-id='<?php echo $row['id'] ?>' data-name="<?php echo $row['nazev'] ?>">
+                        <tr class="info-row" data-id='<?php echo $row['id'] ?>' data-name="<?php echo $row['nazev'] ?>" data-value="<?php echo $row['castka'] ?>">
                             <td><?php echo secure($row['cislopolozky']); ?></td>
                             <td><?php echo secure($row['nazev']); ?></td>
                             <td><?php echo number_format((float) $row["castka"], 2, ".", ",") ?></td>
@@ -61,14 +61,16 @@ include 'inc/header.php';
                             <td>
                                 <form action="edit3.php" method="post" style="display:inline-block;">
                                     <input type="hidden" name="ide3" value="<?php echo $row['id']; ?>">
-                                    <input class="btn btn-primary" type="submit" name="update4" value="Upravit">
+                                    <input class="btn btn-primary btn-sm" type="submit" name="update4" value="Upravit">
                                 </form>
                                 <form action="delete3.php" method="post" style="display:inline-block;">
                                     <input type="hidden" name="idd3" value="<?php echo $row['id']; ?>">
-                                    <input class="btn btn-danger" type="submit" name="delete3" value="Smazat">
+                                    <input class="btn btn-danger btn-sm" type="submit" name="delete3" value="Smazat">
                                 </form>
                             </td>
                         </tr>
+                        <?php
+                        ?>
                     <div class="modal fade" id="infoModal" role="dialog">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -76,8 +78,8 @@ include 'inc/header.php';
                                     <h4 class="modal-title"></h4>
                                     <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body">
-                                    <!-- script goes here -->
+                                <div class = "modal-body">
+                                    <!--script goes here-->
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-bs-dismiss="modal">Zavřít</button>

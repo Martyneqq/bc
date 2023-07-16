@@ -24,57 +24,79 @@ if (isset($_POST['update2'])) {
 
         </header>
         <body>
-            <div style="margin: 10px">
-                <form class="default-form" id ="default-form" method="post" action="">
-                    <hr>
-                    Upravit položku "<?php echo $row['nazevp'] ?>"
-                    <hr>
+            <div class="container">
+                <form class="default-form" id="default-form" method="post" action="">
+                    <h2>Přidat pohledávku nebo závazek</h2>
                     <div class="default-field">
-                        <table id="default-table">
-                            <tr>
-                                <th>Název</th>
-                                <th>Číslo dokladu</th>
-                                <th>Firma</th>
-                                <th>Datum vystavení</th>
-                                <th>Pohledávka/dluh</th>
-                                <th>Hodnota</th>
-                                <th>Daňová položka</th>
-                                <th>Popis</th>
-                            </tr>
-                            <tr>
-                                <td><input class="form-control" type="text" name="nazevp" required="" value="<?php echo $row['nazevp']; ?>"></td>
-                                <td><input class="form-control" type="text" name="cislodokladp" required="" value="<?php echo $row['cislodokladp']; ?>"></td>
-                                <td><input class="form-control" type="text" name="firmap" required="" value="<?php echo $row['firmap']; ?>"></td>
-                                <td><input class="form-control" type="date" name="datump" required="" value="<?php echo $row['datump']; ?>"></td>
-                                <td>
+                        <table class="table" id="default-table">
+                            <div class="form-group row">
+                                <label for="nazevp" class="col-sm-4 col-form-label">Název</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="nazevp" required="" value="<?php echo $row['nazevp']; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cislodokladp" class="col-sm-4 col-form-label">Číslo dokladu</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="cislodokladp" required="" value="<?php echo $row['cislodokladp']; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="firmap" class="col-sm-4 col-form-label">Firma</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="firmap" required="" value="<?php echo $row['firmap']; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="datump" class="col-sm-4 col-form-label">Datum vystavení</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="date" name="datump" required="" value="<?php echo $row['datump']; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pohledavkadluhp" class="col-sm-4 col-form-label">Pohledávka/dluh</label>
+                                <div class="col-sm-8">
                                     <select name="pohledavkadluhp" class="form-control" required="">
                                         <option value="">--Vybrat--</option>
                                         <option value="Pohledávka" <?php echo ($row['pohledavkadluhp'] == 'Pohledávka') ? "selected" : ""; ?>>Pohledávka</option>
                                         <option value="Dluh" <?php echo ($row['pohledavkadluhp'] == 'Dluh') ? "selected" : ""; ?>>Dluh</option>
                                     </select>
-                                    <!-- <td><input class="form-control" type="text" name="dan[]" required=""></td> -->
-                                </td>
-                                <td><input class="form-control" type="text" name="hodnotap" required="" value="<?php echo $row['hodnotap']; ?>"></td>
-                                <td>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="hodnotap" class="col-sm-4 col-form-label">Hodnota</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="number" min="0" name="hodnotap" required="" value="<?php echo $row['hodnotap']; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="danp" class="col-sm-4 col-form-label">Daňový?</label>
+                                <div class="col-sm-8">
                                     <select name="danp" class="form-control" required="">
                                         <option value="">--Vybrat--</option>
                                         <option value="Ano" <?php echo ($row['danp'] == 'Ano') ? "selected" : ""; ?>>Ano</option>
                                         <option value="Ne" <?php echo ($row['danp'] == 'Ne') ? "selected" : ""; ?>>Ne</option>
                                     </select>
-                                    <!-- <td><input class="form-control" type="text" name="uhrada[]" required=""></td> -->
-                                </td>
-
-                                <td><input class="form-control" type="text" name="popisp" value="<?php echo $row['popisp']; ?>"></td>
-                            </tr>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="popisp" class="col-sm-4 col-form-label">Popis</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="popisp" value="<?php echo $row['popisp']; ?>">
+                                </div>
+                            </div>
                         </table>
-                        <center>
-                            <input type="hidden" name="idp" value="<?php echo $ide2 ?>">
-                            <button type="submit" name="update3" class="btn btn-success">Uložit</button>
-                            <a href="evidence_pohledavky_a_dluhy.php" class="btn btn-danger">Zrušit</a>
-                        </center>
+                    </div>
+                    <div class="text-center">
+                        <input type="hidden" name="idp" value="<?php echo $ide2 ?>">
+                        <button type="submit" name="update3" class="btn btn-success">Uložit</button>
+                        <a href="evidence_pohledavky_a_dluhy.php" class="btn btn-danger">Zrušit</a>
                     </div>
                 </form>
             </div>
+            <!-- Add the Bootstrap JS file -->
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            
         </body>
     </html>
     <?php
