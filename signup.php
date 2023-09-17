@@ -1,9 +1,8 @@
 <?php
 session_start();
-include 'inc/head.php';
+
 include 'functions.php';
 include 'databaseConnection.php';
-include 'inc/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = $_POST['username'];
@@ -35,34 +34,36 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (($execute = mysqli_stmt_execute($query)) != true) {
             echo "Error";
         }
-        echo "Položka úspěšně přidána!";
+        //echo "Položka úspěšně přidána!";
         header("Location: login.php");
+        die();
     }
-    //die();
 }
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-
+    <head><?php
+include 'inc/head.php';
+?>
     </head>
-    <header>
-
+    <header><?php
+include 'inc/header.php';
+?>
     </header>
     <body>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
         <div class="container" style="width: 100%; text-align: center; margin: auto; padding: 10%;">
             <form method="post">
-                <div style="font-size: 20px; margin: 10px;">Signup</div>
-                <?php
-                if (isset($error)) {
-                    echo '<span style="color: red; font-size: 17px;">' . $error . '</span><br><br>';
-                }
-                ?>
-                <input type="text" name="username" placeholder="Username" required=""><br><br>
+                <div style="font-size: 20px; margin: 10px;">Registrace</div>
+<?php
+if (isset($error)) {
+    echo '<span style="color: red; font-size: 17px;">' . $error . '</span><br><br>';
+}
+?>
+                <input type="text" name="username" placeholder="Uživatelské jméno" required=""><br><br>
                 <input type="text" name="email" placeholder="Email" required=""><br><br>
-                <input type="password" name="password" placeholder="Your Password" required=""><br><br>
-                <input type="password" name="cpassword" placeholder="Confirm your Password" required=""><br><br>
+                <input type="password" name="password" placeholder="Heslo" required=""><br><br>
+                <input type="password" name="cpassword" placeholder="Potvrzení hesla" required=""><br><br>
 
                 <input type="submit" class="btn btn-primary" name="signup" value="Signup">
                 <input type="reset" class="btn btn-danger" value="Reset"><br><br>

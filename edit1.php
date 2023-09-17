@@ -1,11 +1,9 @@
 <?php
 ob_start();
 session_start();
-include 'inc/head.php';
 include 'functions.php';
 include 'databaseConnection.php';
 $userData = check($connect);
-include 'inc/header.php';
 
 //echo $idf;
 if (isset($_POST['update0'])) {
@@ -24,17 +22,27 @@ if (isset($_POST['update0'])) {
     <!DOCTYPE html>
     <html>
         <head>
-
+            <?php
+            include 'inc/head.php';
+            ?>
         </head>
         <header>
-
+            <?php
+            include 'inc/header.php';
+            ?>
         </header>
         <body>
             <div class="container">
                 <form class="default-form" id="default-form" method="post" action="">
-                    <h2>Upravit položku "<?php echo $row['nazev'] ?>"</h2>
+                    <h3>Upravit položku "<?php echo $row['nazev'] ?>"</h3>
                     <div class="default-field">
                         <table class="table" id="default-table">
+                            <div class="form-group row">
+                                <label for="doklad" class="col-sm-4 col-form-label">Číslo dokladu</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="doklad" required="" value="<?php echo $row['doklad']; ?>">
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label for="nazev" class="col-sm-4 col-form-label">Název</label>
                                 <div class="col-sm-8">
@@ -74,12 +82,6 @@ if (isset($_POST['update0'])) {
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="doklad" class="col-sm-4 col-form-label">Číslo dokladu</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="doklad" required="" value="<?php echo $row['doklad']; ?>">
-                                </div>
-                            </div>
-                            <div class="form-group row">
                                 <label for="uhrada" class="col-sm-4 col-form-label">Druh úhrady</label>
                                 <div class="col-sm-8">
                                     <select name="uhrada" class="form-control" required="">
@@ -111,21 +113,21 @@ if (isset($_POST['update0'])) {
             <script>
                 window.onload = function () {
                     var dan = document.querySelector('select[name="dan"]');
-                    var doklad = document.querySelector('input[name="doklad"]');
+                    //var doklad = document.querySelector('input[name="doklad"]');
                     var uhrada = document.querySelector('select[name="uhrada"]');
                     var popis = document.querySelector('input[name="popis"]');
                     var errorMessage = document.querySelector('#error-message');
 
                     function disableFields() {
                         dan.disabled = true;
-                        doklad.disabled = true;
+                        //doklad.disabled = true;
                         uhrada.disabled = true;
                         errorMessage.style.display = 'block';
                     }
 
                     function enableFields() {
                         dan.disabled = false;
-                        doklad.disabled = false;
+                        //doklad.disabled = false;
                         uhrada.disabled = false;
                         errorMessage.style.display = 'none';
                     }
@@ -165,8 +167,8 @@ if (isset($_POST['update0'])) {
 
     if ($popis == "Drobný majetek") {
         // Save only nazev, castka, datum, and popis
-        $select = $connect->prepare("UPDATE `incomeexpense` SET `nazev`=?, `castka`=?, `datum`=?, `popis`=? WHERE id=?");
-        $select->bind_param('ssssi', $nazev, $castka, $datum, $popis, $id);
+        $select = $connect->prepare("UPDATE `incomeexpense` SET `doklad`=?, `nazev`=?, `castka`=?, `datum`=?, `popis`=? WHERE id=?");
+        $select->bind_param('sssssi', $doklad, $nazev, $castka, $datum, $popis, $id);
 
         $select->execute();
 

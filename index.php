@@ -1,14 +1,14 @@
 <?php
 session_start();
-include 'inc/head.php';
 include 'functions.php';
 include 'databaseConnection.php';
 $userData = check($connect);
-include 'inc/header.php';
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
+    <head><?php
+        include 'inc/head.php';
+        ?>
         <style>
             .graph-container {
                 width: 100%;
@@ -18,7 +18,9 @@ include 'inc/header.php';
         </style>
     </head>
     <header>
-
+        <?php
+        include 'inc/header.php';
+        ?>
     </header>
     <body>
         <div style="margin: 2%">

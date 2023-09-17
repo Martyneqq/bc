@@ -1,10 +1,9 @@
 <?php
 ob_start();
 session_start();
-include 'inc/head.php';
 include 'functions.php';
 include 'databaseConnection.php';
-include 'inc/header.php';
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = addslashes($_POST['username']);
     $password = $_POST['password'];
@@ -18,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($result && mysqli_num_rows($result) > 0) {
             if ($userData['password'] === md5($password)) {
                 $_SESSION['id'] = $userData['id'];
-                header("Location: domu.php");
+                header("Location: index.php");
                 die();
             }
         } else {
@@ -31,22 +30,26 @@ ob_end_flush();
 <!DOCTYPE html>
 <html>
     <head>
-
+    <?php
+    include 'inc/head.php';
+    ?>
     </head>
     <header>
-
+    <?php
+    include 'inc/header.php';
+    ?>
     </header>
     <body>
         <div class="container" style="width: 100%; text-align: center; margin: auto; padding: 10%;">
-            <div style="font-size: 20px; margin: 10px;">Login</div>
+            <div style="font-size: 20px; margin: 10px;">Přihlášení</div>
             <?php
             if (isset($error)) {
                 echo '<span style="color: red; font-size: 17px;">' . $error . '</span><br><br>';
             }
             ?>
             <form method="post">
-                <input type="text" name="username" placeholder="Your username" required=""><br><br>
-                <input type="password" name="password" placeholder="Password" required=""><br><br>
+                <input type="text" name="username" placeholder="Uživatelské jméno" required=""><br><br>
+                <input type="password" name="password" placeholder="Heslo" required=""><br><br>
                 <input class="btn btn-primary" type="submit" name="login" value="Login"><br><br>
                 <a href="signup.php">Vytvořit nový účet</a><br><br>
             </form>

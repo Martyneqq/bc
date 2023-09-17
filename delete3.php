@@ -8,9 +8,9 @@ if (isset($_POST['delete3'])) {
     $delete = "DELETE FROM assets WHERE id='$id'";
     $query = mysqli_query($connect, $delete);
 
-    if ($query) {
+    /*if ($query) {
         echo "Položka ", $id, " úspěšně smazána!";
-    }
+    }*/
     if (isset($_POST['delete1'])) {
         header("Location: evidence_prijmy_a_vydaje.php");
     } else {

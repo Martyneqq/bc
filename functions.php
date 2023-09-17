@@ -1,11 +1,32 @@
 <?php
 
+ob_start();
+
 function secure($value) {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
 function connectToExpensesTable($connect, $userData) {
-    if (isset($_POST['ulozit'])) {
+    /* if (isset($_POST['ulozit'])) {
+      $userID = $userData['id']; //$_SESSION['userid']
+      $nazev = $_POST['nazev'];
+      $doklad = $_POST['doklad'];
+      $datum = $_POST['datum'];
+      $prijemvydaj = $_POST['prijemvydaj'];
+      $castka = $_POST['castka'];
+      $dan = $_POST['dan'];
+      $uhrada = $_POST['uhrada'];
+      $popis = $_POST['popis'];
+
+      $save = "INSERT INTO incomeexpense(nazev,doklad,datum,prijemvydaj,castka,dan,uhrada,popis, userID)VALUES(?,?,?,?,?,?,?,?,?)";
+      //$query = mysqli_query($connect, $save);
+      $query = mysqli_prepare($connect, $save);
+      $bind = mysqli_stmt_bind_param($query, "ssssisssi", $nazev, $doklad, $datum, $prijemvydaj, $castka, $dan, $uhrada, $popis, $userID);
+      if (($execute = mysqli_stmt_execute($query)) != true) {
+      echo "Error";
+      }
+      echo "Položka " . $nazev . " přidána!";
+      } */ if (isset($_POST['ulozitadalsi']) || isset($_POST['ulozit'])) {
         $userID = $userData['id']; //$_SESSION['userid']
         $nazev = $_POST['nazev'];
         $doklad = $_POST['doklad'];
@@ -20,15 +41,19 @@ function connectToExpensesTable($connect, $userData) {
 //$query = mysqli_query($connect, $save);
         $query = mysqli_prepare($connect, $save);
         $bind = mysqli_stmt_bind_param($query, "ssssisssi", $nazev, $doklad, $datum, $prijemvydaj, $castka, $dan, $uhrada, $popis, $userID);
-        if (($execute = mysqli_stmt_execute($query)) != true) {
+        if ((mysqli_stmt_execute($query))) {
+            echo "Položka " . $nazev . " úspěšně přidána!";
+        } else {
             echo "Error";
         }
-        echo "Položka úspěšně přidána!";
+        if (isset($_POST['ulozit'])) {
+            header("Location: evidence_prijmy_a_vydaje.php");
+        }
     }
 }
 
 function connectToDemandDebtTable($connect, $userData) {
-    if (isset($_POST['ulozit'])) {
+    if (isset($_POST['ulozit']) || isset($_POST['ulozitadalsipohl'])) {
         $userID = $userData['id']; //$_SESSION['userid']
         $nazevp = $_POST['nazevp'];
         $cislodokladp = $_POST['cislodokladp'];
@@ -43,41 +68,54 @@ function connectToDemandDebtTable($connect, $userData) {
         $query = mysqli_prepare($connect, $save);
 //$query = mysqli_query($connect, $save);
         $bind = mysqli_stmt_bind_param($query, "sissssdss", $nazevp, $userID, $cislodokladp, $firmap, $datump, $pohledavkadluhp, $hodnotap, $danp, $popisp);
-        if (($execute = mysqli_stmt_execute($query)) != true) {
-            echo "Error";
+        if ((mysqli_stmt_execute($query))) {
+            echo "Položka" . $nazevp . " úspěšně přidána!";
+        } else {
+            echo 'Error';
         }
-        echo "Položka úspěšně přidána!";
+        if (isset($_POST['ulozit'])) {
+            header("Location: evidence_pohledavky_a_dluhy.php");
+        }
     }
 }
 
 function connectToAssetsTable($connect, $userData) {
-    if (isset($_POST['ulozit'])) {
+    if (isset($_POST['ulozit']) || isset($_POST['ulozitadalsi'])) {
         $userID = $userData['id']; //$_SESSION['userid']
         $nazev = $_POST['nazev'];
         $castka = $_POST['castka'];
         $datum = $_POST['datum'];
         $prijemvydaj = "Výdaj";
-        $popis = "Drobný majetek";
+        $doklad = $_POST['doklad'];
 
         if ($castka < 80000) {
             // Save data to "minorassets" table
-            $sql = "INSERT INTO incomeexpense (userID, nazev, castka, datum, prijemvydaj, popis) VALUES (?, ?, ?, ?, ?, ?)";
+            $popis = "Drobný majetek";
+            $sql = "INSERT INTO incomeexpense (userID, doklad, nazev, castka, datum, prijemvydaj, popis) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $connect->prepare($sql);
-            $stmt->bind_param("isisss", $userID, $nazev, $castka, $datum, $prijemvydaj, $popis);
-            $stmt->execute();
+            $stmt->bind_param("ississs", $userID, $doklad, $nazev, $castka, $datum, $prijemvydaj, $popis);
+            $redirectPage = "majetek_drobny.php";
         } else {
-            $cislopolozky = $_POST['cislopolozky'];
+            // Save data to "assets" table
             $dan = $_POST['dan'];
             $odpis = $_POST['odpis'];
             $zpusob = $_POST['zpusob'];
-            $datumvyrazeni= $_POST['datumvyrazeni'];
+            $popis = $_POST['popis'];
 
-            $sql = "INSERT INTO assets (userID, cislopolozky, nazev, castka, datum, datumvyrazeni, prijemvydaj, dan, odpis, zpusob, popis) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO assets (userID, doklad, nazev, castka, datum, prijemvydaj, dan, odpis, zpusob, popis) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $connect->prepare($sql);
-            $stmt->bind_param("ississssiss", $userID, $cislopolozky, $nazev, $castka, $datum, $datumvyrazeni, $prijemvydaj, $dan, $odpis, $zpusob, $popis);
-            $stmt->execute();
+            $stmt->bind_param("ississssss", $userID, $doklad, $nazev, $castka, $datum, $prijemvydaj, $dan, $odpis, $zpusob, $popis);
+            $redirectPage = "majetek_dlouhodoby.php";
         }
-        echo "Položka úspěšně přidána!";
+
+        if ($stmt->execute()) {
+            echo "Položka" . $nazev . "úspěšně přidána!";
+        } else {
+            echo 'Error';
+        }
+        if (isset($_POST['ulozit'])) {
+            header("Location: $redirectPage");
+        }
     }
 }
 
@@ -96,12 +134,16 @@ function check($connect) {
     die();
 }
 
-function getColor($prijemvydajf) {
-    if ($prijemvydajf == 'Příjem') {
+function getColor($prijemvydaj) {
+    if ($prijemvydaj == 'Příjem') {
         return '#32cd32';
-    } else if ($prijemvydajf == 'Výdaj') {
+    } else if ($prijemvydaj == 'Výdaj') {
         return '#FF0000';
     }
+}
+
+function switchColor() {
+    
 }
 
 function kontrola($connect, $assetID) { // zapisování odpisů, které ještě nejsou v databázi, ale měly by být ke konci loňského roku už zapsané v databázi
@@ -116,7 +158,6 @@ function kontrola($connect, $assetID) { // zapisování odpisů, které ještě 
     $odpisyDb = zjistiOdpisy($connect, $assetID);
     // teď simulace
     $thisYear = date('Y');
-    $i = 1; // row numberting
     $j = $line["odpis"]; // array numbering
     $initialPrice = $line["castka"];
     $timeToDepreciate = [3, 5, 10, 20, 30, 50];
@@ -124,10 +165,11 @@ function kontrola($connect, $assetID) { // zapisování odpisů, které ještě 
     $rokPorizeni = date("Y", strtotime($line["datum"]));
     $diff = abs($rokPorizeni - $thisYear);
     $posledniRokSimulace = $thisYear - 1;
-    $iRok = $rokPorizeni;
     $prijemvydaj = 'Výdaj';
+    //echo 'diff: ' . $diff . ' ';
+    //echo 'ttd: ' . $ttd . ' ';
     //$pocet = 0;
-    while ($i <= $diff || $i <= $ttd) {
+    for ($i = 1; $i <= $ttd && $i <= $diff; $i++) {
         $sum = 0;
         if ($line["zpusob"] == "Rovnoměrný") {
             $firstYearCoeficient = [20.0, 11.0, 5.5, 2.15, 1.4, 1.02];
@@ -136,22 +178,21 @@ function kontrola($connect, $assetID) { // zapisování odpisů, které ještě 
             $straightLineValue2 = ($initialPrice * $consequentYearsCoeficient[$j - 1]) / 100;
             $remainingValue = $initialPrice - $straightLineValue1;
             if ($i == 1) {
-                if ($iRok <= $posledniRokSimulace && !isset($odpisyDb[$iRok])) {
-                    ulozOdpis($connect, $assetID, "$iRok-12-31", $straightLineValue1, $line["nazev"], $line['dan'], $prijemvydaj);
+                if ($rokPorizeni <= $posledniRokSimulace && !isset($odpisyDb[$rokPorizeni])) {
+                    ulozOdpis($connect, $assetID, "$rokPorizeni-12-31", $straightLineValue1, $line["nazev"], $line['dan'], $prijemvydaj);
                     //$pocet++;
                 }
+
                 //$output .= number_format((float) $straightLineValue1, 2, ".", ","); // 2nd output
                 //$output .= '<td>' . number_format((float) $remainingValue, 2, ".", ",") . '</td>';
                 $sum += $straightLineValue1;
             } elseif ($i > 1) {
-                for ($k = 1; $k < $i; $k++) {
-                    $remainingValue -= $straightLineValue2;
-
-                    if ($iRok <= $posledniRokSimulace && !isset($odpisyDb[$iRok])) {
-                        ulozOdpis($connect, $assetID, "$iRok-12-31", $straightLineValue2, $line["nazev"], $line['dan'], $prijemvydaj);
-                        //$pocet++;
-                    }
+                $remainingValue -= $straightLineValue2;
+                if ($rokPorizeni <= $posledniRokSimulace && !isset($odpisyDb[$rokPorizeni])) {
+                    ulozOdpis($connect, $assetID, "$rokPorizeni-12-31", $straightLineValue2, $line["nazev"], $line['dan'], $prijemvydaj);
+                    //$pocet++;
                 }
+
                 //$output .= number_format((float) $straightLineValue2, 2, ".", ","); // 2nd output
                 //$output .= '<td>' . number_format((float) $remainingValue, 2, ".", ",") . '</td>';
                 $sum += $straightLineValue2;
@@ -159,12 +200,11 @@ function kontrola($connect, $assetID) { // zapisování odpisů, které ještě 
         } else if ($line["zpusob"] == "Zrychlený") {
             $firstYearCoeficient = [3, 5, 10, 20, 30, 50];
             $consequentYearsCoeficient = [4, 6, 11, 21, 31, 51];
-            $acceleratedValue1 = $initialPrice / $firstYearCoeficient[$j - 1];
-            $remainingValue = $initialPrice - $acceleratedValue1;
-
+            $acceleratedValue1 = $initialPrice / $firstYearCoeficient[$j - 1]; //100 000
+            $remainingValue = $initialPrice - $acceleratedValue1; //400 000
             if ($i == 1) {
-                if ($iRok <= $posledniRokSimulace && !isset($odpisyDb[$iRok])) {
-                    ulozOdpis($connect, $assetID, "$iRok-12-31", $acceleratedValue1, $line["nazev"], $line['dan'], $prijemvydaj);
+                if ($rokPorizeni <= $posledniRokSimulace && !isset($odpisyDb[$rokPorizeni])) {
+                    ulozOdpis($connect, $assetID, "$rokPorizeni-12-31", $acceleratedValue1, $line["nazev"], $line['dan'], $prijemvydaj);
                     //$pocet++;
                 }
                 //$output .= number_format((float) $acceleratedValue1, 2, ".", ","); // 2nd output
@@ -174,12 +214,13 @@ function kontrola($connect, $assetID) { // zapisování odpisů, které ještě 
                 for ($k = 1; $k < $i; $k++) {
                     $acceleratedValue2 = (2 * ($remainingValue)) / ($consequentYearsCoeficient[$j - 1] - $k);
                     $remainingValue -= $acceleratedValue2;
-
-                    if ($iRok <= $posledniRokSimulace && !isset($odpisyDb[$iRok])) {
-                        ulozOdpis($connect, $assetID, "$iRok-12-31", $acceleratedValue2, $line["nazev"], $line['dan'], $prijemvydaj);
-                        //$pocet++;
-                    }
                 }
+
+                if ($rokPorizeni <= $posledniRokSimulace && !isset($odpisyDb[$rokPorizeni])) {
+                    ulozOdpis($connect, $assetID, "$rokPorizeni-12-31", $acceleratedValue2, $line["nazev"], $line['dan'], $prijemvydaj);
+                    //$pocet++;
+                }
+
                 //$output .= number_format((float) $acceleratedValue2, 2, ".", ","); // 2nd output
                 //$output .= '<td>' . number_format((float) $remainingValue, 2, ".", ",") . '</td>';
                 $sum += $acceleratedValue2;
@@ -198,8 +239,10 @@ function kontrola($connect, $assetID) { // zapisování odpisů, které ještě 
           echo 'Error';
           }
           } */
-        $i++;
-        $iRok++;
+        if ($i == $ttd) {
+            $line['datumvyrayeni'] = $posledniRokSimulace;
+        }
+        $rokPorizeni++;
     }
     //return $pocet;
 }

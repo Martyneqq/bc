@@ -1,21 +1,28 @@
 <?php
 session_start();
-include 'inc/head.php';
 include 'functions.php';
 include 'databaseConnection.php';
 $userData = check($connect);
-include 'inc/header.php';
 ?>
 <!DOCTYPE html>
 <html> 
     <head>
-
+        <?php
+        include 'inc/head.php';
+        ?>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     </head>
     <header>
-
+        <?php
+        include 'inc/header.php';
+        ?>
     </header>
     <body>
+
         <div style="margin: 1%">
+            <h3>Příjmy a výdaje</h3>
             <form action="pridat_prijem_nebo_vydaj.php" method="post" style="display:inline-block;">
                 <button type="submit" class="btn btn-success">Přidat</button>
             </form>
@@ -65,9 +72,10 @@ include 'inc/header.php';
                                         <input type="hidden" name="ide" value="<?php echo $row['id']; ?>">
                                         <input class="btn btn-primary btn-sm" type="submit" name="update0" value="Upravit">
                                     </form>
-                                    <form action="delete1.php" method="post" style="display:inline-block;">
+                                    <!--  <button class="btn btn-danger btn-sm delete-button"  data-toggle="modal" data-target="#deleteModal">Smazat</button>-->
+                                    <form action="delete1.php" method="post" style="display:inline-block;" onsubmit="return confirm('Smazat položku <?php echo $row['nazev']; ?>?')">
                                         <input type="hidden" name="idd" value="<?php echo $row['id']; ?>">
-                                        <input class="btn btn-danger btn-sm" type="submit" name="delete" value="Smazat">
+                                        <input class="btn btn-danger btn-sm" data-id="<?php echo $row['id']; ?>" data-name="<?php echo $row['nazev'] ?>" type="submit" name="delete" data-dismiss="modal" value="Smazat">
                                     </form>
                                 </td>
                             <?php } else { ?>
@@ -75,11 +83,30 @@ include 'inc/header.php';
                             <?php } ?>
 
                         </tr>
+                        <!-- <div class="modal fade" id="deleteModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Opravdu chcete položku smazat?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" id="close-modal" data-dismiss="modal">Ne</button> -->
+
+                        <!-- </div>
+                   </div>
+               </div>
+           </div>-->
                         <?php
                     }
                     ?>
                 </tbody>
             </table>
         </div>
+
     </body>
 </html>

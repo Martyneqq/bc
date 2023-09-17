@@ -7,9 +7,9 @@ if (isset($_POST['delete2'])) {
         $delete = "DELETE FROM demanddebt WHERE idp='$idp'";
         $query = mysqli_query($connect, $delete);
         
-        if ($query) {
+        /*if ($query) {
             echo "Položka ", $idp, " úspěšně smazána!";
-        }
+        }*/
         header("Location: evidence_pohledavky_a_dluhy.php");
         die();
     }

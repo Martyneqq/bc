@@ -1,20 +1,3 @@
-body {
-
-}
-home {
-
-}
-#language_icon{
-    opacity: 0.5;
-    margin: 4px;
-    font-size: 1.2rem;
-    color: whitesmoke;
-}
-
-#language_icon:hover{
-    opacity: 1;
-    cursor: pointer;
-}
 #table1>thead>tr>th,
 #table2>thead>tr>th,
 #table3>tbody>tr,
@@ -32,6 +15,21 @@ home {
 
 .graph {
     position: absolute;
+    width: 75%;
+    height: 75%;
+}
+#myDiv{
+    resize: both;
+    overflow: auto;
+}
+
+table{
+    display:block;
     width: 100%;
-    height: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+thead,tbody{
+    display: table;
+    width: 100%;
 }

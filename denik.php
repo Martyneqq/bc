@@ -1,21 +1,24 @@
 <?php
 session_start();
-include 'inc/head.php';
 include 'functions.php';
 include 'databaseConnection.php';
 $userData = check($connect);
-include 'inc/header.php';
 ?>
 <!DOCTYPE html>
 <html> 
     <head>
-
+        <?php
+        include 'inc/head.php';
+        ?>
     </head>
     <header>
-
+        <?php
+        include 'inc/header.php';
+        ?>
     </header>
     <body>
         <div style="margin: 1%">
+            <h3>Deník</h3>
             <table id="table4" class="table table-striped table-hover table-sortable">
                 <thead>
                     <tr>
@@ -23,12 +26,10 @@ include 'inc/header.php';
                         if (isset($_POST['start'])) {
                             $start = date('Y-m-d', strtotime($_POST['start']));
                             $end = date('Y-m-d', strtotime($_POST['end']));
-                        }
-                        else{
+                        } else {
                             $start = date('Y-m-d');
                             $end = date('Y-m-d');
                         }
-                        
                         ?>
                 <form method="post">
                     <th><input class="form-control" type="date" name="start" required="" value='<?php echo $start; ?>'></th>

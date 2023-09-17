@@ -6,12 +6,15 @@
             <file>file:/C:/xampp/htdocs/main/logout.php</file>
             <file>file:/C:/xampp/htdocs/main/css/styles.css</file>
             <file>file:/C:/xampp/htdocs/main/edit2.php</file>
+            <file>file:/C:/xampp/htdocs/main/js/deleteConfirm.js</file>
             <file>file:/C:/xampp/htdocs/main/login.php</file>
             <file>file:/C:/xampp/htdocs/main/delete3.php</file>
             <file>file:/C:/xampp/htdocs/main/majetek_drobny.php</file>
             <file>file:/C:/xampp/htdocs/main/js/tableRow.js</file>
+            <file>file:/C:/xampp/htdocs/main/index.php</file>
             <file>file:/C:/xampp/htdocs/main/edit3.php</file>
             <file>file:/C:/xampp/htdocs/main/edit1.php</file>
+            <file>file:/C:/xampp/htdocs/main/denik.php</file>
             <file>file:/C:/xampp/htdocs/main/evidence_pohledavky_a_dluhy.php</file>
             <file>file:/C:/xampp/htdocs/main/pomocne.php</file>
             <file>file:/C:/xampp/htdocs/main/functions.php</file>
@@ -28,11 +31,10 @@
             <file>file:/C:/xampp/htdocs/main/pridat_dlouhodoby_majetek.php</file>
             <file>file:/C:/xampp/htdocs/main/delete1.php</file>
             <file>file:/C:/xampp/htdocs/main/inc/header.php</file>
-            <file>file:/C:/xampp/htdocs/main/domu.php</file>
+            <file>file:/C:/xampp/htdocs/main/delete4.php</file>
             <file>file:/C:/xampp/htdocs/main/inc/head.php</file>
             <file>file:/C:/xampp/htdocs/main/select_modal_info.php</file>
             <file>file:/C:/xampp/htdocs/main/signup.php</file>
-            <file>file:/C:/xampp/htdocs/main/prehled.php</file>
         </group>
     </open-files>
 </project-private>

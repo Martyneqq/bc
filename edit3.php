@@ -1,11 +1,9 @@
 <?php
 ob_start();
 session_start();
-include 'inc/head.php';
 include 'functions.php';
 include 'databaseConnection.php';
 $userData = check($connect);
-include 'inc/header.php';
 
 //echo $idf;
 if (isset($_POST['update4'])) {
@@ -19,21 +17,25 @@ if (isset($_POST['update4'])) {
     <!DOCTYPE html>
     <html>
         <head>
-
+            <?php
+            include 'inc/head.php';
+            ?>
         </head>
         <header>
-
+            <?php
+            include 'inc/header.php';
+            ?>
         </header>
         <body>
             <div class="container">
                 <form class="default-form" id="default-form" method="post" action="">
-                    <h2>Upravit položku "<?php echo $row['nazev'] ?>"</h2>
+                    <h3>Upravit položku "<?php echo $row['nazev'] ?>"</h3>
                     <div class="default-field">
                         <table class="table" id="default-table">
                             <div class="form-group row">
                                 <label for="cislopolozky" class="col-sm-4 col-form-label">Číslo položky</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="cislopolozky" required="" value="<?php echo $row['cislopolozky']; ?>">
+                                    <input class="form-control" type="text" name="doklad" required="" value="<?php echo $row['doklad']; ?>">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -55,9 +57,13 @@ if (isset($_POST['update4'])) {
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="datumvyrazeni" class="col-sm-4 col-form-label">Daň</label>
+                                <label for="dan" class="col-sm-4 col-form-label">Daň</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="date" name="datumvyrazeni" value="<?php echo $row['datumvyrazeni']; ?>">
+                                    <select name="dan" class="form-control" required="">
+                                        <option value="">--Vybrat--</option>
+                                        <option value="Ano" <?php echo ($row['dan'] == 'Ano') ? "selected" : ""; ?>>Ano</option>
+                                        <option value="Ne" <?php echo ($row['dan'] == 'Ne') ? "selected" : ""; ?>>Ne</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -104,23 +110,43 @@ if (isset($_POST['update4'])) {
             <!-- Add the Bootstrap JS file -->
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         </body>
+        <script>
+            window.onload = function () {
+                var castka = document.querySelector('input[name="castka"]');
+                var odpis = document.querySelector('select[name="odpis"]');
+                var zpusob = document.querySelector('select[name="zpusob"]');
+
+                function disableFields() {
+                    castka.disabled = true;
+                    odpis.disabled = true;
+                    zpusob.disabled = true;
+                }
+                disableFields();
+                document.getElementById("default-form").addEventListener("submit", function () {
+                    // Re-enable the fields before submitting the form in order to save the disabled data to the database as well
+                    castka.disabled = false;
+                    odpis.disabled = false;
+                    zpusob.disabled = false;
+                });
+            };
+        </script>
     </html>
     <?php
 } elseif (isset($_POST['update5'])) {
     $id = $_POST['id'];
     $userID = $userData['id']; //$_SESSION['userid']
-    $cisloPolozky = $_POST['cislopolozky'];
+    $doklad = $_POST['doklad'];
     $nazev = $_POST['nazev'];
     $castka = $_POST['castka'];
     $datumZarazeni = $_POST['datum'];
-    $datumVyrazeni = $_POST['datumvyrazeni'];
+    $dan = $_POST['dan'];
     $prijemvydaj = "Výdaj";
     $odpis = $_POST['odpis'];
     $zpusob = $_POST['zpusob'];
     $popis = $_POST['popis'];
 
-    $select = $connect->prepare("UPDATE `assets` SET `userID`=?, `cislopolozky` = ?, `nazev`=?,`castka`=?,`datum`=?,`datumvyrazeni`=?,`odpis`=?,`zpusob`=?,`popis`=? WHERE id=?");
-    $select->bind_param('issississi', $userID, $cisloPolozky, $nazev, $castka, $datumZarazeni, $datumVyrazeni, $odpis, $zpusob, $popis, $id);
+    $select = $connect->prepare("UPDATE `assets` SET `userID`=?, `doklad` = ?, `nazev`=?,`castka`=?,`datum`=?,`dan`=?,`odpis`=?,`zpusob`=?,`popis`=? WHERE id=?");
+    $select->bind_param('issississi', $userID, $doklad, $nazev, $castka, $datumZarazeni, $dan, $odpis, $zpusob, $popis, $id);
     $select->execute();
 
     if ($select === false) {

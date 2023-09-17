@@ -8,9 +8,9 @@ if (isset($_POST['deleteD'])) {
     $delete = "DELETE FROM minorassets WHERE id='$id'";
     $query = mysqli_query($connect, $delete);
 
-    if ($query) {
+    /*if ($query) {
         echo "Položka ", $id, " úspěšně smazána!";
-    }
+    }*/
 
     header("Location: majetek_drobny.php");
     

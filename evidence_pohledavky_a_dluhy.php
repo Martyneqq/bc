@@ -1,21 +1,24 @@
 <?php
 session_start();
-include 'inc/head.php';
 include 'functions.php';
 include 'databaseConnection.php';
 $userData = check($connect);
-include 'inc/header.php';
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-
+        <head>
+    <?php
+    include 'inc/head.php';
+    ?>
     </head>
     <header>
-
+    <?php
+    include 'inc/header.php';
+    ?>
     </header>
     <body>
         <div style="margin: 1%">
+            <h3>Pohledávky a dluhy</h3>
             <form action="pridat_pohledavka_nebo_dluh.php" method="post" style="display:inline-block;">
                 <button type="submit" class="btn btn-success">Přidat</button>
             </form>
@@ -56,7 +59,7 @@ include 'inc/header.php';
                                     <input type="hidden" name="ide2" value="<?php echo $row['idp']; ?>">
                                     <input class="btn btn-primary btn-sm" type="submit" name="update2" value="Upravit">
                                 </form>
-                                <form action="delete2.php" method="post" style="display:inline-block;">
+                                <form action="delete2.php" method="post" style="display:inline-block;" onsubmit="return confirm('Smazat položku <?php echo $row['nazevp']; ?>?')">
                                     <input type="hidden" name="idd2" value="<?php echo $row['idp']; ?>">
                                     <input class="btn btn-danger btn-sm" type="submit" name="delete2" value="Smazat">
                                 </form>

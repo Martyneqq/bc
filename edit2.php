@@ -1,11 +1,9 @@
 <?php
 ob_start();
 session_start();
-include 'inc/head.php';
 include 'functions.php';
 include 'databaseConnection.php';
 $userData = check($connect);
-include 'inc/header.php';
 
 if (isset($_POST['update2'])) {
     $ide2 = $_POST['ide2'];
@@ -17,16 +15,20 @@ if (isset($_POST['update2'])) {
     ?>
     <!DOCTYPE html>
     <html>
-        <head>
-
-        </head>
-        <header>
-
-        </header>
+            <head>
+    <?php
+    include 'inc/head.php';
+    ?>
+    </head>
+    <header>
+    <?php
+    include 'inc/header.php';
+    ?>
+    </header>
         <body>
             <div class="container">
                 <form class="default-form" id="default-form" method="post" action="">
-                    <h2>Přidat pohledávku nebo závazek</h2>
+                    <h3>Přidat pohledávku nebo závazek</h3>
                     <div class="default-field">
                         <table class="table" id="default-table">
                             <div class="form-group row">
