@@ -1,0 +1,486 @@
+%% LyX 2.3.6.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,oneside,czech,american]{book}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=4cm,bmargin=3cm,lmargin=3cm,rmargin=2cm,headheight=0.8cm,headsep=1cm,footskip=0.5cm}
+\pagestyle{headings}
+\setcounter{secnumdepth}{3}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{eqnarray,amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage{changepage}
+\usepackage{array,booktabs}
+\usepackage{graphics}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+
+\newenvironment{lyxlist}[1]
+	{\begin{list}{}
+		{\settowidth{\labelwidth}{#1}
+		 \setlength{\leftmargin}{\labelwidth}
+		 \addtolength{\leftmargin}{\labelsep}
+		 \renewcommand{\makelabel}[1]{##1\hfil}}}
+	{\end{list}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+%% Font setup: please leave the LyX font settings all set to 'default'
+%% if you want to use any of these packages:
+
+%% Use Times New Roman font for text and Belleek font for math
+%% Please make sure that the 'esint' package is turned off in the
+%% 'Math options' page.
+\usepackage[varg]{txfonts}
+
+%% Use Utopia text with Fourier-GUTenberg math
+%\usepackage{fourier}
+
+%% Bitstream Charter text with Math Design math
+%\usepackage[charter]{mathdesign}
+
+%%---------------------------------------------------------------------
+
+%% Make the multiline figure/table captions indent so that the second
+%% line "hangs" right below the first one.
+%\usepackage[format=hang]{caption}
+
+%% Indent even the first paragraph in each section
+\usepackage{indentfirst}
+
+%%---------------------------------------------------------------------
+
+%% Disable page numbers in the TOC. LOF, LOT (TOC automatically
+%% adds \thispagestyle{chapter} if not overriden
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+%\addtocontents{lof}{\protect\thispagestyle{empty}}
+%\addtocontents{lot}{\protect\thispagestyle{empty}}
+
+%% Shifts the top line of the TOC (not the title) 1cm upwards 
+%% so that the whole TOC fits on 1 page. Additional page size
+%% adjustment is performed at the point where the TOC
+%% is inserted.
+%\addtocontents{toc}{\protect\vspace{-1cm}}
+
+%%---------------------------------------------------------------------
+
+% completely avoid orphans (first lines of a new paragraph on the bottom of a page)
+\clubpenalty=9500
+
+% completely avoid widows (last lines of paragraph on a new page)
+\widowpenalty=9500
+
+% disable hyphenation of acronyms
+\hyphenation{CDFA HARDI HiPPIES IKEM InterTrack MEGIDDO MIMD MPFA DICOM ASCLEPIOS MedInria}
+
+%%---------------------------------------------------------------------
+
+%% Print out all vectors in bold type instead of printing an arrow above them
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+% Replace standard \cite by the parenthetical variant \citep
+%\renewcommand{\cite}{\citep}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\def\documentdate{August 2, 2023}
+
+%%\def\documentdate{\today}
+
+\pagestyle{empty}
+{\centering
+
+\noindent %
+\begin{minipage}[c]{3cm}%
+\noindent \begin{center}
+\includegraphics[width=3cm,height=3cm,keepaspectratio]{Images/TITLE/cvut}
+\par\end{center}%
+\end{minipage}%
+\begin{minipage}[c]{0.6\linewidth}%
+\begin{center}
+\textsc{\large{}Czech Technical University in Prague}{\large{}}\\
+{\large{}Faculty of Nuclear Sciences and Physical Engineering}
+\par\end{center}%
+\end{minipage}%
+\begin{minipage}[c]{3cm}%
+\noindent \begin{center}
+\includegraphics[width=3cm,height=3cm,keepaspectratio]{Images/TITLE/fjfi}
+\par\end{center}%
+\end{minipage}
+
+\vspace{3cm}
+
+\textbf{\huge{}Web application for registering finances of small bussines}{\huge\par}
+
+\vspace{1cm}
+
+\selectlanguage{czech}%
+\textbf{\huge{}Webová aplikace pro daňovou evidenci drobného podnikatele}{\huge\par}
+
+\selectlanguage{american}%
+\vspace{2cm}
+
+{\large{}Bachelor's Degree Project}{\large\par}
+
+}
+
+\vfill{}
+
+\begin{lyxlist}{MMMMMMMMM}
+\begin{singlespace}
+\item [{Author:}] \textbf{Martin Čepela}
+\item [{Supervisor:}] \textbf{Doc. Ing. Miroslav Virius, CSc.}
+\end{singlespace}
+\item [{Language~advisor:}] \textbf{Mgr. Eliška Rafajová}
+\begin{singlespace}
+\item [{Academic~year:}] 2022/2023
+\end{singlespace}
+\end{lyxlist}
+\newpage{}
+
+~
+
+\vfill{}
+
+\begin{center}
+- Zadání práce -
+\par\end{center}
+
+\vfill{}
+
+~\newpage{}
+
+~
+
+\vfill{}
+
+\begin{center}
+- Zadání práce (zadní strana) -
+\par\end{center}
+
+\vfill{}
+
+~\newpage{}
+
+\noindent \emph{\Large{}Acknowledgment:}{\Large\par}
+
+\noindent I would like to thank ............................................
+for (his/her expert guidance) and express my gratitude to ..........................................
+for (his/her language assistance).
+
+\vfill
+
+\noindent \emph{\Large{}Author's declaration:}{\Large\par}
+
+\noindent I declare that this Bachelor's Degree Project is entirely
+my own work and I have listed all the used sources in the bibliography.
+
+\bigskip{}
+
+\noindent Prague, \documentdate\hfill{}Martin Čepela
+
+\vspace{2cm}
+
+\newpage{}
+
+\selectlanguage{czech}%
+\begin{onehalfspace}
+\noindent \emph{Název práce:}
+
+\noindent \textbf{Název práce}
+\end{onehalfspace}
+
+\bigskip{}
+
+\noindent \emph{Autor:} Martin Čepela
+
+\bigskip{}
+
+\noindent \emph{Obor:} Aplikovaná informatika\bigskip{}
+
+\bigskip{}
+
+\noindent \emph{Druh práce:} Bakalářská práce
+
+\bigskip{}
+
+\noindent \emph{Vedoucí práce:} Doc. Ing. Miroslav Virius, CSc., České vysoké učení technické v Praze, fakulta jaderná a fyzikálně inženýrská, katedra softwarového inženýrství
+
+\bigskip{}
+
+\bigskip{}
+
+\noindent \emph{Abstrakt:} Cílem této bakalářské práce bylo vytvořit přehlednou webovou stránku pro vedení daňové evidence drobného podnikatele. Struktura webové stránky byla zpracována na základě odpovídajících zákonů pro daňovou evidenci a volně přístupných účetnických softwarových aplikací. %TODO
+
+\bigskip{}
+
+\noindent \emph{Klíčová slova:} klíčová slova (nebo výrazy) seřazená
+podle abecedy a oddělená čárkou
+
+\selectlanguage{american}%
+\vfill{}
+~
+
+\begin{onehalfspace}
+\noindent \emph{Title:}
+
+\noindent \textbf{Title of the Work}
+\end{onehalfspace}
+
+\bigskip{}
+
+\noindent \emph{Author:} Martin Čepela
+
+\bigskip{}
+
+\noindent \emph{Abstract:} Max. 10 lines of English abstract text.
+Max. 10 lines of English abstract text. Max. 10 lines of English abstract
+text. Max. 10 lines of English abstract text. Max. 10 lines of English
+abstract text. Max. 10 lines of English abstract text. Max. 10 lines
+of English abstract text. Max. 10 lines of English abstract text.
+Max. 10 lines of English abstract text. Max. 10 lines of English abstract
+text. Max. 10 lines of English abstract text. Max. 10 lines of English
+abstract text. Max. 10 lines of English abstract text. Max. 10 lines
+of English abstract text. Max. 10 lines of English abstract text.
+Max. 10 lines of English abstract text. Max. 10 lines of English abstract
+text. Max. 10 lines of English abstract text. Max. 10 lines of English
+abstract text. Max. 10 lines of English abstract text. Max. 10 lines
+of English abstract text. Max. 10 lines of English abstract text.
+Max. 10 lines of English abstract text. Max. 10 lines of English abstract
+text. Max. 10 lines of English abstract text.
+
+\bigskip{}
+
+\noindent \emph{Key words:} keywords in alphabetical order separated
+by commas
+
+\newpage{}
+
+\pagestyle{plain}
+
+\tableofcontents{}
+
+\newpage{}
+
+\chapter*{Introduction}
+
+\addcontentsline{toc}{chapter}{Introduction}
+
+Paragraphs of the Introduction\ldots{}
+
+\chapter{Tax record laws}
+
+
+\section{Taxes}
+As an entrepreneur, in the Czech Republic, there are three ways of registering taxes: tax records, accounting and flat rate tax.
+\subsection{Tax records}
+In the Czech Republic, tax records are composed of revenues and expenses, receivables and payables, fixed and minor assets. By recording these six elementary , the tax base can be determined for the entrepreneur. The return of the entrepreneur can not exceed 25 million CZK in the previous tax period. 
+
+\subsection{Accounting} Obligatory way of keeping record of taxes in companies with return being greater than 25 million CZK per year. Additionally, the difference between tax records and bookkeeping is that its income and expense is further divided into yield and cost, where tax base is determined by their subtraction as opposed to the tax records where the tax base is calculated by rather subtracting their tax revenues and tax expenditures.
+\subsection{Flat rate tax} A method for recording taxes created in 2021 and favourable choice for entrepreneurs with yearly income lower 2 million CZK. The individual is also required to be self-employed, is not a VAT payer, is not a companion or debtor.
+Flat rate tax is further divided into three zones: 
+\begin{enumerate}
+    \item Individual who's income during previous tax period did not exceed limit of 1 million CZK as well as 1.5 million CZK or 2 million which should consists of at least 75\% of income for which percentage of expenses given by income tax act law can be further applied.
+    \item Individual who's income during previous tax period did not exceed limit of 1.5 million CZK as well as 2 million CZK which should consists of at least 75\% of income for which percentage of expenses given by income tax act law can be further applied the same way as in the first zone.
+    \item Individual who's income did not exceed 2 million in the previous tax period.
+\end{enumerate}
+\section{Revenues and expenses}
+
+\section{Demand and debt}
+Besides revenues and expenses, business has to keep records of their demands and debts as well. Demand could be understood as an issued invoice for a provided service while debt is the exact opposite - invoice issued by a different business to be paid.
+\section{Property of a company}
+Fixed assets are any tangible or non-tangible subjects which have been purchased by the business and are depreciated over a time period with its purchase price being greater than 80 000 CZK. The purpose of keeping records of assets is to match revenues of the business with its expenses over assets lifespan, i.e. the asset is generating a value for the business and at the same time it is being depreciated. \\
+However, sometimes the assets fail or break and therefore they can not produce a value in their lifetime anymore. In this case, they have to be eliminated and the date of elimination is registered. The sum of depreciated values until this point is called accumulated depreciation.
+\\Fixed assets are divided into 6 fundamental groups by their value:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ Depreciation group & Example & Number of years \\ 
+ \hline
+ 1 & Computers, tools & 3 \\ 
+ 2 & Cars, busses, most tools & 5 \\ 
+ 3 & Steam boiler, trams & 10 \\ 
+ 4 & Buildings, towers, pipelines & 20 \\ 
+ 5 & Industrial buildings, flats, agriculture & 30 \\ 
+ 6 & Administrative buildings, department stores, hotels & 50 \\ 
+ \hline
+\end{tabular}
+\end{center}
+\caption{Depreciation groups}
+\end{table}
+\bigskip{}
+Minor assets are all the other properties where purchase price is lower than 80 000 CZK while their lifespan is longer than one year. Keeping record of minor assets is not obligatory, therefore a business may decide 
+\\
+Tangible assets\\
+Intangible assets
+
+\section{Depreciation methods}
+The price of the property is gradually subtracted from the initial price. In the Czech republic, there are two fundamental depreciation methods: Straight Line depreciation and accelerated depreciation method. The business owner can choose between the two but normally the Straight Line Method is used for shorter lifespan assets such as computers and Accelerated Method for longer lasting assets such as buildings.\\
+The two methods are defined as:\\
+\textbf{Straight Line Method}\\
+1. year:
+ \begin{equation}
+     A=\frac{(I \cdot F[j])}{100}\,,
+ \end{equation}
+ k-th year:
+\begin{equation}
+     B=\frac{(I \cdot C[j])}{100}\,,
+ \end{equation} 
+ where:
+\begin{conditions}
+      I & initial price\\
+      j & depreciation group\\
+      F & percentage given by j (j=1)\\
+      C & percentage given by j ($j=k;k>1$)
+\end{conditions}
+
+\begin{table}[h]
+\begin{center}
+
+\begin{tabular}{ |c|c|c|c|c| }
+ \hline
+Group & Example & Years & {F}{[\%]} & {C}{[\%]}\\
+\hline
+ 1 & Computers, tools & 3 & 20 & 40 \\ 
+ 2 & Cars, busses, most tools & 5 & 11 & 22.25 \\ 
+ 3 & Steam boiler, trams & 10 & 5.5 & 10.5 \\ 
+ 4 & Buildings, towers, pipelines & 20 & 2.15 & 5.15 \\ 
+ 5 & Industrial buildings, flats, agriculture & 30 & 1.4 & 3.4 \\ 
+ 6 & Administrative buildings, department stores, hotels & 50 & 1.02 & 2.02 \\ 
+ \hline
+\end{tabular}
+\end{center}
+ \caption{Depreciation table with values for Straight Line Method}
+ \end{table}
+\bigskip{}
+
+\textbf{Accelerated Method}\\
+1. year:
+\begin{equation}
+     X=\frac{I}{f[j]},
+\end{equation}
+\begin{equation}
+    R = I-X-\sum_{n=2}^{k} Y,
+\end{equation}
+k-th year:
+\begin{equation}
+    Y=\frac{2 \cdot R}{c[j]},
+\end{equation}
+         where:
+\begin{conditions}
+      R & remaining value\\
+      I & initial price\\
+      f & first year coefficient\\
+      c & consequent year coefficient\\
+      j & depreciation group\\
+      X & first year\\
+      Y & consequent years
+\end{conditions}
+
+\begin{table}[ht!]%špatná pozice tabulky
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c| }
+ \hline
+ Group & Example & Years & f & c\\
+ \hline
+ 1 & Computers, tools & 3 & 3 & 4 \\ 
+ 2 & Cars, busses, most tools & 5 & 5 & 6 \\ 
+ 3 & Steam boiler, trams & 10 & 10 & 11 \\ 
+ 4 & Buildings, towers, pipelines & 20 & 20 & 21 \\ 
+ 5 & Industrial buildings, flats, agriculture & 30 & 30 & 31 \\ 
+ 6 & Administrative buildings, department stores, hotels & 50 & 50 & 51 \\ 
+ \hline
+\end{tabular}
+\end{center}
+ \caption{Depreciation table with values for Accelerated Method}
+ \end{table}
+
+\section{Accumulated depreciation}
+By the term accumulated depreciation is meant a time period during which physical object has been loosing its value (depreciated) and at the same time has been included in accounting records. However, purchased items by the company might be damaged or become useless by being destroyed. In order to correctly determine the tax base after the tax period, the date of withdrawal has to be recorded.
+\section{Money journal}
+Money journal serves for calculating tax base of given time period as well as keeping track of all the transactions. Particularly important items that should be displayed in money journal are: date, name, document, incomes and expenses, where incomes and expenses are further divided into tax and non-tax. This division is important in order to determine the tax base (= sum of the incomes minus expenses in the given time period).
+\chapter{Software}
+\section{HTML}
+Hypertext Markup Language is the core markup language of this web application is responsible for the display of forms such as sign up or login, header menu and partially styling of the page by particular elements of HTML setting as classes. Those classes are later used to be styled in CSS. However, this project is using pure CSS for only changing cursor on hovering particular table in order to indicate to user clickable table rows. Most of the website is styled with a tool set called Bootstrap. 
+\section{Bootstrap}
+Bootstrap is a tool set using Cascade Styles (CSS) such as forms, buttons, etc.. Bootstrap itself is not available in HTML - include link has to be added in the head element of HTML document. After adding bootstrap link to the site with the bootstrap classes, where each of them has preset CSS properties, it could be used by setting HTML class to the class in the bootstrap included link.
+\section{CSS}
+Cascades Styles are 
+\section{PHP}
+\section{JavaScript}
+\section{AJAX}
+\section{SQL}
+\chapter{Database}
+\section{Database software}
+In order to store the information about users and data created by them, database has to be created. For the purpose of early states of the web site, XAMPP open source Apache distribution was used to manage the database, which offers MariaDB, Perl and PHP allowing the user to create their local server even without internet use. The distribution is primarily intended for Windows and Linux-based systems, MacOS alternative is Cyberduck.\\
+PhpMyAdmin is an administration web application used to provide MySQL database for the web. The site itself is created in PHP and provided multiple functions to edit database tables such as creating, deleting or editing tables, table rows or managing primary and foreign keys. 
+\section{Database scheme}
+As can be seen in the picture below, this is a database scheme generated by phpMyAdmin designer 
+    \begin{figure}[h!]
+		\centering
+		\includegraphics[scale=0.7]{BP_Cepela_Martin/Images/databaseScheme.png}
+		\caption{Database scheme of the Web application}
+	\end{figure}
+\chapter{Web application}
+\section{Login and sign-up}
+\section{Home page}
+\section{Add and overview revenue, expense and fixed assets}
+\section{Add and overview demand and debt}
+\section{Add and overview fixed and minor assets}
+\section{Overview}
+\chapter{Instructions}
+\section{Sign-up form}
+\section{Login form}
+\section{Logout}
+\section{Home page}
+\section{Add revenue or expense}
+\section{Add demand or debt}
+\section{Add fixed or minor assets}
+\section{Edit income or expense}
+\section{Edit demand or debt}
+\section{Edit fixed or minor assets}
+\section{Overview of revenue, expense and fixed assets}
+\section{On hover fixed assets}
+\section{Sorting tables}
+\section{Language change}
+\chapter{List of sources used}
+\chapter{Attachments}
+\pagestyle{headings}
+
+\chapter*{Conclusion}
+
+\pagestyle{plain}
+
+\addcontentsline{toc}{chapter}{Conclusion}
+
+Text of the conclusion\ldots{}
+\begin{thebibliography}{1}
+\bibitem{Allen-Cahn}S. Allen, J. W. Cahn: \emph{A microscopic theory
+for antiphase boundary motion and its application to antiphase domain
+coarsening}. Acta Metall., 27:1084-1095, 1979.
+
+\bibitem{CINECA}G. Ballabio et al.: \emph{High Performance Systems
+User Guide}. High Performance Systems Department, CINECA, Bologna,
+2005. \url{www.cineca.it}
+
+\bibitem{rumpf3}J. Becker, T. Preusser, M. Rumpf: \emph{PDE methods
+in flow simulation post processing}. Computing and Visualization in
+Science, 3(3):159-167, 2000.
+\end{thebibliography}
+
+\end{document}
+%zdroje: https://portal.pohoda.cz/pro-podnikatele/uz-podnikam/jak-vest-danovou-evidenci/?feed=podnikatel
