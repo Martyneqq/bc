@@ -35,6 +35,8 @@ The `/bp` directory also includes a few important unmentioned files:
 
 # Technologies
 
+The used technologies are:
+
 - HTML
 - CSS (including Bootstrap)
 - JavaScript
