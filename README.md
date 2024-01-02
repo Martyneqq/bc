@@ -51,6 +51,6 @@ The used technologies are:
 The application is hosted by the wedos.cz provider and can be accessed at [danovaevidencecepela.cz](https://danovaevidencecepela.cz). For a preview of the application, you can use the following credentials: 
 
 - **Username:** Firma s.r.o.
-- **Password:** 123456.
+- **Password:** 123456
 
 Feel free to explore the features and functionalities with the provided login details.
