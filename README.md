@@ -27,7 +27,7 @@ The `/class` directory contains PHP classes that encapsulate different functiona
   - `RecordsMinorAssets.php`:  is a class that includes logic for generating `majetek_drobny.php` page.
   - `TaxRecordsPage.php`:  is a class that includes logic for generating `index.php` page.
  
-## `/bp`
+## /bp
 The `/bp` directory also includes a few important unmentioned files:
 
 - `databaseConnection.php`: is the key script which maintains the communication with the database server. The data is saved in the `$connect` variable. This variable is then used for any database access.
