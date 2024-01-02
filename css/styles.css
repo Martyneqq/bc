@@ -101,13 +101,6 @@ tfoot td {
     display: flex;
 }
 
-.navbar .dropdown-menu {
-    background-color: azure;
-}
-
-.navbar .dropdown.show a {
-    background-color: azure;
-}
 
 #incomeexpense>thead>tr>th,
 #demanddebt>thead>tr>th,

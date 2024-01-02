@@ -623,9 +623,7 @@ class RecordsIncomeExpense extends Records
             <?php
             $this->Render();
             ?>
-            <script>
-
-            </script>
+            <script src="js/restrictAddAssetMinor.js"></script>
         </body>
 
         </html>

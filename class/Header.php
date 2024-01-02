@@ -47,6 +47,8 @@ class Header
     {
         ?>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand rounded text-light mr-auto bi bi-house nav-link bg-dark house-button" href="index.php"></a>
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -54,11 +56,6 @@ class Header
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="navbar-brand rounded text-light mr-auto bi bi-house nav-link bg-dark house-button"
-                            href="index.php">
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="btn text-light dropdown-toggle bg-dark shadow-none" type="button" id="evidenceDropdown"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -90,12 +87,14 @@ class Header
                             <li><a class="dropdown-item" href="denikB.php">Kniha bankovní</a></li>
                         </ul>
                     </li>
+
                 </ul>
                 <?php
                 if (stripos($_SERVER['REQUEST_URI'], 'login.php') || stripos($_SERVER['REQUEST_URI'], 'signup.php')) {
 
                 } else {
                     ?>
+                    <!-- User dropdown -->
                     <ul class="navbar-nav mr-auto d-flex justify-content-center">
                         <li class="nav-item">
                             <a class="text-light mr-auto">
@@ -188,7 +187,8 @@ class Header
                         "Deník",
                         "Vyřazení majetku",
                         "Odepisování majetku",
-                        "Řazení tabulek"
+                        "Řazení tabulek",
+                        "Typy dokumentů"
                     ];
                     // content
                     $content = [
@@ -418,7 +418,13 @@ class Header
                         <li> <i>y</i> udává procento odečtené ze zbylé ceny ve zbývajících letech ve  odpisu zrychleného</li>
                         </ul>
                         ",
-                        "Sloupce tabulek můžou být seřazeny po kliknutí na hlavičku příslušné tabulky. Po opětovném kliknutí se tabulka seřadí v opačném pořadí."
+                        "Sloupce tabulek můžou být seřazeny po kliknutí na hlavičku příslušné tabulky. Po opětovném kliknutí se tabulka seřadí v opačném pořadí.",
+                        "<ul>
+                            <li><b>HP</b> - Hotovostní příjem</li>
+                            <li><b>HV</b> - Hotovostní výdaj</li>
+                            <li><b>BP</b> - Bankovní příjem</li>
+                            <li><b>BV</b> - Bankovní výdaj</li>
+                        </ul>"
                     ];
                     // header and content structure
                     for ($i = 0; $i < count($items); $i++) {
