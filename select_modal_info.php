@@ -1,35 +1,30 @@
 <?php
 
 session_start();
-//not post->header(majetek_dlouhodoby.php)
+
 include_once 'databaseConnection.php';
-include_once 'functions.php';
 
-$assetCastka = $_POST['value'];
 $assetID = $_POST['id_info'];
-//sem dát funkci kontrola() - jsou v databázi všechny potřebné odpisy? else INSERT < tento rok, ale ne co je uloženo
-$p = kontrola($connect, $assetID);
-$odpisyDb = zjistiOdpisy($connect, $assetID);
 
-if (count($odpisyDb) < 1) {
+$select = $connect->prepare("SELECT * FROM asset_depreciation WHERE assetID=?");
+$select->bind_param('i', $assetID);
+$select->execute();
+$line = $select->get_result();
+
+if ($line->num_rows < 1) {
     echo "Zatím neproběhly žádné odpisy.";
 } else {
-    $i = 1; // row numbering
-    $zbyva = $assetCastka;
     $output = '<table class="table table-striped table-hover" id="depreciationTable">';
     $output .= '<tr>
                         <th>Pořadí</th>
                         <th>Částka</th>
                         <th>Zbývající hodnota</th>
                         <th>Rok odpisu</th>
-                    </tr>';
-    foreach ($odpisyDb as $key => $value) {
-        $zbyva -= $value;
-        $output .= '<tr>' . '<td>' . $i . '</td>' . '<td>' . $value . '</td>' . '<td>' . $zbyva . '</td>' . '<td>' . $key . '</td>' . '</tr>';
-        $i++;
+                        </tr>';
+    while ($asset = $line->fetch_assoc()) {
+        $output .= '<tr>' . '<td>' . $asset['row'] . '</td>' . '<td>' . number_format((float) $asset['castka'], 2, ".", ",") . '</td>' . '<td>' . number_format((float) $asset['zbyva'], 2, ".", ",") . '</td>' . '<td>' . date('Y', strtotime($asset['datum'])) . '</td>' . '</tr>';
     }
     $output .= "</table>";
 
-//$output .= implode(' ', $_POST);
     echo $output;
 }

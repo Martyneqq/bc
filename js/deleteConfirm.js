@@ -1,21 +1,20 @@
 $(document).ready(function () {
+    // Attach the click event handler outside of the success callback
     $('#close-modal').click(function () {
         $('#deleteModal').modal('hide');
     });
 
     $('.delete-button').click(function () {
         var id_info = $(this).data('id');
-        var label_info = $(this).data('name');
 
         $.ajax({
             url: "delete1.php",
             method: 'post',
-            data: {idd: id_info, label_info: 'label_info'},
+            data: {idd: id_info, delete: 'delete'},
             success: function (result) {
                 // Display the result in the modal footer
                 $('.modal-footer').html(result);
-                
             }
         });
     });
-}); 
+});

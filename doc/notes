@@ -1,0 +1,25 @@
+add table resize - no time
+select na index stránce jenom data z databáze - ok
+prehoddit denikm pole - ok
+zrušit dan u dlouhodobeho majetku, ta se neuklada - ok
+zpusob vyrazeni - likvidace, darovani, prodej - ok
+pohladavka/dluh->doklad - ok
+prvni datum - ok
+pridat pokladna soucet - ok
+prijmy a vydaje jenom za tehnhle rok - ok
+doklady prijmy a vydaje - prijmovy pokladni doklad, vydajovy --, vypis z bezneho uctu - select okkno - druh uhrady prehodit nad doklad
+majetek - vyřadit - zbyvajici hodnota opravek
+majetek - hmnotný/nehmotný majetek
+majetek nehmotný - bez limitu cena (80k)
+drobny majetek - popis "Drobný majetek"-> castka<80000 - ok, ale udělal jsem to jinak, protože to takhle úplně nejde
+dlouhodobý majetek - způsob pořízení
+danova evidence - pouze vedena fyzickou osobou , ale muze si vybrat - ok
+ucetnictvi - vzdy pravnicka osoba - ok
+příjmy a výdaje - danove prijmy, nedanove prijmy, danove vydaje, nedanove vydaje - ok
+mzdova evidence - ne
+nezahrnujeme do zakl. dane - vklady podnikatele, pripsany uver, prijem pujcky
+evidence prijmy a vydaje - pouze tenhle rok - ok
+chyba v daních v deníku - ok
+pridat moznost pro zmenu hesla, username
+pridat moznost na homepage historii pridanych polozek - asi ne
+zmenit strukturu homepage - ok
