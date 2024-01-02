@@ -40,7 +40,6 @@ The `/js` repository consists of JavaScript functionalities of the website.
   - `restrictEditAsset.js`: disables the option for editing assets in the `edit1.php`. `edit2.php` and `edit3.php`.
   - `showDepreciation.js`: sends data about the asset into the depreciation pop-up window which appears when clicking on the `Odpisy`.
   - `sort.js`: a sorting algorithm (bubble sort) covering the possibility of sorting document numbers, numerical values with a comma, `dd-mm--YY` dates, and other strings. The original is available at: [W3Schools](https://www.w3schools.com/howto/howto_js_sort_list.asp).
-  - `updateRow.js`: 
  
 ## /bp
 The `/bp` directory includes a few important unmentioned files:
