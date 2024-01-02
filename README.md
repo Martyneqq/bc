@@ -5,19 +5,18 @@ This bachelor project focuses on creating an application designed to help small 
 
 The application is organized into the following main components:
 
-## /classes
+## /class
 
-The `/class` directory contains PHP classes that encapsulate different functionalities of the application. Each class is responsible for a specific aspect of the system, facilitating modularity and maintainability.
+The `/class` directory contains PHP classes that encapsulate different functionalities of the application. Each class is responsible for a specific aspect of the system, facilitating modularity and maintainability. Classes are then used as an object in most of the files located in the `/bc` file
 
 - `/class`
   - `Alert.php`: generates Bootstrap alert messages.
-  - `AppLogic.php`: includes essential methods for generation of the depreciation logic (can be found under the `Odpisy` button available at [https://danovaevidencecepela.cz/majetek_dlouhodoby.php](https://danovaevidencecepela.cz/majetek_dlouhodoby.php))
-  - `Authenticator.php`: 
-  - `DatabaseConnect.php`: 
-  - `DatabaseHelper.php`: 
-  - `Head.php`: 
-  - `Header.php`: 
-  - `Records.php`: 
+  - `AppLogic.php`: includes essential methods for generation of the depreciation logic (can be found under the `Odpisy` button available at [`Dlouhodobý majetek`](https://danovaevidencecepela.cz/majetek_dlouhodoby.php)).
+  - `Authenticator.php`: manages user login, signup, and logout. 
+  - `DatabaseHelper.php`: includes most of the SQL-related code. The methods are used in multiple classes.
+  - `Head.php`: contains necessary links and scripts. Gives an option to name the page directly from the object.
+  - `Header.php`: includes menu-related methods such as information about finances, a manual, or directions.
+  - `Records.php`: is a parent class of every page excluding `login.php` and `signup.php`. Includes basic methods for changing colors of the text in the `denik.php` files or generating the document numbers.
   - `RecordsAssets.php`: 
   - `RecordsDemandDebt.php`: 
   - `RecordsIncomeExpense.php`: 
