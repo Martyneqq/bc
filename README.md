@@ -28,17 +28,17 @@ The `/class` directory contains PHP classes that encapsulate different functiona
   - `TaxRecordsPage.php`:  is a class that includes logic for generating `index.php` page.
 
 ## /js
-
-- `darkMode.js`
-- `getAssetIDSale.js`
-- `jquery-3.6.1.min.js`
-- `restrictAddAsset.js`
-- `restrictAddAssetMinor.js`
-- `restrictEditAsset.js`
-- `showDepreciation.js`
-- `sort.js`
-- `tableRow.js`
-- `updateRow.js`
+/js
+  - `darkMode.js`
+  - `getAssetIDSale.js`
+  - `jquery-3.6.1.min.js`
+  - `restrictAddAsset.js`
+  - `restrictAddAssetMinor.js`
+  - `restrictEditAsset.js`
+  - `showDepreciation.js`
+  - `sort.js`
+  - `tableRow.js`
+  - `updateRow.js`
  
 ## /bp
 The `/bp` directory includes a few important unmentioned files:
