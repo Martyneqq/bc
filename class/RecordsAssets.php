@@ -11,6 +11,7 @@ class RecordsAssets extends Records
     protected $header;
     protected $title;
     protected $auth;
+    protected $appLogic;
     protected $items = ["Datum zařazení", "Datum vyřazení", "Číslo dokladu", "Název", "Počáteční hodnota", "Typ", "Odpisová skupina", "Způsob platby", "Způsob odpisu", "Daňová uznatelnost", "Popis"];
     public function __construct($connect, $pageTitle, $title)
     {
@@ -23,6 +24,7 @@ class RecordsAssets extends Records
         $this->dbHelper = new DatabaseHelper($connect, $this->userID);
         $this->connect = $connect;
         $this->pageTitle = $pageTitle;
+        $this->appLogic = new AppLogic($connect);
     }
     public function RenderTitle()
     {
@@ -272,7 +274,7 @@ class RecordsAssets extends Records
             </table>
         </div>
         <?php
-        //$this->RestrictAddAsset();
+        $this->appLogic->executeDepreciation($this->userID);
     }
     public function AddAsset()
     {

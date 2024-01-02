@@ -34,7 +34,7 @@ class Authenticator
 
             if ($result && mysqli_num_rows($result) > 0) {
                 $this->userData = mysqli_fetch_assoc($result);
-                $this->appLogic->executeDepreciation($this->userData['id']); // works only after refresh
+                $this->appLogic->executeDepreciation($this->userData['id']);
                 return $this->userData;
             }
         }
