@@ -28,7 +28,7 @@ The `/class` directory contains PHP classes that encapsulate different functiona
   - `TaxRecordsPage.php`:  is a class that includes logic for generating `index.php` page.
  
 ## /bp
-The `/bp` directory also includes a few important unmentioned files:
+The `/bp` directory includes a few important unmentioned files:
 
 - `databaseConnection.php`: is the key script which maintains the communication with the database server. The data is saved in the `$connect` variable. This variable is then used for any database access.
 - `edit1.php`, `edit2.php`, and `edit3.php`: are instances of the already existing `Records` classes. These are the pages related to item editing after they are created.
