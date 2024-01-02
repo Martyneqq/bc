@@ -28,13 +28,16 @@ The `/class` directory contains PHP classes that encapsulate different functiona
   - `TaxRecordsPage.php`:  is a class that includes logic for generating `index.php` page.
 
 ## /js
-- /js
-  - `darkMode.js`
-  - `getAssetIDSale.js`
-  - `jquery-3.6.1.min.js`
-  - `restrictAddAsset.js`
-  - `restrictAddAssetMinor.js`
-  - `restrictEditAsset.js`
+
+The `/js` repository consists of JavaScript functionalities of the website.
+
+- `/js`
+  - `darkMode.js`: changes the color schemes of the website.
+  - `getAssetIDSale.js`: get the id from the asset for the `Prodej` pop-up window
+  - `jquery-3.6.1.min.js`: a jQuery library.
+  - `restrictAddAsset.js`: disables the save button if the user inputs the purchase price lower than 80,000 CZK and at the same time sets the item as tangible.
+  - `restrictAddAssetMinor.js`: disables the save button when the purchase price higher or equal to 80,000 CZK is inserted. Furthermore, the item is set to expense without an option to change.
+  - `restrictEditAsset.js`: disables the option for editing assets in the `edit1.php`. `edit2.php` and `edit3.php`.
   - `showDepreciation.js`
   - `sort.js`
   - `tableRow.js`
