@@ -41,8 +41,8 @@ The `/js` repository consists of JavaScript functionalities of the website.
   - `showDepreciation.js`: sends data about the asset into the depreciation pop-up window which appears when clicking on the `Odpisy`.
   - `sort.js`: a sorting algorithm (bubble sort) covering the possibility of sorting document numbers, numerical values with a comma, `dd-mm--YY` dates, and other strings. The original is available at: [W3Schools](https://www.w3schools.com/howto/howto_js_sort_list.asp).
  
-## /bp
-The `/bp` directory includes a few important unmentioned files:
+## /bc
+The `/bc` directory includes a few important unmentioned files:
 
 - `databaseConnection.php`: is the key script that maintains the communication with the database server. The data is saved in the `$connect` variable. This variable is then used for any database access.
 - `edit1.php`, `edit2.php`, and `edit3.php`: are instances of the already existing `Records` classes. These are the pages related to item editing after they are created.
