@@ -54,7 +54,7 @@ class Alert
             $alert = $this->GenerateAlert('info', $_SESSION['successSale']);
             unset($_SESSION['successSale']);
         }*/
-        
+
         
         return $alert;
     }

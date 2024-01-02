@@ -147,7 +147,7 @@ class RecordsAssets extends Records
             <?php
             if (isset($_POST['ulozitProdej'])) {
                 $this->dbHelper->InsertAsIncomeExpense($row['nazev'], $_POST['datumPost'], "Příjem", $_POST['castkaPost'], $row['dan'], $row['uhrada'], $row['popis'], $row['userID'], $row['id']);
-                $_SESSION['successAL'] = "Majetek " . $row['nazev'] . " úspěšně vyřazen.";
+                $_SESSION['successAL'] = "Prodej položky úspěšně uložen jako příjem.";
             }
         }
     }
@@ -462,6 +462,9 @@ class RecordsAssets extends Records
                         <div class="modal-header">
                             <h4 class="modal-title">Prodej</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <?php
+                            //$_SESSION['successSale'] = "Položka úspěšně vyřazena.";
+                            ?>
                         </div>
                         <form class="default-form" id="default-form" method="post" action="">
                             <div class="modal-body">
