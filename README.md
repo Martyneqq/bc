@@ -66,12 +66,12 @@ The used technologies are:
 1. Download the source code.
 2. Install XAMPP from https://www.apachefriends.org/.
 3. Move the sorce to \xampp\htdocs.
-4. Go to \xampp\apache\conf\httpd.conf. Change DocumentRoot "" to DocumentRoot "/xampp/htdocs" and <Directory> to <Directory "C:\xampp\htdocs\bc">
+4. Go to \xampp\apache\conf\httpd.conf. Change DocumentRoot "" to DocumentRoot "/xampp/htdocs" and <Directory> to <Directory "C:\xampp\htdocs\bc"><br />
 It should look like this:<br />
 <Directory "C:\xampp\htdocs\bc"><br />
-        Options Indexes FollowSymLinks Includes ExecCGI<br />
-        AllowOverride All<br />
-        Require all granted<br />
-</Directory><br />
+&emsp;Options Indexes FollowSymLinks Includes ExecCGI<br />
+&emsp;AllowOverride All<br />
+&emsp;Require all granted<br />
+<\/Directory>
 5. Start the XAMPP and run Apage and MySQL with the "Start" button.
 6. Type localhost/bc/signup.php in the browser
