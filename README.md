@@ -1,6 +1,23 @@
 # Web Application for Registering Finances of Small Businesses
 This bachelor project focuses on creating an application designed to help small businesses in the Czech Republic manage their tax records. The existing market for accounting applications in the country is diverse but often lacks features for tax record keeping, especially for small businesses. The goal is to develop a user-friendly, accessible, and free application that is compatible with various operating systems and devices. The application is published on the Internet and incorporates responsiveness for mobile devices. The use of open-source libraries, including Bootstrap for UI elements and Plotly for graph generation, ensures a visually appealing and organized interface.
 
+# Installation guide
+
+## Windows
+1. Download the source code.
+2. Install XAMPP from https://www.apachefriends.org/.
+3. Move the sorce to \xampp\htdocs.
+4. Go to \xampp\apache\conf\httpd.conf. Change DocumentRoot "" to DocumentRoot "/xampp/htdocs" and <Directory> to <Directory "C:\xampp\htdocs\bc"><br />
+It should look like this:<br />
+<Directory "C:\xampp\htdocs\bc"><br />
+&emsp;Options Indexes FollowSymLinks Includes ExecCGI<br />
+&emsp;AllowOverride All<br />
+&emsp;Require all granted<br />
+<\/Directory>
+5. Import SQL database. Go to localhost/phpmyadmin->Import->Select index.sql file
+6. Start the XAMPP and run Apage and MySQL with the "Start" button.
+7. Type localhost/bc/signup.php in the browser
+
 # Structure
 
 The application is organized into the following main components:
@@ -59,12 +76,3 @@ The used technologies are:
 - Plotly (for graph generation)
 - AJAX
 - jQuery
-
-# Deployment
-
-The application is hosted by the wedos.cz provider and can be accessed at [danovaevidencecepela.cz](https://danovaevidencecepela.cz). For a preview of the application, you can use the following credentials: 
-
-- **Username:** Firma s.r.o.
-- **Password:** 123456
-
-Feel free to explore the features and functionalities with the provided login details.
