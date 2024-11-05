@@ -60,11 +60,19 @@ The used technologies are:
 - AJAX
 - jQuery
 
-# Deployment
+# Installation guide
 
-The application is hosted by the wedos.cz provider and can be accessed at [danovaevidencecepela.cz](https://danovaevidencecepela.cz). For a preview of the application, you can use the following credentials: 
-
-- **Username:** Firma s.r.o.
-- **Password:** 123456
-
-Feel free to explore the features and functionalities with the provided login details.
+## Windows
+1. Download the source code.
+2. Install XAMPP from https://www.apachefriends.org/.
+3. Move the sorce to \xampp\htdocs.
+4. Go to \xampp\apache\conf\httpd.conf. Change DocumentRoot "" to DocumentRoot "/xampp/htdocs" and <Directory> to <Directory "C:\xampp\htdocs\bc">
+   DocumentRoot "C:/xampp/htdocs"
+It should look like this:
+<Directory "C:\xampp\htdocs\bc">
+        Options Indexes FollowSymLinks Includes ExecCGI
+        AllowOverride All
+        Require all granted
+</Directory>
+5. Start the XAMPP and run Apage and MySQL with the "Start" button.
+6. Type localhost/bc/signup.php in the browser
