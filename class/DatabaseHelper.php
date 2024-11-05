@@ -258,6 +258,7 @@ class DatabaseHelper
             case 'incomeexpense':
                 if (isset($_POST['update0'])) {
                     $ide = $_POST['ide'];
+                    //echo $ide;
                     $select = $this->connect->prepare("SELECT * FROM incomeexpense WHERE id = ?");
                 }
                 break;

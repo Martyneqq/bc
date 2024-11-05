@@ -144,7 +144,7 @@ class TaxRecordsPage extends Records
     public function RenderGraph()
     {
         ?>
-        <h4>Celkové příjmy a výdaje za všechny roky:</h4>
+        <h4>Celkové příjmy a výdaje:</h4>
         <?php
         $graphData = $this->dbHelper->YearlyDataForGraph();
         $graphIncome = $graphData['income'];
@@ -234,7 +234,7 @@ class TaxRecordsPage extends Records
                 </div>
             </div>
         </div>
-    <?
+    <?php
     }
     public function RenderHTML($year)
     {
@@ -252,7 +252,7 @@ class TaxRecordsPage extends Records
             $this->header->RenderHeader();
             ?>
         </header>
-
+        
         <body>
             <?php
             $this->Render($year);

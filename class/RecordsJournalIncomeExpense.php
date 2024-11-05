@@ -45,22 +45,24 @@ class RecordsJournalIncomeExpense extends RecordsJournal
             <th>Daňové</th>
             <th>Nedaňové</th>
         </tr>
-    <?
+    <?php
     }
     public function TableBody($start, $end)
     {
         $userID = $this->userData['id'];
 
-        if (isset($_POST['submit'])) {
+        if (isset($_POST['submit'])) 
+        {
 
             $select = $this->connect->prepare("SELECT id, userID, datum, castka, doklad, nazev, prijemvydaj, dan, popis, uhrada, hiddenSlot 
-        FROM incomeexpense
-        WHERE userID = ? AND datum >= ? AND datum <= ?");
+                                               FROM incomeexpense
+                                               WHERE userID = ? AND datum >= ? AND datum <= ?");
             $select->bind_param('iss', $userID, $start, $end);
             $select->execute();
             $result = $select->get_result();
 
-            while ($row = mysqli_fetch_array($result)) {
+            while ($row = mysqli_fetch_array($result)) 
+            {
                 ?>
                 <tr class="info-row1" data-id='<?php echo $row['id'] ?>' data-name="<?php echo $row['nazev'] ?>">
                     <td>

@@ -1,8 +1,8 @@
 <?php
-$server = "md377.wedos.net";
-$username = "a328711_evidenc";
-$password = "VURwVvue";
-$database = "d328711_evidenc";
+$server = "127.0.0.1";
+$username = "root";
+$password = "";
+$database = "index";
 
 if (!$connect = mysqli_connect($server, $username, $password, $database)) {
     die("Login error");

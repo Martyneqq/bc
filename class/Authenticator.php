@@ -14,7 +14,7 @@ class Authenticator
     protected $appLogic;
     public function __construct($connect, $title)
     {
-        $dbConfig = include('dbConfig.php');
+        //$dbConfig = include('dbConfig.php');
         $this->connect = $connect;
         $this->head = new Head($title);
         $this->header = new Header($connect, $this->userData, $this->userID);

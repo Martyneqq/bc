@@ -45,7 +45,7 @@ class RecordsJournalBank extends RecordsJournal
             <th>Daňové</th>
             <th>Nedaňové</th>
         </tr>
-    <?
+    <?php
     }
     public function TableBody($start, $end)
     {
