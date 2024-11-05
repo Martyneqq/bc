@@ -14,8 +14,9 @@ It should look like this:<br />
 &emsp;AllowOverride All<br />
 &emsp;Require all granted<br />
 <\/Directory>
-5. Start the XAMPP and run Apage and MySQL with the "Start" button.
-6. Type localhost/bc/signup.php in the browser
+5. Import SQL database. Go to http://localhost/phpmyadmin->Import->Select index.sql file
+6. Start the XAMPP and run Apage and MySQL with the "Start" button.
+7. Type localhost/bc/signup.php in the browser
 
 # Structure
 
