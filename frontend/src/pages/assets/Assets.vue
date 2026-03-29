@@ -2,6 +2,8 @@
 import { ref, onMounted, computed } from 'vue'
 import ExportButton from '../../components/ExportButton.vue'
 import ImportDialog from '../../components/ImportDialog.vue'
+import EditAssetModal from '../../components/EditAssetModal.vue'
+import AuditLogViewer from '../../components/AuditLogViewer.vue'
 import { assetAPI, type Asset, type AssetInput } from '../../api/asset'
 
 const records = ref<Asset[]>([])
@@ -9,6 +11,9 @@ const loading = ref(false)
 const showForm = ref(false)
 const showDisposed = ref(false)
 const showImportDialog = ref(false)
+const editingRecord = ref<Asset | null>(null)
+const showEditModal = ref(false)
+const selectedRowId = ref<number | null>(null)
 const error = ref<string | null>(null)
 const success = ref<string | null>(null)
 
@@ -110,6 +115,37 @@ async function deleteRecord(id: number) {
   }
 }
 
+function openEditModal(record: Asset) {
+  editingRecord.value = record
+  selectedRowId.value = record.id
+  showEditModal.value = true
+}
+
+async function handleEditSave(data: Partial<AssetInput>) {
+  if (!editingRecord.value) return
+
+  try {
+    const input: any = {
+      ...data,
+      dateAcquired: data.dateAcquired
+        ? new Date(data.dateAcquired + 'T12:00:00Z').toISOString()
+        : undefined,
+      dateDisposed: data.dateDisposed
+        ? new Date(data.dateDisposed + 'T12:00:00Z').toISOString()
+        : undefined,
+      initialValue: (data.initialValue || 0) * 100,
+    }
+
+    await assetAPI.update(editingRecord.value.id, input)
+    success.value = 'Asset updated successfully!'
+    showEditModal.value = false
+    selectedRowId.value = null
+    await fetchRecords()
+  } catch (err: any) {
+    error.value = err.response?.data?.message || err.message || 'Failed to update record'
+  }
+}
+
 function handleImportSuccess() {
   success.value = 'Assets imported successfully!'
   showImportDialog.value = false
@@ -163,6 +199,13 @@ onMounted(() => {
       type="assets"
       @close="showImportDialog = false"
       @success="handleImportSuccess"
+    />
+
+    <EditAssetModal
+      :is-open="showEditModal"
+      :record="editingRecord"
+      @close="showEditModal = false"
+      @save="handleEditSave"
     />
 
     <div v-if="error" class="alert alert-error">{{ error }}</div>
@@ -300,11 +343,18 @@ onMounted(() => {
             <td>{{ record.depreciationMethod }} (Group {{ record.depreciationGroup }})</td>
             <td>{{ record.taxDeductible ? 'Yes' : 'No' }}</td>
             <td>
+              <button class="btn btn-sm btn-primary" @click="openEditModal(record)">Edit</button>
               <button class="btn btn-sm btn-danger" @click="deleteRecord(record.id)">Delete</button>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <AuditLogViewer
+        v-if="selectedRowId"
+        :entity-type="'Asset'"
+        :entity-id="selectedRowId"
+      />
     </div>
   </div>
 </template>

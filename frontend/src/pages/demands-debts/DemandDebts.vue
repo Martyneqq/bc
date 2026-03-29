@@ -2,6 +2,8 @@
 import { ref, onMounted, computed } from 'vue'
 import ExportButton from '../../components/ExportButton.vue'
 import ImportDialog from '../../components/ImportDialog.vue'
+import EditDemandDebtModal from '../../components/EditDemandDebtModal.vue'
+import AuditLogViewer from '../../components/AuditLogViewer.vue'
 import { demandDebtAPI, type DemandDebt, type DemandDebtInput } from '../../api/demand-debt'
 
 const records = ref<DemandDebt[]>([])
@@ -10,6 +12,9 @@ const showForm = ref(false)
 const showImportDialog = ref(false)
 const filterType = ref<'all' | 'demand' | 'debt'>('all')
 const filterPaid = ref<'all' | 'paid' | 'unpaid'>('unpaid')
+const editingRecord = ref<DemandDebt | null>(null)
+const showEditModal = ref(false)
+const selectedRowId = ref<number | null>(null)
 const error = ref<string | null>(null)
 const success = ref<string | null>(null)
 
@@ -122,6 +127,37 @@ async function deleteRecord(id: number) {
   }
 }
 
+function openEditModal(record: DemandDebt) {
+  editingRecord.value = record
+  selectedRowId.value = record.id
+  showEditModal.value = true
+}
+
+async function handleEditSave(data: Partial<DemandDebtInput>) {
+  if (!editingRecord.value) return
+
+  try {
+    const input: any = {
+      ...data,
+      dateCreated: data.dateCreated
+        ? new Date(data.dateCreated + 'T12:00:00Z').toISOString()
+        : undefined,
+      dateDue: data.dateDue
+        ? new Date(data.dateDue + 'T12:00:00Z').toISOString()
+        : undefined,
+      amount: (data.amount || 0) * 100,
+    }
+
+    await demandDebtAPI.update(editingRecord.value.id, input)
+    success.value = 'Record updated successfully!'
+    showEditModal.value = false
+    selectedRowId.value = null
+    await fetchRecords()
+  } catch (err: any) {
+    error.value = err.response?.data?.message || err.message || 'Failed to update record'
+  }
+}
+
 function handleImportSuccess() {
   success.value = 'Records imported successfully!'
   showImportDialog.value = false
@@ -176,8 +212,13 @@ onMounted(() => {
       @close="showImportDialog = false"
       @success="handleImportSuccess"
     />
-      </button>
-    </div>
+
+    <EditDemandDebtModal
+      :is-open="showEditModal"
+      :record="editingRecord"
+      @close="showEditModal = false"
+      @save="handleEditSave"
+    />
 
     <div v-if="error" class="alert alert-error">{{ error }}</div>
     <div v-if="success" class="alert alert-success">{{ success }}</div>
@@ -323,11 +364,18 @@ onMounted(() => {
               </span>
             </td>
             <td>
+              <button class="btn btn-sm btn-primary" @click="openEditModal(record)">Edit</button>
               <button class="btn btn-sm btn-danger" @click="deleteRecord(record.id)">Delete</button>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <AuditLogViewer
+        v-if="selectedRowId"
+        :entity-type="'DemandDebt'"
+        :entity-id="selectedRowId"
+      />
     </div>
   </div>
 </template>
