@@ -1,0 +1,294 @@
+// Tax Records - PostgreSQL Database Schema
+// Production-ready with proper indexing, constraints, and relationships
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USER MANAGEMENT
+// ============================================================================
+
+model User {
+  id            Int       @id @default(autoincrement())
+  username      String    @unique @db.VarChar(64)
+  email         String    @unique @db.VarChar(128)
+  password      String    @db.Char(60) // argon2 hash length
+  ico           String?   @db.VarChar(20) // Czech business ID
+  
+  createdAt     DateTime  @default(now()) @db.Timestamp
+  updatedAt     DateTime  @updatedAt @db.Timestamp
+  
+  // Relations
+  incomeExpenses IncomeExpense[]
+  assets        Asset[]
+  assetDepreciations AssetDepreciation[]
+  demandDebts   DemandDebt[]
+  auditLogs     AuditLog[]
+  documentCounters DocumentCounter[]
+  fiscalYears   FiscalYear[]
+  
+  @@index([username])
+  @@index([email])
+  @@map("users")
+}
+
+// ============================================================================
+// FISCAL YEAR & DOCUMENT MANAGEMENT
+// ============================================================================
+
+model FiscalYear {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  year          Int       @db.Integer
+  status        String    @default("open") @db.VarChar(20) // "open", "closed"
+  
+  createdAt     DateTime  @default(now()) @db.Timestamp
+  updatedAt     DateTime  @updatedAt @db.Timestamp
+  closedAt      DateTime?
+  
+  @@unique([userId, year])
+  @@index([userId])
+  @@index([year])
+  @@map("fiscal_years")
+}
+
+// Document number counter per user
+model DocumentCounter {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Document type codes: HP, HV, BP, BV (příjímací/výdajový x hotovost/meziblok)
+  type          String    @db.VarChar(3) // HP, HV, BP, BV
+  counter       Int       @default(1)
+  
+  // Historical counters per year
+  year          Int
+  
+  updatedAt     DateTime  @updatedAt @db.Timestamp
+  
+  @@unique([userId, type, year])
+  @@index([userId])
+  @@map("document_counters")
+}
+
+// ============================================================================
+// INCOME & EXPENSE RECORDS
+// ============================================================================
+
+model IncomeExpense {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Document info
+  documentNumber String   @db.VarChar(32) // Unique per year per user
+  name          String    @db.VarChar(255)
+  date          DateTime  @db.Date
+  description   String?   @db.Text
+  
+  // Classification
+  type          String    @db.VarChar(20) // income, expense
+  taxType       String    @db.VarChar(15) // taxable, non-taxable
+  paymentMethod String    @db.VarChar(50) // cash, bank_transfer, card, cryptocurrency...
+  
+  // Amount (in Czech crowns, stored as cents to avoid float issues)
+  amountCents   BigInt
+  
+  // Link to asset if this is depreciation
+  assetId       Int?
+  asset         Asset?    @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  
+  createdAt     DateTime  @default(now()) @db.Timestamp
+  updatedAt     DateTime  @updatedAt @db.Timestamp
+  
+  @@index([userId])
+  @@index([date])
+  @@index([type])
+  @@index([taxType])
+  @@index([assetId])
+  @@index([userId, date]) // Common filter
+  @@unique([userId, documentNumber, date])
+  @@map("income_expenses")
+}
+
+// ============================================================================
+// ASSET MANAGEMENT & DEPRECIATION
+// ============================================================================
+
+model Asset {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Document reference
+  documentNumber String   @db.VarChar(32)
+  name          String    @db.VarChar(255)
+  
+  // Dates
+  dateAcquired  DateTime  @db.Date
+  dateDisposed  DateTime? @db.Date
+  
+  // Asset classification
+  type          String    @db.VarChar(20) // tangible, intangible, minor_asset
+  
+  // Valuation (in cents)
+  initialValueCents BigInt
+  currentValueCents BigInt // Updated after each depreciation
+  
+  // Depreciation settings (1-6 depreciation groups)
+  depreciationGroup Int   @db.Integer
+  depreciationMethod String @db.VarChar(20) // linear, accelerated
+  
+  // Metadata
+  taxDeductible Boolean   @default(true)
+  paymentMethod String    @db.VarChar(50)
+  description   String?   @db.Text
+  
+  createdAt     DateTime  @default(now()) @db.Timestamp
+  updatedAt     DateTime  @updatedAt @db.Timestamp
+  
+  // Relations
+  incomeExpenses IncomeExpense[]
+  depreciations AssetDepreciation[]
+  
+  @@index([userId])
+  @@index([dateAcquired])
+  @@index([dateDisposed])
+  @@index([userId, dateDisposed]) // For active assets
+  @@unique([userId, documentNumber, dateAcquired])
+  @@map("assets")
+}
+
+model AssetDepreciation {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  assetId       Int
+  asset         Asset     @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  
+  // Time period
+  fiscalYear    Int       @db.Integer
+  month         Int       @db.SmallInt // 1-12
+  
+  // Depreciation calculation
+  depreciationAmountCents BigInt // Amount depreciated this period
+  remainingValueCents BigInt    // Value after this depreciation
+  
+  // Flags
+  isLastYear    Boolean   @default(false) // Final depreciation year
+  
+  createdAt     DateTime  @default(now()) @db.Timestamp
+  updatedAt     DateTime  @updatedAt @db.Timestamp
+  
+  @@unique([assetId, fiscalYear, month])
+  @@index([userId])
+  @@index([assetId])
+  @@index([fiscalYear])
+  @@map("asset_depreciations")
+}
+
+// ============================================================================
+// DEMANDS & DEBTS (pohledávky a závazky)
+// ============================================================================
+
+model DemandDebt {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Document info
+  documentNumber String   @db.VarChar(32)
+  name          String    @db.VarChar(255)
+  company       String    @db.VarChar(255) // Counterparty
+  
+  // Type classification
+  type          String    @db.VarChar(20) // demand (pohledávka), debt (závazek)
+  taxType       String    @db.VarChar(15) // taxable, non-taxable
+  
+  // Dates
+  dateCreated   DateTime  @db.Date
+  dateDue       DateTime  @db.Date
+  
+  // Amount (in cents)
+  amountCents   BigInt
+  
+  // Payment status
+  isPaid        Boolean   @default(false)
+  paidDate      DateTime? @db.Date
+  paymentMethod String?   @db.VarChar(50)
+  
+  description   String?   @db.Text
+  
+  createdAt     DateTime  @default(now()) @db.Timestamp
+  updatedAt     DateTime  @updatedAt @db.Timestamp
+  
+  @@index([userId])
+  @@index([dateCreated])
+  @@index([dateDue])
+  @@index([type])
+  @@index([isPaid])
+  @@index([userId, isPaid]) // Common filter
+  @@unique([userId, documentNumber, dateCreated])
+  @@map("demand_debts")
+}
+
+// ============================================================================
+// AUDIT TRAIL & COMPLIANCE
+// ============================================================================
+
+model AuditLog {
+  id            Int       @id @default(autoincrement())
+  userId        Int?
+  
+  // What happened
+  action        String    @db.VarChar(50) // CREATE, UPDATE, DELETE, LOGIN, EXPORT
+  entityType    String    @db.VarChar(50) // User, Asset, IncomeExpense, etc
+  entityId      Int?
+  
+  // Details of the change
+  changes       Json?     // { before: {}, after: {} }
+  ipAddress     String?   @db.VarChar(45) // IPv4 or IPv6
+  userAgent     String?   @db.VarChar(255)
+  
+  createdAt     DateTime  @default(now()) @db.Timestamp
+  
+  @@index([userId])
+  @@index([createdAt])
+  @@index([action])
+  @@index([entityType])
+  @@index([userId, createdAt]) // Common audit query
+  @@map("audit_logs")
+}
+
+// ============================================================================
+// SESSIONS & REFRESH TOKENS (optional, for future use)
+// ============================================================================
+
+model Session {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  // Note: Foreign key optional to allow session deletion after user delete
+  
+  refreshToken  String    @unique @db.VarChar(255)
+  refreshTokenExpiresAt DateTime
+  
+  ipAddress     String?   @db.VarChar(45)
+  userAgent     String?   @db.VarChar(255)
+  
+  createdAt     DateTime  @default(now()) @db.Timestamp
+  updatedAt     DateTime  @updatedAt @db.Timestamp
+  
+  @@index([userId])
+  @@index([refreshTokenExpiresAt])
+  @@map("sessions")
+}
