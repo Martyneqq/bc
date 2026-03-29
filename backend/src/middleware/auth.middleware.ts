@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import { env } from '@/config/env'
-import logger from '@/utils/logger'
-import { JWTPayload } from '@/models/types'
+import { env } from '../config/env'
+import logger from '../utils/logger'
+import { JWTPayload } from '../models/types'
 
 declare global {
   namespace Express {

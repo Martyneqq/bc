@@ -1,15 +1,15 @@
 import express, { Express } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-import { env } from '@/config/env'
-import logger from '@/utils/logger'
-import { loggerMiddleware } from '@/middleware/logger.middleware'
-import { errorMiddleware } from '@/middleware/error.middleware'
+import { env } from './config/env'
+import logger from './utils/logger'
+import { loggerMiddleware } from './middleware/logger.middleware'
+import { errorMiddleware } from './middleware/error.middleware'
 
-import authRoutes from '@/routes/auth.routes'
-import incomeExpenseRoutes from '@/routes/income-expense.routes'
-import assetRoutes from '@/routes/asset.routes'
-import demandDebtRoutes from '@/routes/demand-debt.routes'
+import authRoutes from './routes/auth.routes'
+import incomeExpenseRoutes from './routes/income-expense.routes'
+import assetRoutes from './routes/asset.routes'
+import demandDebtRoutes from './routes/demand-debt.routes'
 
 const app: Express = express()
 

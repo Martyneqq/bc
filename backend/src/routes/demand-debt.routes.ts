@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { demandDebtController } from '@/controllers/demand-debt.controller'
-import { authMiddleware } from '@/middleware/auth.middleware'
+import { demandDebtController } from '../controllers/demand-debt.controller'
+import { authMiddleware } from '../middleware/auth.middleware'
 
 const router = Router()
 

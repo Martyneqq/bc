@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { assetService } from '@/services/asset.service'
-import { assetSchema } from '@/models/validation'
-import { asyncHandler } from '@/middleware/error.middleware'
+import { assetService } from '../services/asset.service'
+import { assetSchema } from '../models/validation'
+import { asyncHandler } from '../middleware/error.middleware'
 
 export const assetController = {
   list: asyncHandler(async (req: Request, res: Response) => {

@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { assetController } from '@/controllers/asset.controller'
-import { authMiddleware } from '@/middleware/auth.middleware'
+import { assetController } from '../controllers/asset.controller'
+import { authMiddleware } from '../middleware/auth.middleware'
 
 const router = Router()
 

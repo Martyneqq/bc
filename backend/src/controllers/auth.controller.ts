@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { authService } from '@/services/auth.service'
-import { loginSchema, registerSchema } from '@/models/validation'
-import { asyncHandler } from '@/middleware/error.middleware'
+import { authService } from '../services/auth.service'
+import { loginSchema, registerSchema } from '../models/validation'
+import { asyncHandler } from '../middleware/error.middleware'
 
 export const authController = {
   register: asyncHandler(async (req: Request, res: Response) => {

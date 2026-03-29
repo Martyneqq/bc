@@ -1,8 +1,8 @@
-import { assetRepository } from '@/repositories/asset.repository'
-import { AssetInput } from '@/models/validation'
-import { ApiError } from '@/middleware/error.middleware'
-import { DeprecationHelper } from '@/utils/deprecation'
-import logger from '@/utils/logger'
+import { assetRepository } from '../repositories/asset.repository'
+import { AssetInput } from '../models/validation'
+import { ApiError } from '../middleware/error.middleware'
+import { DeprecationHelper } from '../utils/deprecation'
+import logger from '../utils/logger'
 
 export class AssetService {
   async getList(userId: number, includeDisposed: boolean = false) {

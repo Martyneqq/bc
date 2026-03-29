@@ -1,7 +1,7 @@
-import { demandDebtRepository } from '@/repositories/demand-debt.repository'
-import { DemandDebtInput } from '@/models/validation'
-import { ApiError } from '@/middleware/error.middleware'
-import logger from '@/utils/logger'
+import { demandDebtRepository } from '../repositories/demand-debt.repository'
+import { DemandDebtInput } from '../models/validation'
+import { ApiError } from '../middleware/error.middleware'
+import logger from '../utils/logger'
 
 export class DemandDebtService {
   async getList(userId: number, filters?: { type?: string; isPaid?: boolean }) {

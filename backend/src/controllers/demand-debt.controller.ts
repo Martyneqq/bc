@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { demandDebtService } from '@/services/demand-debt.service'
-import { demandDebtSchema } from '@/models/validation'
-import { asyncHandler } from '@/middleware/error.middleware'
+import { demandDebtService } from '../services/demand-debt.service'
+import { demandDebtSchema } from '../models/validation'
+import { asyncHandler } from '../middleware/error.middleware'
 
 export const demandDebtController = {
   list: asyncHandler(async (req: Request, res: Response) => {

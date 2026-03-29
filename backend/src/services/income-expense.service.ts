@@ -1,8 +1,8 @@
-import { incomeExpenseRepository } from '@/repositories/income-expense.repository'
-import { assetRepository } from '@/repositories/asset.repository'
-import { IncomeExpenseInput } from '@/models/validation'
-import { ApiError } from '@/middleware/error.middleware'
-import logger from '@/utils/logger'
+import { incomeExpenseRepository } from '../repositories/income-expense.repository'
+import { assetRepository } from '../repositories/asset.repository'
+import { IncomeExpenseInput } from '../models/validation'
+import { ApiError } from '../middleware/error.middleware'
+import logger from '../utils/logger'
 
 export class IncomeExpenseService {
   async getList(userId: number, filters?: any) {

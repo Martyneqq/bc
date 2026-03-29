@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { incomeExpenseService } from '@/services/income-expense.service'
-import { incomeExpenseSchema } from '@/models/validation'
-import { asyncHandler } from '@/middleware/error.middleware'
+import { incomeExpenseService } from '../services/income-expense.service'
+import { incomeExpenseSchema } from '../models/validation'
+import { asyncHandler } from '../middleware/error.middleware'
 
 export const incomeExpenseController = {
   list: asyncHandler(async (req: Request, res: Response) => {
