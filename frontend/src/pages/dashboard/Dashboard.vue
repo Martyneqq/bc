@@ -25,9 +25,21 @@
       </router-link>
 
       <router-link to="/profile" class="card">
+        <div class="card-icon">👤</div>
+        <h3>Profile</h3>
+        <p>Manage your account and profile</p>
+      </router-link>
+
+      <router-link to="/settings" class="card">
         <div class="card-icon">⚙️</div>
         <h3>Settings</h3>
-        <p>Manage your account and preferences</p>
+        <p>Customize your experience</p>
+      </router-link>
+
+      <router-link to="/help" class="card">
+        <div class="card-icon">❓</div>
+        <h3>Help & Documentation</h3>
+        <p>Learn how to use the app</p>
       </router-link>
     </div>
 
