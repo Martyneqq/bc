@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import ExportButton from '../../components/ExportButton.vue'
+import ImportDialog from '../../components/ImportDialog.vue'
 import { demandDebtAPI, type DemandDebt, type DemandDebtInput } from '../../api/demand-debt'
 
 const records = ref<DemandDebt[]>([])
 const loading = ref(false)
 const showForm = ref(false)
+const showImportDialog = ref(false)
 const filterType = ref<'all' | 'demand' | 'debt'>('all')
 const filterPaid = ref<'all' | 'paid' | 'unpaid'>('unpaid')
 const error = ref<string | null>(null)
@@ -119,6 +122,15 @@ async function deleteRecord(id: number) {
   }
 }
 
+function handleImportSuccess() {
+  success.value = 'Records imported successfully!'
+  showImportDialog.value = false
+  fetchRecords()
+  setTimeout(() => {
+    success.value = null
+  }, 3000)
+}
+
 function formatCurrency(value: number) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -143,8 +155,27 @@ onMounted(() => {
   <div class="page-container">
     <div class="header">
       <h1>Pohledávky a Dluhy</h1>
-      <button class="btn btn-primary" @click="showForm = !showForm">
-        {{ showForm ? 'Cancel' : 'Add Record' }}
+      <div class="header-actions">
+        <ExportButton 
+          type="demands-debts" 
+          format="xlsx"
+          label="Export"
+        />
+        <button class="btn btn-secondary" @click="showImportDialog = true">
+          Import Data
+        </button>
+        <button class="btn btn-primary" @click="showForm = !showForm">
+          {{ showForm ? 'Cancel' : 'Add Record' }}
+        </button>
+      </div>
+    </div>
+
+    <ImportDialog 
+      :is-open="showImportDialog" 
+      type="demands-debts"
+      @close="showImportDialog = false"
+      @success="handleImportSuccess"
+    />
       </button>
     </div>
 
@@ -313,6 +344,14 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 h1 {

@@ -1,6 +1,7 @@
 import { incomeExpenseRepository } from '../repositories/income-expense.repository'
 import { IncomeExpenseInput } from '../models/validation'
 import { ApiError } from '../middleware/error.middleware'
+import { auditService } from './audit.service'
 import logger from '../utils/logger'
 
 export class IncomeExpenseService {
@@ -26,7 +27,7 @@ export class IncomeExpenseService {
       // Convert amount to cents
       const amountCents = BigInt(Math.round(input.amount * 100))
 
-      return await incomeExpenseRepository.create(userId, {
+      const record = await incomeExpenseRepository.create(userId, {
         documentNumber: input.documentNumber || `DOC-${Date.now()}`,
         name: input.name,
         date: new Date(input.date),
@@ -36,6 +37,17 @@ export class IncomeExpenseService {
         paymentMethod: input.paymentMethod,
         description: input.description,
       })
+
+      // Audit log
+      await auditService.log({
+        action: 'CREATE',
+        entityType: 'IncomeExpense',
+        entityId: record.id,
+        userId,
+        changes: { after: record },
+      })
+
+      return record
     } catch (error) {
       logger.error('Error creating income/expense:', error)
       throw new ApiError(500, 'Failed to create record')
@@ -44,6 +56,12 @@ export class IncomeExpenseService {
 
   async update(userId: number, id: number, input: Partial<IncomeExpenseInput>) {
     try {
+      // Get the old record first for audit
+      const oldRecord = await incomeExpenseRepository.findById(id, userId)
+      if (!oldRecord) {
+        throw new ApiError(404, 'Record not found')
+      }
+
       const data: any = { updatedAt: new Date() }
 
       if (input.name) data.name = input.name
@@ -58,6 +76,23 @@ export class IncomeExpenseService {
       if (!result) {
         throw new ApiError(404, 'Record not found')
       }
+
+      // Audit log with before/after changes
+      const changes = auditService.trackChanges(oldRecord, result)
+      if (Object.keys(changes).length > 0) {
+        await auditService.log({
+          action: 'UPDATE',
+          entityType: 'IncomeExpense',
+          entityId: id,
+          userId,
+          changes: {
+            before: oldRecord,
+            after: result,
+            changed: changes,
+          },
+        })
+      }
+
       return result
     } catch (error) {
       if (error instanceof ApiError) throw error
@@ -68,10 +103,23 @@ export class IncomeExpenseService {
 
   async delete(userId: number, id: number) {
     try {
-      const result = await incomeExpenseRepository.delete(id, userId)
-      if (!result) {
+      // Get the record before deletion for audit
+      const record = await incomeExpenseRepository.findById(id, userId)
+      if (!record) {
         throw new ApiError(404, 'Record not found')
       }
+
+      const result = await incomeExpenseRepository.delete(id, userId)
+
+      // Audit log
+      await auditService.log({
+        action: 'DELETE',
+        entityType: 'IncomeExpense',
+        entityId: id,
+        userId,
+        changes: { before: record },
+      })
+
       return result
     } catch (error) {
       if (error instanceof ApiError) throw error

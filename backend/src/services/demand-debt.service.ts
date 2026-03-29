@@ -1,6 +1,7 @@
 import { demandDebtRepository } from '../repositories/demand-debt.repository'
 import { DemandDebtInput } from '../models/validation'
 import { ApiError } from '../middleware/error.middleware'
+import { auditService } from './audit.service'
 import logger from '../utils/logger'
 
 export class DemandDebtService {
@@ -25,7 +26,7 @@ export class DemandDebtService {
     try {
       const amountCents = BigInt(Math.round(input.amount * 100))
 
-      return await demandDebtRepository.create(userId, {
+      const record = await demandDebtRepository.create(userId, {
         documentNumber: input.documentNumber || `DD-${Date.now()}`,
         name: input.name,
         company: input.company,
@@ -37,6 +38,17 @@ export class DemandDebtService {
         paymentMethod: input.paymentMethod,
         description: input.description,
       })
+
+      // Audit log
+      await auditService.log({
+        action: 'CREATE',
+        entityType: 'DemandDebt',
+        entityId: record.id,
+        userId,
+        changes: { after: record },
+      })
+
+      return record
     } catch (error) {
       logger.error('Error creating demand/debt:', error)
       throw new ApiError(500, 'Failed to create record')
@@ -45,6 +57,11 @@ export class DemandDebtService {
 
   async update(userId: number, id: number, input: Partial<DemandDebtInput>) {
     try {
+      const oldRecord = await demandDebtRepository.findById(id, userId)
+      if (!oldRecord) {
+        throw new ApiError(404, 'Record not found')
+      }
+
       const data: any = { updatedAt: new Date() }
 
       if (input.name) data.name = input.name
@@ -55,6 +72,19 @@ export class DemandDebtService {
       if (!result) {
         throw new ApiError(404, 'Record not found')
       }
+
+      // Audit log
+      const changes = auditService.trackChanges(oldRecord, result)
+      if (Object.keys(changes).length > 0) {
+        await auditService.log({
+          action: 'UPDATE',
+          entityType: 'DemandDebt',
+          entityId: id,
+          userId,
+          changes: { before: oldRecord, after: result, changed: changes },
+        })
+      }
+
       return result
     } catch (error) {
       if (error instanceof ApiError) throw error
@@ -65,10 +95,22 @@ export class DemandDebtService {
 
   async delete(userId: number, id: number) {
     try {
-      const result = await demandDebtRepository.delete(id, userId)
-      if (!result) {
+      const record = await demandDebtRepository.findById(id, userId)
+      if (!record) {
         throw new ApiError(404, 'Record not found')
       }
+
+      const result = await demandDebtRepository.delete(id, userId)
+
+      // Audit log
+      await auditService.log({
+        action: 'DELETE',
+        entityType: 'DemandDebt',
+        entityId: id,
+        userId,
+        changes: { before: record },
+      })
+
       return result
     } catch (error) {
       if (error instanceof ApiError) throw error

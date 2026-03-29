@@ -1,16 +1,26 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import RegressionChart from '../../components/RegressionChart.vue'
+import ExportButton from '../../components/ExportButton.vue'
+import ImportDialog from '../../components/ImportDialog.vue'
+import EditRecordModal from '../../components/EditRecordModal.vue'
+import AuditLogViewer from '../../components/AuditLogViewer.vue'
 import { incomeExpenseAPI, type IncomeExpense, type IncomeExpenseInput } from '../../api/income-expense'
 
 // Data
 const records = ref<IncomeExpense[]>([])
 const loading = ref(false)
 const showForm = ref(false)
+const showImportDialog = ref(false)
 const selectedYear = ref(new Date().getFullYear())
 const filterType = ref<'all' | 'income' | 'expense'>('all')
 const error = ref<string | null>(null)
 const success = ref<string | null>(null)
+
+// Edit modal
+const editingRecord = ref<IncomeExpense | null>(null)
+const showEditModal = ref(false)
+const selectedRowId = ref<number | null>(null)
 
 // Form data
 const formData = ref<IncomeExpenseInput>({
@@ -143,6 +153,36 @@ async function deleteRecord(id: number) {
   }
 }
 
+function openEditModal(record: IncomeExpense) {
+  editingRecord.value = record
+  selectedRowId.value = record.id
+  showEditModal.value = true
+}
+
+async function handleEditSave(data: Partial<IncomeExpenseInput>) {
+  if (!editingRecord.value) return
+
+  try {
+    await incomeExpenseAPI.update(editingRecord.value.id, data)
+    success.value = 'Record updated successfully!'
+    showEditModal.value = false
+    editingRecord.value = null
+    selectedRowId.value = null
+    await fetchRecords()
+  } catch (err: any) {
+    error.value = err.response?.data?.message || err.message || 'Failed to update record'
+  }
+}
+
+function handleImportSuccess() {
+  success.value = 'Records imported successfully!'
+  showImportDialog.value = false
+  fetchRecords()
+  setTimeout(() => {
+    success.value = null
+  }, 3000)
+}
+
 function formatCurrency(value: number) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -168,10 +208,28 @@ onMounted(() => {
   <div class="page-container">
     <div class="header">
       <h1>Příjmy a Výdaje</h1>
-      <button class="btn btn-primary" @click="showForm = !showForm">
-        {{ showForm ? 'Cancel' : 'Add Record' }}
-      </button>
+      <div class="header-actions">
+        <ExportButton 
+          type="income-expense" 
+          format="xlsx" 
+          :filters="{ year: selectedYear, type: filterType !== 'all' ? filterType : undefined }"
+          label="Export"
+        />
+        <button class="btn btn-secondary" @click="showImportDialog = true">
+          Import Data
+        </button>
+        <button class="btn btn-primary" @click="showForm = !showForm">
+          {{ showForm ? 'Cancel' : 'Add Record' }}
+        </button>
+      </div>
     </div>
+
+    <ImportDialog 
+      :is-open="showImportDialog" 
+      type="income-expense"
+      @close="showImportDialog = false"
+      @success="handleImportSuccess"
+    />
 
     <!-- Messages -->
     <div v-if="error" class="alert alert-error">{{ error }}</div>
@@ -346,12 +404,30 @@ onMounted(() => {
             <td>{{ record.taxType === 'taxable' ? 'Taxable' : 'Non-taxable' }}</td>
             <td>{{ record.paymentMethod }}</td>
             <td>
-              <button class="btn btn-sm btn-danger" @click="deleteRecord(record.id)">Delete</button>
+              <div style="display: flex; gap: 0.5rem">
+                <button class="btn btn-sm btn-primary" @click="openEditModal(record)">Edit</button>
+                <button class="btn btn-sm btn-danger" @click="deleteRecord(record.id)">Delete</button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <!-- Audit log for selected record -->
+      <AuditLogViewer 
+        v-if="selectedRowId"
+        entity-type="IncomeExpense"
+        :entity-id="selectedRowId"
+      />
     </div>
+
+    <!-- Edit modal -->
+    <EditRecordModal 
+      :is-open="showEditModal"
+      :record="editingRecord"
+      @close="showEditModal = false"
+      @save="handleEditSave"
+    />
   </div>
 </template>
 
@@ -367,6 +443,14 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 h1 {

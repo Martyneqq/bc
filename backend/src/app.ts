@@ -9,6 +9,7 @@ import authRoutes from './routes/auth.routes'
 import incomeExpenseRoutes from './routes/income-expense.routes'
 import assetRoutes from './routes/asset.routes'
 import demandDebtRoutes from './routes/demand-debt.routes'
+import apiRoutes from './routes/api.routes'
 
 const app: Express = express()
 
@@ -29,6 +30,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/income-expense', incomeExpenseRoutes)
 app.use('/api/assets', assetRoutes)
 app.use('/api/demands-debts', demandDebtRoutes)
+app.use('/api', apiRoutes)
 
 // 404 handler
 app.use((_req, res) => {

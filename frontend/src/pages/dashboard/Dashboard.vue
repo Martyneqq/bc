@@ -41,34 +41,30 @@
         <h3>Help & Documentation</h3>
         <p>Learn how to use the app</p>
       </router-link>
+
+      <router-link to="/journals" class="card">
+        <div class="card-icon">📊</div>
+        <h3>Journals & Ledgers</h3>
+        <p>View accounting journals and ledgers</p>
+      </router-link>
+
+      <router-link to="/audit" class="card">
+        <div class="card-icon">📋</div>
+        <h3>Audit Log</h3>
+        <p>View all changes and audit trail</p>
+      </router-link>
     </div>
 
     <div class="stats-section">
       <h2>Quick Stats</h2>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value">Coming Soon</div>
-          <div class="stat-label">Total Income (2024)</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">Coming Soon</div>
-          <div class="stat-label">Total Expense (2024)</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">Coming Soon</div>
-          <div class="stat-label">Active Assets</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">Coming Soon</div>
-          <div class="stat-label">Unpaid Demands</div>
-        </div>
-      </div>
+      <QuickStats />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth.store'
+import QuickStats from '../../components/QuickStats.vue'
 
 const authStore = useAuthStore()
 </script>

@@ -2,6 +2,7 @@ import { assetRepository } from '../repositories/asset.repository'
 import { AssetInput } from '../models/validation'
 import { ApiError } from '../middleware/error.middleware'
 import { DeprecationHelper } from '../utils/deprecation'
+import { auditService } from './audit.service'
 import logger from '../utils/logger'
 
 export class AssetService {
@@ -49,6 +50,15 @@ export class AssetService {
 
       await DeprecationHelper.saveDepreciations(userId, asset.id, depData)
 
+      // Audit log
+      await auditService.log({
+        action: 'CREATE',
+        entityType: 'Asset',
+        entityId: asset.id,
+        userId,
+        changes: { after: asset },
+      })
+
       return asset
     } catch (error) {
       logger.error('Error creating asset:', error)
@@ -58,8 +68,8 @@ export class AssetService {
 
   async update(userId: number, id: number, input: Partial<AssetInput>) {
     try {
-      const asset = await assetRepository.findById(id, userId)
-      if (!asset) {
+      const oldAsset = await assetRepository.findById(id, userId)
+      if (!oldAsset) {
         throw new ApiError(404, 'Asset not found')
       }
 
@@ -70,6 +80,19 @@ export class AssetService {
       if (input.paymentMethod) data.paymentMethod = input.paymentMethod
 
       const result = await assetRepository.update(id, userId, data)
+
+      // Audit log
+      const changes = auditService.trackChanges(oldAsset, result)
+      if (Object.keys(changes).length > 0) {
+        await auditService.log({
+          action: 'UPDATE',
+          entityType: 'Asset',
+          entityId: id,
+          userId,
+          changes: { before: oldAsset, after: result, changed: changes },
+        })
+      }
+
       return result
     } catch (error) {
       if (error instanceof ApiError) throw error
@@ -80,10 +103,22 @@ export class AssetService {
 
   async delete(userId: number, id: number) {
     try {
-      const result = await assetRepository.delete(id, userId)
-      if (!result) {
+      const asset = await assetRepository.findById(id, userId)
+      if (!asset) {
         throw new ApiError(404, 'Asset not found')
       }
+
+      const result = await assetRepository.delete(id, userId)
+
+      // Audit log
+      await auditService.log({
+        action: 'DELETE',
+        entityType: 'Asset',
+        entityId: id,
+        userId,
+        changes: { before: asset },
+      })
+
       return result
     } catch (error) {
       if (error instanceof ApiError) throw error

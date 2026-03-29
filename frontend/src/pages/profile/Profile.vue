@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '../../stores/auth.store'
+import { userAPI } from '@/api/user.api'
 
 const authStore = useAuthStore()
 
 const userData = ref({
-  username: authStore.user?.username || 'Not available',
-  email: authStore.user?.email || 'Not available',
-  ico: authStore.user?.ico || '',
-  createdAt: authStore.user?.createdAt || new Date().toISOString(),
+  username: '',
+  email: '',
+  ico: '',
+  createdAt: '',
 })
 
 const isEditing = ref(false)
-const editData = ref({ ...userData.value })
+const editData = ref({ email: '', ico: '' })
 const loading = ref(false)
 const error = ref<string | null>(null)
 const success = ref<string | null>(null)
@@ -26,13 +27,13 @@ const showPasswordForm = ref(false)
 
 function startEdit() {
   isEditing.value = true
-  editData.value = { ...userData.value }
+  editData.value = { email: userData.value.email, ico: userData.value.ico }
   error.value = null
 }
 
 function cancelEdit() {
   isEditing.value = false
-  editData.value = { ...userData.value }
+  editData.value = { email: '', ico: '' }
   error.value = null
 }
 
@@ -47,9 +48,12 @@ async function saveChanges() {
 
   try {
     loading.value = true
-    // Here you would call an API endpoint to update user profile
-    // For now, we just update the local data
-    userData.value = { ...editData.value }
+    const response = await userAPI.updateProfile({
+      email: editData.value.email,
+      ico: editData.value.ico || undefined,
+    })
+    
+    userData.value = { ...userData.value, ...response }
     success.value = 'Profile updated successfully!'
     isEditing.value = false
 
@@ -74,8 +78,8 @@ async function handlePasswordChange() {
 
   if (!changePasswordForm.value.newPassword) {
     passwordErrors.value.newPassword = 'New password is required'
-  } else if (changePasswordForm.value.newPassword.length < 6) {
-    passwordErrors.value.newPassword = 'Password must be at least 6 characters'
+  } else if (changePasswordForm.value.newPassword.length < 8) {
+    passwordErrors.value.newPassword = 'Password must be at least 8 characters'
   }
 
   if (changePasswordForm.value.newPassword !== changePasswordForm.value.confirmPassword) {
@@ -88,8 +92,11 @@ async function handlePasswordChange() {
 
   try {
     loading.value = true
-    // Here you would call an API endpoint to change password
-    // For now, just show success
+    await userAPI.changePassword({
+      currentPassword: changePasswordForm.value.currentPassword,
+      newPassword: changePasswordForm.value.newPassword,
+    })
+    
     success.value = 'Password changed successfully!'
     showPasswordForm.value = false
     changePasswordForm.value = {
@@ -118,16 +125,30 @@ function formatDate(dateString: string) {
   })
 }
 
-onMounted(() => {
-  // Load user data from auth store or API
-  if (authStore.user) {
+async function loadUserProfile() {
+  try {
+    const profile = await userAPI.getProfile()
+    console.log('Profile loaded:', profile)
     userData.value = {
-      username: authStore.user.username || 'Not available',
-      email: authStore.user.email || 'Not available',
-      ico: authStore.user.ico || '',
-      createdAt: authStore.user.createdAt || new Date().toISOString(),
+      username: profile.username || 'N/A',
+      email: profile.email || 'N/A',
+      ico: profile.ico || 'Not set',
+      createdAt: profile.createdAt || new Date().toISOString(),
+    }
+  } catch (err: any) {
+    error.value = `Failed to load user profile: ${err.message}`
+    console.error('Profile load error:', err)
+    userData.value = {
+      username: 'N/A',
+      email: 'N/A',
+      ico: 'Not set',
+      createdAt: new Date().toISOString(),
     }
   }
+}
+
+onMounted(() => {
+  loadUserProfile()
 })
 </script>
 
@@ -160,15 +181,15 @@ onMounted(() => {
           <div v-if="!isEditing" class="info-display">
             <div class="info-row">
               <label>Username:</label>
-              <span>{{ userData.username }}</span>
+              <span>{{ userData.username || 'N/A' }}</span>
             </div>
             <div class="info-row">
               <label>Email:</label>
-              <span>{{ userData.email }}</span>
+              <span>{{ userData.email || 'N/A' }}</span>
             </div>
             <div class="info-row">
               <label>Tax ID (IČO):</label>
-              <span>{{ userData.ico || 'Not set' }}</span>
+              <span>{{ userData.ico }}</span>
             </div>
             <div class="info-row">
               <label>Account Created:</label>

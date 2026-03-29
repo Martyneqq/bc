@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import ExportButton from '../../components/ExportButton.vue'
+import ImportDialog from '../../components/ImportDialog.vue'
 import { assetAPI, type Asset, type AssetInput } from '../../api/asset'
 
 const records = ref<Asset[]>([])
 const loading = ref(false)
 const showForm = ref(false)
 const showDisposed = ref(false)
+const showImportDialog = ref(false)
 const error = ref<string | null>(null)
 const success = ref<string | null>(null)
 
@@ -107,6 +110,15 @@ async function deleteRecord(id: number) {
   }
 }
 
+function handleImportSuccess() {
+  success.value = 'Assets imported successfully!'
+  showImportDialog.value = false
+  fetchRecords()
+  setTimeout(() => {
+    success.value = null
+  }, 3000)
+}
+
 function formatCurrency(value: number) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -131,10 +143,27 @@ onMounted(() => {
   <div class="page-container">
     <div class="header">
       <h1>Majetek</h1>
-      <button class="btn btn-primary" @click="showForm = !showForm">
-        {{ showForm ? 'Cancel' : 'Add Asset' }}
-      </button>
+      <div class="header-actions">
+        <ExportButton 
+          type="assets" 
+          format="xlsx"
+          label="Export"
+        />
+        <button class="btn btn-secondary" @click="showImportDialog = true">
+          Import Data
+        </button>
+        <button class="btn btn-primary" @click="showForm = !showForm">
+          {{ showForm ? 'Cancel' : 'Add Asset' }}
+        </button>
+      </div>
     </div>
+
+    <ImportDialog 
+      :is-open="showImportDialog" 
+      type="assets"
+      @close="showImportDialog = false"
+      @success="handleImportSuccess"
+    />
 
     <div v-if="error" class="alert alert-error">{{ error }}</div>
     <div v-if="success" class="alert alert-success">{{ success }}</div>
@@ -292,6 +321,14 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 h1 {
