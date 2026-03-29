@@ -98,9 +98,9 @@ async function handleSubmit() {
   }
 
   try {
+    // Backend handles conversion to cents, just send the amount as-is
     const input: IncomeExpenseInput = {
       ...formData.value,
-      amount: Math.round(formData.value.amount * 100), // Convert to cents
     }
 
     await incomeExpenseAPI.create(input)
