@@ -3,11 +3,13 @@ import { DemandDebtInput } from '../models/validation'
 import { ApiError } from '../middleware/error.middleware'
 import { auditService } from './audit.service'
 import logger from '../utils/logger'
+import { serializeRecord, serializeRecords } from '../utils/serializer'
 
 export class DemandDebtService {
   async getList(userId: number, filters?: { type?: string; isPaid?: boolean }) {
     try {
-      return await demandDebtRepository.findByUser(userId, filters)
+      const records = await demandDebtRepository.findByUser(userId, filters)
+      return serializeRecords(records)
     } catch (error) {
       logger.error('Error fetching demands/debts:', error)
       throw new ApiError(500, 'Failed to fetch records')
@@ -19,7 +21,7 @@ export class DemandDebtService {
     if (!record) {
       throw new ApiError(404, 'Record not found')
     }
-    return record
+    return serializeRecord(record)
   }
 
   async create(userId: number, input: DemandDebtInput) {
@@ -48,7 +50,7 @@ export class DemandDebtService {
         changes: { after: record },
       })
 
-      return record
+      return serializeRecord(record)
     } catch (error) {
       logger.error('Error creating demand/debt:', error)
       throw new ApiError(500, 'Failed to create record')
@@ -85,7 +87,7 @@ export class DemandDebtService {
         })
       }
 
-      return result
+      return serializeRecord(result)
     } catch (error) {
       if (error instanceof ApiError) throw error
       logger.error('Error updating demand/debt:', error)

@@ -3,11 +3,13 @@ import { IncomeExpenseInput } from '../models/validation'
 import { ApiError } from '../middleware/error.middleware'
 import { auditService } from './audit.service'
 import logger from '../utils/logger'
+import { serializeRecord, serializeRecords } from '../utils/serializer'
 
 export class IncomeExpenseService {
   async getList(userId: number, filters?: any) {
     try {
-      return await incomeExpenseRepository.findByUser(userId, filters)
+      const records = await incomeExpenseRepository.findByUser(userId, filters)
+      return serializeRecords(records)
     } catch (error) {
       logger.error('Error fetching income/expenses:', error)
       throw new ApiError(500, 'Failed to fetch records')
@@ -19,7 +21,7 @@ export class IncomeExpenseService {
     if (!record) {
       throw new ApiError(404, 'Record not found')
     }
-    return record
+    return serializeRecord(record)
   }
 
   async create(userId: number, input: IncomeExpenseInput) {
@@ -47,7 +49,7 @@ export class IncomeExpenseService {
         changes: { after: record },
       })
 
-      return record
+      return serializeRecord(record)
     } catch (error) {
       logger.error('Error creating income/expense:', error)
       throw new ApiError(500, 'Failed to create record')
@@ -93,7 +95,7 @@ export class IncomeExpenseService {
         })
       }
 
-      return result
+      return serializeRecord(result)
     } catch (error) {
       if (error instanceof ApiError) throw error
       logger.error('Error updating income/expense:', error)

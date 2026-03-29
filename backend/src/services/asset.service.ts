@@ -4,11 +4,13 @@ import { ApiError } from '../middleware/error.middleware'
 import { DeprecationHelper } from '../utils/deprecation'
 import { auditService } from './audit.service'
 import logger from '../utils/logger'
+import { serializeRecord, serializeRecords } from '../utils/serializer'
 
 export class AssetService {
   async getList(userId: number, includeDisposed: boolean = false) {
     try {
-      return await assetRepository.findByUser(userId, includeDisposed)
+      const assets = await assetRepository.findByUser(userId, includeDisposed)
+      return serializeRecords(assets)
     } catch (error) {
       logger.error('Error fetching assets:', error)
       throw new ApiError(500, 'Failed to fetch assets')
@@ -20,7 +22,7 @@ export class AssetService {
     if (!asset) {
       throw new ApiError(404, 'Asset not found')
     }
-    return asset
+    return serializeRecord(asset)
   }
 
   async create(userId: number, input: AssetInput) {
@@ -59,7 +61,7 @@ export class AssetService {
         changes: { after: asset },
       })
 
-      return asset
+      return serializeRecord(asset)
     } catch (error) {
       logger.error('Error creating asset:', error)
       throw new ApiError(500, 'Failed to create asset')
@@ -93,7 +95,7 @@ export class AssetService {
         })
       }
 
-      return result
+      return serializeRecord(result)
     } catch (error) {
       if (error instanceof ApiError) throw error
       logger.error('Error updating asset:', error)
