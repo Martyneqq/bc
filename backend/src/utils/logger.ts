@@ -1,6 +1,8 @@
 import winston from 'winston'
 import { env } from '../config/env'
 
+const isDevelopment = env.node_env === 'development'
+
 const logger = winston.createLogger({
   level: env.log_level,
   format: winston.format.combine(
@@ -14,7 +16,7 @@ const logger = winston.createLogger({
   ],
 })
 
-if (env.isDevelopment) {
+if (isDevelopment) {
   logger.add(
     new winston.transports.Console({
       format: winston.format.combine(

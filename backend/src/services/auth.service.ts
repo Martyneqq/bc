@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
-import { env } from '@/config/env'
-import { userRepository } from '@/repositories/user.repository'
-import { ApiError } from '@/middleware/error.middleware'
-import { AuthResponse, JWTPayload } from '@/models/types'
-import { LoginInput, RegisterInput } from '@/models/validation'
+import { env } from '../config/env'
+import { userRepository } from '../repositories/user.repository'
+import { ApiError } from '../middleware/error.middleware'
+import { AuthResponse, JWTPayload } from '../models/types'
+import { LoginInput, RegisterInput } from '../models/validation'
 
 export class AuthService {
   async register(input: RegisterInput): Promise<AuthResponse> {
@@ -31,7 +31,12 @@ export class AuthService {
 
     return {
       token,
-      user,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        ico: user.ico || undefined,
+      },
     }
   }
 
@@ -58,7 +63,7 @@ export class AuthService {
         id: user.id,
         username: user.username,
         email: user.email,
-        ico: user.ico,
+        ico: user.ico || undefined,
       },
     }
   }
@@ -78,9 +83,9 @@ export class AuthService {
       email: user.email,
     }
 
-    return jwt.sign(payload, env.jwt_secret, {
+    return jwt.sign(payload as any, env.jwt_secret as any, {
       expiresIn: env.jwt_expire,
-    })
+    } as any)
   }
 }
 

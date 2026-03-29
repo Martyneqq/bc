@@ -2,6 +2,9 @@ FROM node:20-slim
 
 WORKDIR /app
 
+# Install openssl required by Prisma
+RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
+
 # Copy workspace and package files
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY backend/ ./backend/

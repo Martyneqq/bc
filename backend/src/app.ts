@@ -2,7 +2,6 @@ import express, { Express } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import { env } from './config/env'
-import logger from './utils/logger'
 import { loggerMiddleware } from './middleware/logger.middleware'
 import { errorMiddleware } from './middleware/error.middleware'
 
@@ -21,7 +20,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(loggerMiddleware)
 
 // Health check
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({ status: 'ok' })
 })
 
@@ -32,7 +31,7 @@ app.use('/api/assets', assetRoutes)
 app.use('/api/demands-debts', demandDebtRoutes)
 
 // 404 handler
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).json({ success: false, error: 'Route not found' })
 })
 

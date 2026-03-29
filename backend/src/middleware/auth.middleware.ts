@@ -22,14 +22,14 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
 
     const decoded = jwt.verify(token, env.jwt_secret) as JWTPayload
     req.user = decoded
-    next()
+    return next()
   } catch (error) {
     logger.error('Auth middleware error:', error)
-    res.status(401).json({ success: false, error: 'Invalid token' })
+    return res.status(401).json({ success: false, error: 'Invalid token' })
   }
 }
 
-export const optionalAuth = (req: Request, res: Response, next: NextFunction) => {
+export const optionalAuth = (req: Request, _res: Response, next: NextFunction) => {
   try {
     const token = req.headers.authorization?.split(' ')[1]
     if (token) {
@@ -39,5 +39,5 @@ export const optionalAuth = (req: Request, res: Response, next: NextFunction) =>
   } catch (error) {
     logger.debug('Optional auth: no valid token')
   }
-  next()
+  return next()
 }

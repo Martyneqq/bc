@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { DeprecationHelper } from '../utils/deprecation'
 
 const prisma = new PrismaClient()
 

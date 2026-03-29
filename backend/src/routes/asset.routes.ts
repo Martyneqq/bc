@@ -1,8 +1,8 @@
-import { Router } from 'express'
+import { Router, Router as ExpressRouter } from 'express'
 import { assetController } from '../controllers/asset.controller'
 import { authMiddleware } from '../middleware/auth.middleware'
 
-const router = Router()
+const router: ReturnType<typeof ExpressRouter> = Router()
 
 router.use(authMiddleware)
 

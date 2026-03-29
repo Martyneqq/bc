@@ -1,5 +1,4 @@
 import { incomeExpenseRepository } from '../repositories/income-expense.repository'
-import { assetRepository } from '../repositories/asset.repository'
 import { IncomeExpenseInput } from '../models/validation'
 import { ApiError } from '../middleware/error.middleware'
 import logger from '../utils/logger'

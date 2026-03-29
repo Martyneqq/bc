@@ -20,7 +20,7 @@ export const authController = {
     if (!req.user) {
       return res.status(401).json({ success: false, error: 'Not authenticated' })
     }
-    res.json({ success: true, data: req.user })
+    return res.json({ success: true, data: req.user })
   }),
 
   refresh: asyncHandler(async (req: Request, res: Response) => {
@@ -31,7 +31,7 @@ export const authController = {
     if (!token) {
       return res.status(400).json({ success: false, error: 'Token required' })
     }
-    const payload = authService.verifyToken(token)
-    res.json({ success: true, data: { token } })
+    authService.verifyToken(token)
+    return res.json({ success: true, data: { token } })
   }),
 }

@@ -1,8 +1,8 @@
-import { Router } from 'express'
+import { Router, Router as ExpressRouter } from 'express'
 import { authController } from '../controllers/auth.controller'
 import { authMiddleware } from '../middleware/auth.middleware'
 
-const router = Router()
+const router: ReturnType<typeof ExpressRouter> = Router()
 
 router.post('/register', authController.register)
 router.post('/login', authController.login)

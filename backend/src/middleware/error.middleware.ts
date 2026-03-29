@@ -13,9 +13,9 @@ export class ApiError extends Error {
 
 export const errorMiddleware = (
   error: Error | ApiError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   logger.error('Error:', error)
 
@@ -33,7 +33,7 @@ export const errorMiddleware = (
     })
   }
 
-  res.status(500).json({
+  return res.status(500).json({
     success: false,
     error: 'Internal server error',
   })

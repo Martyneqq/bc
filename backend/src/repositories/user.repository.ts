@@ -49,7 +49,7 @@ export class UserRepository {
   }
 
   async changePassword(id: number, newPassword: string) {
-    const hashedPassword = await argon2.hash(newPassword)
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
     return prisma.user.update({
       where: { id },
       data: { password: hashedPassword },

@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { CurrencyHelper } from '../utils/currency'
 
 const prisma = new PrismaClient()
 
