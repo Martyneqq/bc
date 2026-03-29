@@ -20,6 +20,30 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/auth/Register.vue'),
     meta: { requiresGuest: true },
   },
+  {
+    path: '/income-expense',
+    name: 'IncomeExpense',
+    component: () => import('@/pages/income-expense/IncomeExpense.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/assets',
+    name: 'Assets',
+    component: () => import('@/pages/assets/Assets.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/demands-debts',
+    name: 'DemandDebts',
+    component: () => import('@/pages/demands-debts/DemandDebts.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('@/pages/profile/Profile.vue'),
+    meta: { requiresAuth: true },
+  },
 ]
 
 const router = createRouter({

@@ -30,6 +30,7 @@ services:
       JWT_SECRET: ${JWT_SECRET:-dev-secret-key-change-in-production}
       JWT_EXPIRE: ${JWT_EXPIRE:-7d}
       PORT: 3000
+      CORS_ORIGIN: http://localhost:5173
     ports:
       - "3000:3000"
     depends_on:
@@ -46,7 +47,8 @@ services:
       dockerfile: frontend/docker/Dockerfile
     container_name: tax-records-web
     environment:
-      VITE_API_URL: http://backend:3000
+      NODE_ENV: development
+      VITE_API_URL: http://localhost:3000
     ports:
       - "5173:5173"
     depends_on:
