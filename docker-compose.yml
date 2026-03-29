@@ -6,6 +6,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-taxuser}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-taxpass123}
       POSTGRES_DB: ${POSTGRES_DB:-tax_records}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
     ports:
       - "5432:5432"
     volumes:
@@ -13,7 +14,7 @@ services:
     networks:
       - tax-records-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taxuser}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taxuser} -d ${POSTGRES_DB:-tax_records}"]
       interval: 10s
       timeout: 5s
       retries: 5
