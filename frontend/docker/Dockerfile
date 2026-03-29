@@ -3,12 +3,12 @@ FROM node:20-slim
 WORKDIR /app
 
 # Copy workspace and package files
-COPY package.json pnpm-workspace.yaml ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY frontend/ ./frontend/
 COPY backend/package.json ./backend/
 
 # Install pnpm globally and install dependencies
-RUN npm install -g pnpm && pnpm install --recursive --frozen-lockfile || pnpm install --recursive
+RUN npm install -g pnpm && pnpm install --recursive
 
 # Expose port
 EXPOSE 5173
