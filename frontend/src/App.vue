@@ -6,6 +6,8 @@
         <router-link v-if="!authStore.isAuthenticated" to="/login">Login</router-link>
         <router-link v-if="!authStore.isAuthenticated" to="/register">Register</router-link>
         <router-link v-if="authStore.isAuthenticated" to="/">Dashboard</router-link>
+        <router-link v-if="authStore.isAuthenticated" to="/help" class="nav-link-help">Help</router-link>
+        <router-link v-if="authStore.isAuthenticated" to="/settings" class="nav-link-settings">Settings</router-link>
         <button v-if="authStore.isAuthenticated" @click="authStore.logout" class="btn-logout">
           Logout
         </button>
@@ -66,6 +68,11 @@ const authStore = useAuthStore()
   background-color: #34495e;
 }
 
+.nav-link-help,
+.nav-link-settings {
+  font-size: 0.9rem;
+}
+
 .btn-logout {
   background-color: #e74c3c;
   color: white;
@@ -84,5 +91,20 @@ const authStore = useAuthStore()
   flex: 1;
   padding: 2rem;
   background-color: #ecf0f1;
+}
+
+/* Dark mode support */
+:global(.dark) .navbar {
+  background-color: #1a202c;
+}
+
+:global(.dark) .nav-links a:hover,
+:global(.dark) .nav-links a.router-link-active {
+  background-color: #2d3748;
+}
+
+:global(.dark) .main-content {
+  background-color: #111827;
+  color: #f0f0f0;
 }
 </style>
