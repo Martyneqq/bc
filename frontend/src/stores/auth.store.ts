@@ -21,6 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
       return true
     } catch (err: any) {
       error.value = err.response?.data?.error || 'Registration failed'
+      console.error('Registration error:', err)
       return false
     } finally {
       isLoading.value = false
@@ -38,6 +39,7 @@ export const useAuthStore = defineStore('auth', () => {
       return true
     } catch (err: any) {
       error.value = err.response?.data?.error || 'Login failed'
+      console.error('Login error:', err)
       return false
     } finally {
       isLoading.value = false

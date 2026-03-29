@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import logger from '../utils/logger'
+import { ZodError } from 'zod'
 
 export class ApiError extends Error {
   constructor(
@@ -23,6 +24,14 @@ export const errorMiddleware = (
     return res.status(error.statusCode).json({
       success: false,
       error: error.message,
+    })
+  }
+
+  if (error instanceof ZodError) {
+    const messages = error.errors.map((e) => `${e.path.join('.')}: ${e.message}`).join('; ')
+    return res.status(400).json({
+      success: false,
+      error: messages || 'Validation error',
     })
   }
 
