@@ -7,8 +7,8 @@ COPY package.json pnpm-workspace.yaml ./
 COPY backend/ ./backend/
 COPY frontend/package.json ./frontend/
 
-# Install pnpm globally and install dependencies
-RUN npm install -g pnpm && pnpm install --recursive --frozen-lockfile || pnpm install --recursive
+# Install pnpm globally and install dependencies with scripts allowed
+RUN npm install -g pnpm && pnpm install --recursive --allow-scripts
 
 # Generate Prisma client
 RUN cd /app/backend && pnpm prisma generate
