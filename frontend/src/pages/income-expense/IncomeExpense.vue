@@ -98,9 +98,13 @@ async function handleSubmit() {
   }
 
   try {
-    // Backend handles conversion to cents, just send the amount as-is
+    // Convert date to ISO datetime format (backend requires full datetime)
+    const dateObj = new Date(formData.value.date)
+    dateObj.setHours(12, 0, 0, 0) // Set to noon UTC
+    
     const input: IncomeExpenseInput = {
       ...formData.value,
+      date: dateObj.toISOString(), // Convert to ISO 8601 format
     }
 
     await incomeExpenseAPI.create(input)
