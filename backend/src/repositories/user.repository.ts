@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import argon2 from 'argon2'
+import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
@@ -24,7 +24,7 @@ export class UserRepository {
   }
 
   async create(username: string, email: string, password: string, ico?: string) {
-    const hashedPassword = await argon2.hash(password)
+    const hashedPassword = await bcrypt.hash(password, 10)
     return prisma.user.create({
       data: {
         username,
@@ -37,7 +37,7 @@ export class UserRepository {
   }
 
   async verifyPassword(user: any, password: string): Promise<boolean> {
-    return argon2.verify(user.password, password)
+    return bcrypt.compare(password, user.password)
   }
 
   async updateProfile(id: number, data: { email?: string; ico?: string }) {
