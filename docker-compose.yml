@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   postgres:
     image: postgres:15-alpine
@@ -22,8 +20,8 @@ services:
 
   backend:
     build:
-      context: ./backend
-      dockerfile: docker/Dockerfile
+      context: .
+      dockerfile: backend/docker/Dockerfile
     container_name: tax-records-api
     environment:
       NODE_ENV: ${NODE_ENV:-development}
@@ -39,12 +37,12 @@ services:
     networks:
       - tax-records-network
     volumes:
-      - ./backend/src:/app/src
+      - ./backend/src:/app/backend/src
 
   frontend:
     build:
-      context: ./frontend
-      dockerfile: docker/Dockerfile
+      context: .
+      dockerfile: frontend/docker/Dockerfile
     container_name: tax-records-web
     environment:
       VITE_API_URL: http://backend:3000
@@ -55,7 +53,7 @@ services:
     networks:
       - tax-records-network
     volumes:
-      - ./frontend/src:/app/src
+      - ./frontend/src:/app/frontend/src
 
 volumes:
   postgres_data:

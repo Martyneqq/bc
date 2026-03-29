@@ -4,17 +4,14 @@ WORKDIR /app
 
 # Copy workspace and package files
 COPY package.json pnpm-workspace.yaml ./
-COPY backend/ ./backend/
-COPY frontend/package.json ./frontend/
+COPY frontend/ ./frontend/
+COPY backend/package.json ./backend/
 
 # Install pnpm globally and install dependencies
 RUN npm install -g pnpm && pnpm install --recursive --frozen-lockfile || pnpm install --recursive
 
-# Generate Prisma client
-RUN cd /app/backend && pnpm prisma generate
-
 # Expose port
-EXPOSE 3000
+EXPOSE 5173
 
-# Start backend server
-CMD ["sh", "-c", "cd /app/backend && pnpm dev"]
+# Start frontend development server with host binding
+CMD ["sh", "-c", "cd /app/frontend && pnpm dev --host 0.0.0.0"]
