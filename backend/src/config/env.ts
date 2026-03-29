@@ -12,8 +12,5 @@ export const env = {
   log_level: process.env.LOG_LEVEL || 'info',
 }
 
-console.log('DEBUG: process.env.CORS_ORIGIN =', process.env.CORS_ORIGIN)
-console.log('DEBUG: env.cors_origin =', env.cors_origin)
-
 export const isDevelopment = env.node_env === 'development'
 export const isProduction = env.node_env === 'production'
