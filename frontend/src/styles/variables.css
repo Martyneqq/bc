@@ -1,0 +1,14 @@
+/* Reset and base styles */
+:root {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-light);
+}
+
+#app {
+  min-height: 100vh;
+}
