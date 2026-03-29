@@ -1,6 +1,10 @@
-node_modules
-dist
-build
+node_modules/
+*/node_modules/
+.pnpm-store/
+dist/
+*/dist/
+build/
+*/build/
 .git
 .gitignore
 .env
@@ -30,3 +34,13 @@ out
 *.sublime-workspace
 *.sublime-project
 .DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.coverage/
+coverage/
+.nyc_output/
+.env.test
+

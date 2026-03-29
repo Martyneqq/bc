@@ -249,6 +249,7 @@ model DemandDebt {
 model AuditLog {
   id            Int       @id @default(autoincrement())
   userId        Int?
+  user          User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
   
   // What happened
   action        String    @db.VarChar(50) // CREATE, UPDATE, DELETE, LOGIN, EXPORT
