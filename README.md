@@ -225,36 +225,3 @@ cd frontend && pnpm test
 ## License
 
 MIT
-
-## Support
-
-For issues and questions, please open an issue on GitHub.
-
-- `/js`
-  - `darkMode.js`: changes the color schemes of the website.
-  - `getAssetIDSale.js`: get the id from the asset for the `Prodej` pop-up window
-  - `jquery-3.6.1.min.js`: a jQuery library.
-  - `restrictAddAsset.js`: disables the save button if the user inputs the purchase price lower than 80,000 CZK and at the same time sets the item as tangible.
-  - `restrictAddAssetMinor.js`: disables the save button when the purchase price higher or equal to 80,000 CZK is inserted. Furthermore, the item is set to expense without an option to change.
-  - `restrictEditAsset.js`: disables the option for editing assets in the `edit1.php`. `edit2.php` and `edit3.php`.
-  - `showDepreciation.js`: sends data about the asset into the depreciation pop-up window which appears when clicking on the `Odpisy`.
-  - `sort.js`: a sorting algorithm (bubble sort) covering the possibility of sorting document numbers, numerical values with a comma, `dd-mm--YY` dates, and other strings. The original is available at: [W3Schools](https://www.w3schools.com/howto/howto_js_sort_list.asp).
- 
-## /bc
-The `/bc` directory includes a few important unmentioned files:
-
-- `databaseConnection.php`: is the key script that maintains the communication with the database server. The data is saved in the `$connect` variable. This variable is then used for any database access.
-- `edit1.php`, `edit2.php`, and `edit3.php`: are instances of the already existing `Records` classes. These are the pages related to item editing after they are created.
-
-# Technologies
-
-The used technologies are:
-
-- HTML
-- CSS (including Bootstrap)
-- JavaScript
-- PHP
-- SQL
-- Plotly (for graph generation)
-- AJAX
-- jQuery
