@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: tax-records-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-taxuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-taxpass123}
+      POSTGRES_DB: ${POSTGRES_DB:-tax_records}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tax-records-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-taxuser} -d ${POSTGRES_DB:-tax_records}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/docker/Dockerfile
+    container_name: tax-records-api
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-taxuser}:${POSTGRES_PASSWORD:-taxpass123}@postgres:5432/${POSTGRES_DB:-tax_records}
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-key-change-in-production}
+      JWT_EXPIRE: ${JWT_EXPIRE:-7d}
+      PORT: 3000
+      CORS_ORIGIN: http://localhost:5173
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - tax-records-network
+    volumes:
+      - ./backend/src:/app/backend/src
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/docker/Dockerfile
+    container_name: tax-records-web
+    environment:
+      NODE_ENV: development
+      VITE_API_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - tax-records-network
+    volumes:
+      - ./frontend/src:/app/frontend/src
+
+volumes:
+  postgres_data:
+
+networks:
+  tax-records-network:
+    driver: bridge

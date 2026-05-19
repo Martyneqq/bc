@@ -1,52 +1,234 @@
-# Web Application for Registering Finances of Small Businesses
-This bachelor project focuses on creating an application designed to help small businesses in the Czech Republic manage their tax records. The existing market for accounting applications in the country is diverse but often lacks features for tax record keeping, especially for small businesses. The goal is to develop a user-friendly, accessible, and free application that is compatible with various operating systems and devices. The application is published on the Internet and incorporates responsiveness for mobile devices. The use of open-source libraries, including Bootstrap for UI elements and Plotly for graph generation, ensures a visually appealing and organized interface.
+# Tax Records - Modern Full-Stack Application
 
-# Installation guide
+Complete rewrite of tax records system using modern technologies.
 
-## Windows
-1. Download the source code.
-2. Install XAMPP from https://www.apachefriends.org/.
-3. Move the sorce to \xampp\htdocs.
-4. Go to \xampp\apache\conf\httpd.conf. Change DocumentRoot "" to DocumentRoot "/xampp/htdocs" and <Directory> to <Directory "C:\xampp\htdocs\bc"><br />
-It should look like this:<br />
-<Directory "C:\xampp\htdocs\bc"><br />
-&emsp;Options Indexes FollowSymLinks Includes ExecCGI<br />
-&emsp;AllowOverride All<br />
-&emsp;Require all granted<br />
-<\/Directory>
-5. Import SQL database. Go to localhost/phpmyadmin->Import->Select index.sql file
-6. Start the XAMPP and run Apage and MySQL with the "Start" button.
-7. Type localhost/bc/signup.php in the browser
+## Stack
 
-# Structure
+### Backend
+- **Node.js** 20+ with TypeScript
+- **Express** - Web framework
+- **PostgreSQL** - Database
+- **Prisma** - ORM & migrations
+- **JWT** - Authentication
+- **Argon2** - Password hashing
 
-The application is organized into the following main components:
+### Frontend
+- **Vue 3** - UI framework
+- **TypeScript** - Type safety
+- **Pinia** - State management
+- **Axios** - HTTP client
+- **Vite** - Build tool
 
-## /class
+### DevOps
+- **Docker** & **Docker Compose** - Containerization
+- **PostgreSQL 15** - Database container
 
-The `/class` directory contains PHP classes that encapsulate different functionalities of the application. Each class is responsible for a specific aspect of the system, facilitating modularity and maintainability. Classes are then used as an object in most of the files located in the `/bc` file
+## Quick Start
 
-- `/class`
-  - `Alert.php`: generates Bootstrap alert messages.
-  - `AppLogic.php`: includes essential methods for generation of the depreciation logic (can be found under the `Odpisy` button available at [`Dlouhodobý majetek`](https://danovaevidencecepela.cz/majetek_dlouhodoby.php)). The window is generated in `select_modal_info.php`.
-  - `Authenticator.php`: manages user login, signup, and logout. 
-  - `DatabaseHelper.php`: includes most of the SQL-related code. The methods are used in multiple classes.
-  - `Head.php`: contains necessary links and scripts. Gives an option to name the page directly from the object.
-  - `Header.php`: includes menu-related methods such as information about finances, a manual, or directions.
-  - `Records.php`: is a parent class of `Records` pages (`RecordsAssets.php`, `RecordsDemandDebt.php`, etc.). Includes basic methods for changing colors of the text in the `denik.php` files or generating the document numbers.
-  - `RecordsAssets.php`: is a class that includes logic for generating `majetek_dlouhodoby.php` page.
-  - `RecordsDemandDebt.php`: is a class that includes logic for generating `evidence_pohledavky_a_dluhy.php` page.
-  - `RecordsIncomeExpense.php`: is a class that includes logic for generating `evidence_prijmy_a_vydaje.php` page.
-  - `RecordsJournal.php`:  is a child class of `Records` and a parent class of `RecordsJournal` classes.
-  - `RecordsJournalBank.php`:  is a class that includes logic for generating `denikB.php` page.
-  - `RecordsJournalCash.php`:  is a class that includes logic for generating `denikP.php` page.
-  - `RecordsJournalIncomeExpense.php`:  is a class that includes logic for generating `denik.php` page.
-  - `RecordsMinorAssets.php`:  is a class that includes logic for generating `majetek_drobny.php` page.
-  - `TaxRecordsPage.php`:  is a class that includes logic for generating `index.php` page.
+### Prerequisites
+- Node.js 20+
+- Docker & Docker Compose
+- pnpm (install with `npm install -g pnpm`)
 
-## /js
+### Installation
 
-The `/js` repository consists of JavaScript functionalities of the website.
+```bash
+# Clone repository
+git clone <repo>
+cd tax-records
+
+# Install dependencies
+pnpm install
+
+# Setup environment files
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+
+### Development
+
+**Option 1: With Docker**
+```bash
+docker-compose up -d
+cd backend && pnpm dev  # Terminal 1
+cd frontend && pnpm dev # Terminal 2
+```
+
+**Option 2: Local development**
+```bash
+# Terminal 1 - Backend
+cd backend
+pnpm dev
+
+# Terminal 2 - Frontend
+cd frontend
+pnpm dev
+```
+
+### Database Setup
+
+```bash
+# Run migrations
+cd backend
+pnpm prisma migrate dev
+
+# Seed demo data
+pnpm prisma db seed
+```
+
+### Access
+
+- **Frontend:** http://localhost:5173
+- **Backend:** http://localhost:3000
+- **API Docs:** http://localhost:3000/api/docs
+
+### Demo Credentials
+- Username: `demo`
+- Email: `demo@example.com`
+- Password: `Demo@123456`
+
+## Project Structure
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed structure.
+
+## Database
+
+See [DB_ARCHITECTURE.md](./DB_ARCHITECTURE.md) for database design details.
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Create account
+- `POST /api/auth/login` - Login
+- `GET /api/auth/me` - Get current user
+- `POST /api/auth/refresh` - Refresh token
+
+### Income & Expense
+- `GET /api/income-expense` - List records
+- `POST /api/income-expense` - Create record
+- `GET /api/income-expense/:id` - Get record
+- `PUT /api/income-expense/:id` - Update record
+- `DELETE /api/income-expense/:id` - Delete record
+- `GET /api/income-expense/summary?year=2024` - Year summary
+
+### Assets
+- `GET /api/assets` - List assets
+- `POST /api/assets` - Create asset
+- `GET /api/assets/:id` - Get asset
+- `PUT /api/assets/:id` - Update asset
+- `DELETE /api/assets/:id` - Delete asset
+- `POST /api/assets/:id/dispose` - Mark as disposed
+- `GET /api/assets/:id/depreciation` - Depreciation schedule
+
+### Demands & Debts
+- `GET /api/demands-debts` - List
+- `POST /api/demands-debts` - Create
+- `GET /api/demands-debts/:id` - Get
+- `PUT /api/demands-debts/:id` - Update
+- `DELETE /api/demands-debts/:id` - Delete
+- `POST /api/demands-debts/:id/mark-paid` - Mark as paid
+- `GET /api/demands-debts/summary` - Summary
+
+## Development Commands
+
+### Backend
+```bash
+cd backend
+pnpm dev              # Start dev server
+pnpm build            # Build for production
+pnpm lint             # Run ESLint
+pnpm format           # Format code
+pnpm prisma studio   # Open Prisma Studio
+pnpm prisma migrate  # Run migrations
+```
+
+### Frontend
+```bash
+cd frontend
+pnpm dev              # Start dev server
+pnpm build            # Build for production
+pnpm preview          # Preview build
+pnpm lint             # Run ESLint
+pnpm format           # Format code
+```
+
+## Production Deployment
+
+### Build
+
+```bash
+# Build both packages
+pnpm build
+
+# Or individually
+cd backend && pnpm build
+cd frontend && pnpm build
+```
+
+### Docker
+
+```bash
+# Build image
+docker build -t tax-records:latest .
+
+# Run container
+docker run -p 3000:3000 -p 5173:5173 tax-records:latest
+```
+
+### Environment Setup
+
+Create `.env` files with production values:
+
+**Backend (.env)**
+```
+NODE_ENV=production
+DATABASE_URL=postgresql://user:pass@host:5432/db
+JWT_SECRET=your-secret-key-here
+JWT_EXPIRE=7d
+CORS_ORIGIN=https://yourdomain.com
+LOG_LEVEL=info
+```
+
+**Frontend (.env)**
+```
+VITE_API_URL=https://api.yourdomain.com
+```
+
+## Security
+
+- ✅ Password hashing with Argon2
+- ✅ JWT-based authentication
+- ✅ SQL injection protection (Prisma)
+- ✅ CORS enabled
+- ✅ Helmet for secure headers
+- ✅ Input validation with Zod
+- ✅ Audit logging
+- ✅ Environment variable protection
+
+## Testing
+
+```bash
+# Backend
+cd backend && pnpm test
+
+# Frontend
+cd frontend && pnpm test
+```
+
+## Contributing
+
+1. Create feature branch
+2. Commit changes
+3. Push to GitHub
+4. Create Pull Request
+
+## License
+
+MIT
+
+## Support
+
+For issues and questions, please open an issue on GitHub.
 
 - `/js`
   - `darkMode.js`: changes the color schemes of the website.

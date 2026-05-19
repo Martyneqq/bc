@@ -1,0 +1,93 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-workspace/
+dist/
+build/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+
+# Testing
+coverage/
+.nyc_output/
+.mocha_output/
+.jest_output/
+
+# Logging
+logs/
+*.log
+error.log
+combined.log
+
+# Database
+*.sqlite
+*.sqlite3
+.db/
+migrations/
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# OS
+.DS_Store
+.env.local
+*.bak
+
+# Misc
+.cache/
+.next/
+out/
+storybook-static/
+
+# OS Specific
+.vscode-test
+.vscode
+.idea
+*.code-workspace
+
+# Build Artifacts
+dist/
+out/
+build/
+
+# Dependency directories
+node_modules
+.pnp
+.pnp.js
+
+# Type Checking
+*.tsbuildinfo
+
+# NX
+.nx
+dist
+
+# Storybook
+storybook-static
+
+# ESLint
+.eslintcache
+
+# Prettier
+.prettierignore
